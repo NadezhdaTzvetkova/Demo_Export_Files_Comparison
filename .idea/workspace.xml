@@ -5,59 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change beforePath="$PROJECT_DIR$/.idea/Demo_Export_Files_Comparison.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Demo_Export_Files_Comparison.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/currency_consistency.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/missing_values.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/negative_values.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_transactions.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/edge_case_tests/edge_cases.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/performance_tests/large_transaction_volumes.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/structural_tests/extra_columns.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/structural_tests/missing_columns.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/structural_tests/reordered_columns.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/behave.ini" beforeDir="false" afterPath="$PROJECT_DIR$/behave.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/file_mappings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/file_mappings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_currency_consistency_validation_params.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_date_consistency_validation_params.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_duplicate_transactions_validation_params.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_format_validation_params.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_format_validation_params_reference.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_large_transaction_volumes_validation_params.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_missing_dates_validation_params.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_required_columns_validation_params.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_csv_transaction_amounts_validation_params.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_excel_currency_consistency_validation_params.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_excel_date_consistency_validation_params.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_excel_duplicate_transactions_validation_params.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_excel_format_validation_params.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_excel_format_validation_params_reference.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_excel_large_transaction_volumes_validation_params.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_excel_required_columns_validation_params.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bank_export_excel_transaction_amounts_validation_params.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/behave.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/compare_exports.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/data_validation_tests/currency_consistency.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/data_validation_tests/data_integrity.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/data_validation_tests/date_formats.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/data_validation_tests/numeric_values.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/duplicate_and_integrity_tests/data_mismatch.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/duplicate_and_integrity_tests/duplicate_transactions.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/edge_case_tests/corrupted_rows.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/edge_case_tests/empty_files.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/edge_case_tests/extreme_values.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/performance_tests/large_transaction_volumes.feature " beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/steps/compare_steps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/structural_tests/column_headers.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/structural_tests/encoding.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/structural_tests/file_format.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/features/structural_tests/missing_columns.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/test_runner.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/utils/logger.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/utils/snapshot.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/test_runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/features/test_runner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/duplicate_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/duplicate_files.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/list_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/list_structure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/run_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/run_tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/file_comparator.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file_comparator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/install_dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/install_dependencies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/excel_files/Guide for employees_BF Factors_Examples.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_baseline_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_baseline_test.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_extra_columns_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_extra_columns_test.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_missing_columns_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_missing_columns_test.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_missing_values_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_missing_values_test.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_negative_values_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_negative_values_test.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_reordered_columns_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_reordered_columns_test.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
