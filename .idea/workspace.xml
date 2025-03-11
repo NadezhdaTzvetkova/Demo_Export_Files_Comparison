@@ -5,23 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/currency_consistency.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/missing_values.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/negative_values.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_transactions.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/edge_case_tests/edge_cases.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/performance_tests/large_transaction_volumes.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/structural_tests/extra_columns.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/structural_tests/missing_columns.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/structural_tests/reordered_columns.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/decimal_precision.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/encoding_validation.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_accounts.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/transaction_mismatch.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/edge_case_tests/empty_file_validation.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/edge_case_tests/outlier_detection.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/performance_tests/large_data_performance.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/performance_tests/memory_usage.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/structural_tests/column_format_validation.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/structural_tests/trailing_spaces_validation.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/excel_files/Guide for employees_BF Factors_Examples.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_baseline_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_baseline_test.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_extra_columns_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_extra_columns_test.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_missing_columns_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_missing_columns_test.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_missing_values_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_missing_values_test.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_negative_values_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_negative_values_test.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/excel_files/bank_export_reordered_columns_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/excel_files/bank_export_reordered_columns_test.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
