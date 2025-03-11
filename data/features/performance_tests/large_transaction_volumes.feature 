@@ -1,0 +1,6 @@
+Feature: Validate Large Transaction Volumes
+
+  Scenario: Ensure system handles large CSV files
+    Given a bank export file "large_transactions.csv"
+    When I check the transaction volume
+    Then the file should support at least 100,000 transactions without performance issues

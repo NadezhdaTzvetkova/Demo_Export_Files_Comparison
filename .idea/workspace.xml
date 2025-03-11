@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Demo_Export_Files_Comparison.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/data_validation_tests/currency_consistency.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/data_validation_tests/data_integrity.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/data_validation_tests/date_formats.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/data_validation_tests/numeric_values.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/duplicate_and_integrity_tests/data_mismatch.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/duplicate_and_integrity_tests/duplicate_transactions.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/edge_case_tests/corrupted_rows.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/edge_case_tests/empty_files.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/edge_case_tests/extreme_values.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/performance_tests/large_transaction_volumes.feature " afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/structural_tests/column_headers.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/structural_tests/encoding.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/structural_tests/file_format.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/features/structural_tests/missing_columns.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/duplicate_files.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/list_structure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/run_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/install_dependencies.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2u4LfrmHdofNSLKFEsMJGgiu0ex" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "settings.editor.selected.configurable": "vcs.Git"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-14705d77f0bb-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.25659.43" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="" />
+      <created>1741503006022</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741503006022</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
