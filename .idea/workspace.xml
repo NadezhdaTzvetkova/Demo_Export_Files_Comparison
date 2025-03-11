@@ -5,21 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/date_format_validation.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/delimiter_inconsistency.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/special_characters_validation.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/whitespace_handling.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_customers.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/edge_case_tests/hidden_rows_validation.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/edge_case_tests/null_values_handling.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/performance_tests/concurrent_processing.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/regression_tests/duplicate_imports_validation.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/regression_tests/regression_high_volume_transactions.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/regression_tests/regression_previous_bug_fixes.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/regression_tests/transaction_reference_uniqueness.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/structural_tests/header_mismatch_validation.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/structural_tests/merged_cells_validation.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/structural_tests/protected_sheets_validation.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
