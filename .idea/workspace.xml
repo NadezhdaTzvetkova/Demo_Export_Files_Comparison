@@ -5,6 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
+      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/invalid_account_numbers.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/data_validation_tests/invalid_currency_codes.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/fraudulent_transactions.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/orphaned_transactions.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/edge_case_tests/max_character_limit.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/edge_case_tests/zero_value_transactions.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/performance_tests/delayed_processing.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/performance_tests/high_concurrent_users.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/regression_tests/historical_data_consistency.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/regression_tests/previously_resolved_issues.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/structural_tests/column_case_sensitivity.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
