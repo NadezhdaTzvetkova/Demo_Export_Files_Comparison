@@ -22,7 +22,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 🛠️ Run Tests
-        run: python run_tests.py all
+        run: python scripts/run_tests.py all
 
       - name: 📊 Generate Allure Report
         run: |
