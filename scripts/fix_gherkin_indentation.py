@@ -12,51 +12,62 @@ def get_feature_files_directory():
 
 
 def fix_gherkin_indentation(file_path):
-    """Fix indentation and remove extra blank lines from Gherkin feature files."""
+    """Fix indentation and ensure one blank line after Feature, but no extra blank lines elsewhere."""
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
     formatted_lines = []
     inside_scenario = False
     previous_was_blank = False  # Track blank lines to remove unnecessary ones
+    feature_encountered = False
 
     for i, line in enumerate(lines):
         stripped = line.strip()
 
-        # Remove excessive blank lines (before Feature, Scenario, and Steps)
+        # Remove excessive blank lines
         if stripped == "":
             if previous_was_blank:
                 continue  # Skip consecutive blank lines
             previous_was_blank = True
-            continue  # Skip all empty lines except necessary ones
+            continue  # Skip unnecessary blank lines
 
-        # Ensure no blank line exists before Feature, Scenario, Scenario Outline
-        if stripped.startswith(("Feature", "Scenario", "Scenario Outline")):
+        # Ensure exactly one blank line after Feature
+        if stripped.startswith("Feature"):
             if formatted_lines and formatted_lines[-1] == "":
-                formatted_lines.pop()  # Remove the last empty line if it's before these
+                formatted_lines.pop()  # Remove the last empty line if it's before Feature
             formatted_lines.append(stripped)
-            inside_scenario = stripped.startswith(("Scenario", "Scenario Outline"))  # Enable scenario tracking
+            formatted_lines.append("")  # Ensure exactly one blank line after Feature
+            feature_encountered = True
+            previous_was_blank = True
+            continue
+
+        # Ensure no blank lines between tags and Scenario/Scenario Outline
+        if stripped.startswith("@"):
+            if formatted_lines and formatted_lines[-1] == "":
+                formatted_lines.pop()  # Remove unnecessary blank line before a tag
+            formatted_lines.append(stripped)
             previous_was_blank = False
             continue
 
-        # Ensure no blank line exists between Tags (@) and Feature or Scenario
-        if stripped.startswith("@"):
-            if formatted_lines and formatted_lines[-1] == "":
-                formatted_lines.pop()  # Remove the last empty line before a tag
+        # Ensure no blank line before Scenario/Scenario Outline, except after Feature
+        if stripped.startswith(("Scenario", "Scenario Outline")):
+            if formatted_lines and formatted_lines[-1] == "" and not feature_encountered:
+                formatted_lines.pop()  # Remove blank line before Scenario unless after Feature
             formatted_lines.append(stripped)
+            inside_scenario = True  # Enable scenario tracking
             previous_was_blank = False
             continue
 
         # Given, When, Then → Indented by 1 tab
         if stripped.startswith(("Given", "When", "Then")):
             if formatted_lines and formatted_lines[-1] == "":
-                formatted_lines.pop()  # Remove any empty line between steps
+                formatted_lines.pop()  # Remove blank line between steps
             formatted_lines.append("\t" + stripped)
 
         # And, But → Indented by 2 tabs
         elif stripped.startswith(("And", "But")):
             if formatted_lines and formatted_lines[-1] == "":
-                formatted_lines.pop()  # Remove any empty line between steps
+                formatted_lines.pop()  # Remove blank line between steps
             formatted_lines.append("\t\t" + stripped)
 
         # Preserve everything else as is
@@ -91,7 +102,7 @@ def process_feature_files(directory):
     for file in feature_files:
         fix_gherkin_indentation(file)
 
-    print("✅ Gherkin indentation fixed successfully! No extra blank lines!")
+    print("✅ Gherkin indentation fixed successfully! One blank line after Feature, none elsewhere!")
 
 
 if __name__ == "__main__":
