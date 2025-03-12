@@ -59,3 +59,53 @@ Examples:
 | transactions_legacy.csv       | Legacy Format    | Standard V1.2      | High           |
 | transactions_modified.xlsx    | Custom Schema    | Standard V1.3      | Medium         |
 | transactions_test.csv         | Test Environment | Test Format V2.0   | Low            |
+@structural_tests @reordered_columns @referential_integrity
+Scenario Outline: Ensure referential integrity is maintained despite reordered columns
+	Given a bank export file "<file_name>" with reordered columns
+	When I compare "<column_name>" values across reference data
+	Then referential integrity should not be broken
+		And mismatches should be logged as "<severity>"
+Examples:
+| file_name                     | column_name         | severity  |
+| transactions_reordered.csv     | Account Number      | High      |
+| transactions_partial_reorder.xlsx | Transaction ID   | Medium    |
+@structural_tests @reordered_columns @auto_mapping
+Scenario Outline: Validate auto-mapping for reordered columns
+	Given a system with auto-mapping enabled
+	When processing a file "<file_name>" with reordered columns
+	Then the system should attempt to realign the columns based on "<reference_file>"
+		And if realignment fails, the issue should be flagged as "<severity>"
+Examples:
+| file_name                         | reference_file                 | severity  |
+| transactions_reordered.csv         | transactions_standard.csv       | High      |
+| transactions_reordered.xlsx        | transactions_standard.xlsx      | Medium    |
+@structural_tests @reordered_columns @data_consistency
+Scenario Outline: Ensure reordered columns do not impact data consistency
+	Given a bank export file "<file_name>"
+	When I compare "<column_name>" values between the legacy and migrated system
+	Then all values should remain identical despite column reordering
+		And data consistency should be maintained across all rows
+Examples:
+| file_name                     | column_name         |
+| transactions_reordered.csv     | Account Number      |
+| transactions_partial_reorder.xlsx | Transaction ID   |
+@structural_tests @reordered_columns @memory_usage_validation
+Scenario Outline: Validate memory and CPU usage when handling reordered columns
+	Given a system processing "<file_count>" large files with reordered columns
+	When the validation system runs
+	Then the memory usage should not exceed "<max_memory_usage> MB"
+		And processing should complete within "<expected_time>" seconds
+Examples:
+| file_count | max_memory_usage | expected_time |
+| 500        | 512              | 300           |
+| 1000       | 1024             | 600           |
+@structural_tests @reordered_columns @delimiter_consistency
+Scenario Outline: Ensure column reordering does not break delimiter consistency
+	Given a CSV file "<file_name>" with columns reordered near delimiters
+	When the system parses the file
+	Then delimiter integrity should be preserved
+		And no columns should shift due to unexpected order
+Examples:
+| file_name                           |
+| transactions_reordered_delimiters.csv |
+| transactions_misaligned_delim.csv    |

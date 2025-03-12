@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/structural_tests/trailing_spaces_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/trailing_spaces_validation.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/structural_tests/reordered_columns.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/reordered_columns.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
