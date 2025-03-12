@@ -3,7 +3,7 @@ name: Automated Daily Test Execution
 on:
   schedule:
     - cron: "0 9 * * *"  # Runs daily at 9 AM UTC
-  workflow_dispatch:  # Allows manual triggering from API
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   run-tests:
@@ -29,8 +29,9 @@ jobs:
           allure generate reports/allure_results -o reports/allure_report --clean
           echo "Allure report generated."
 
-      - name: 🚀 Upload Test Results
+      - name: 🚀 Upload Test Results (Allure)
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: reports/allure_report
+          retention-days: 5
