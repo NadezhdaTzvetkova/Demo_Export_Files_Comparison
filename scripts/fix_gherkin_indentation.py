@@ -13,7 +13,7 @@ def get_feature_files_directory():
 
 
 def fix_gherkin_indentation(file_path):
-    """Fix indentation for And/But statements within Scenarios."""
+    """Fix indentation for And/But statements within Scenarios using 2 spaces."""
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
@@ -29,9 +29,9 @@ def fix_gherkin_indentation(file_path):
             formatted_lines.append(line)
             continue
 
-        # Properly indent And/But within scenarios
+        # Properly indent And/But within scenarios (2 spaces instead of 4)
         if stripped.startswith(("And", "But")) and inside_scenario:
-            formatted_lines.append("    " + line)  # Add 4 spaces for indentation
+            formatted_lines.append("  " + stripped)  # Use 2 spaces instead of 4
         else:
             formatted_lines.append(line)
 
@@ -54,7 +54,7 @@ def process_feature_files(directory):
     for file in feature_files:
         fix_gherkin_indentation(file)
 
-    print("✅ Gherkin indentation fixed successfully for all feature files!")
+    print("✅ Gherkin indentation fixed successfully for all feature files (2 spaces)!")
 
 
 if __name__ == "__main__":
