@@ -13,7 +13,7 @@ def get_feature_files_directory():
 
 
 def fix_gherkin_indentation(file_path):
-    """Fix indentation for And/But statements within Scenarios using 2 spaces."""
+    """Fix indentation for And/But statements, ensuring they are indented under Given/When/Then using 1 Tab."""
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
@@ -26,14 +26,16 @@ def fix_gherkin_indentation(file_path):
         # Detect the start of a scenario, examples, rule, or feature
         if stripped.startswith(("Scenario", "Examples", "Rule", "Feature")):
             inside_scenario = True
-            formatted_lines.append(line)
+            formatted_lines.append(line)  # Keep original indentation
             continue
 
-        # Properly indent And/But within scenarios (2 spaces instead of 4)
-        if stripped.startswith(("And", "But")) and inside_scenario:
-            formatted_lines.append("  " + stripped)  # Use 2 spaces instead of 4
+        # Properly indent And/But under Given/When/Then (1 Tab)
+        if stripped.startswith(("Given", "When", "Then")):
+            formatted_lines.append(line)  # Keep at base level
+        elif stripped.startswith(("And", "But")):
+            formatted_lines.append("\t" + stripped)  # Indent by 1 tab
         else:
-            formatted_lines.append(line)
+            formatted_lines.append(line)  # Keep other lines unchanged
 
     with open(file_path, "w", encoding="utf-8") as file:
         file.writelines(formatted_lines)
@@ -54,7 +56,7 @@ def process_feature_files(directory):
     for file in feature_files:
         fix_gherkin_indentation(file)
 
-    print("✅ Gherkin indentation fixed successfully for all feature files (2 spaces)!")
+    print("✅ Gherkin indentation fixed successfully with 1 Tab for And/But!")
 
 
 if __name__ == "__main__":
