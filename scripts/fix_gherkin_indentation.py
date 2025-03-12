@@ -1,5 +1,4 @@
 import os
-import re
 
 def get_feature_files_directory():
     """Automatically detect the project's feature files directory."""
@@ -13,7 +12,7 @@ def get_feature_files_directory():
 
 
 def fix_gherkin_indentation(file_path):
-    """Fix indentation for And/But statements, ensuring they are indented under Given/When/Then using 1 Tab."""
+    """Fix indentation for Given/When/Then at base level and And/But indented by 1 Tab."""
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
@@ -23,22 +22,22 @@ def fix_gherkin_indentation(file_path):
     for line in lines:
         stripped = line.lstrip()
 
-        # Detect the start of a scenario, examples, rule, or feature
+        # Detect the start of a Scenario, Examples, Rule, or Feature
         if stripped.startswith(("Scenario", "Examples", "Rule", "Feature")):
             inside_scenario = True
-            formatted_lines.append(line)  # Keep original indentation
+            formatted_lines.append(stripped)  # Keep at base level
             continue
 
-        # Properly indent And/But under Given/When/Then (1 Tab)
+        # Given/When/Then should be at base level (no indentation)
         if stripped.startswith(("Given", "When", "Then")):
-            formatted_lines.append(line)  # Keep at base level
+            formatted_lines.append(stripped)  # No indentation
         elif stripped.startswith(("And", "But")):
-            formatted_lines.append("\t" + stripped)  # Indent by 1 tab
+            formatted_lines.append("\t" + stripped)  # Indent And/But by 1 tab
         else:
-            formatted_lines.append(line)  # Keep other lines unchanged
+            formatted_lines.append(stripped)  # Preserve other lines
 
     with open(file_path, "w", encoding="utf-8") as file:
-        file.writelines(formatted_lines)
+        file.writelines([line + "\n" for line in formatted_lines])  # Ensure newline at end of each line
 
 
 def process_feature_files(directory):
@@ -47,7 +46,11 @@ def process_feature_files(directory):
         print("🚨 Feature files directory not found! Check your project structure.")
         return
 
-    feature_files = [os.path.join(root, file) for root, _, files in os.walk(directory) for file in files if file.endswith(".feature")]
+    feature_files = [
+        os.path.join(root, file)
+        for root, _, files in os.walk(directory)
+        for file in files if file.endswith(".feature")
+    ]
 
     if not feature_files:
         print("⚠️ No .feature files found to process.")
@@ -56,7 +59,7 @@ def process_feature_files(directory):
     for file in feature_files:
         fix_gherkin_indentation(file)
 
-    print("✅ Gherkin indentation fixed successfully with 1 Tab for And/But!")
+    print("✅ Gherkin indentation fixed successfully! (1 Tab for And/But)")
 
 
 if __name__ == "__main__":
