@@ -23,6 +23,17 @@ Examples:
 | transactions_spaces.csv        | Account Number       | 5         |
 | transactions_padded.xlsx       | Currency Code        | 3         |
 | transactions_extra_spaces.csv  | Transaction ID       | 10        |
+@structural_tests @trailing_spaces @data_normalization
+Scenario Outline: Ensure trailing spaces do not affect data consistency
+	Given a bank export file "<file_name>"
+	When I compare "<column_name>" values in both systems
+	Then leading and trailing spaces should not cause mismatches
+		And fields should be normalized before validation
+Examples:
+| file_name                     | column_name          |
+| transactions_spaces.csv        | Account Number       |
+| transactions_padded.xlsx       | Currency Code        |
+| transactions_extra_spaces.csv  | Transaction ID       |
 @structural_tests @trailing_spaces @batch_processing
 Scenario Outline: Ensure batch processing handles whitespace issues correctly
 	Given a batch of bank export files with leading and trailing spaces in multiple fields
@@ -57,3 +68,34 @@ Examples:
 | transactions_legacy.csv       | High           |
 | transactions_modified.xlsx    | Medium         |
 | transactions_test.csv         | Low            |
+@structural_tests @trailing_spaces @multi_column_validation
+Scenario Outline: Verify multi-column impact of trailing spaces
+	Given a bank export file "<file_name>" with multiple columns containing trailing spaces
+	When I check for inconsistencies across columns "<column_list>"
+	Then all affected columns should be flagged
+		And columns exceeding "<space_limit>" spaces should be marked as critical
+Examples:
+| file_name                          | column_list                         | space_limit |
+| transactions_spaces_multi.csv       | Account Number, Transaction ID      | 5           |
+| transactions_extra_spaces.xlsx      | Currency Code, Description          | 3           |
+| transactions_padded_data.csv        | Amount, Transaction Date            | 7           |
+@structural_tests @trailing_spaces @memory_usage_validation
+Scenario Outline: Validate memory and CPU usage when handling excessive whitespace
+	Given a system processing "<file_count>" large files with excessive spaces
+	When the validation system runs
+	Then the memory usage should not exceed "<max_memory_usage> MB"
+		And processing should complete within "<expected_time>" seconds
+Examples:
+| file_count | max_memory_usage | expected_time |
+| 500        | 512              | 300           |
+| 1000       | 1024             | 600           |
+@structural_tests @trailing_spaces @delimiter_handling
+Scenario Outline: Ensure whitespace does not break delimiter consistency
+	Given a CSV file "<file_name>" with leading/trailing spaces near delimiters
+	When the system parses the file
+	Then delimiter integrity should be preserved
+		And no columns should shift due to space inconsistencies
+Examples:
+| file_name                          |
+| transactions_trailing_delimiters.csv |
+| transactions_extra_spaces_delim.csv |
