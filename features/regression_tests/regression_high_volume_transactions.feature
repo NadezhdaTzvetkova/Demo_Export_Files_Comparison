@@ -8,6 +8,7 @@ Feature: Ensure system stability with high-volume transactions
 
 
 
+
 @regression_high_volume
 
 
@@ -17,7 +18,9 @@ Scenario: Validate stability when processing high transaction volumes
 
 
 
+
 	Given I have a bank export file "bank_export_large_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario: Validate stability when processing high transaction volumes
 
 
 
+
 	Then the system should process all transactions without performance degradation
+
 
 
 

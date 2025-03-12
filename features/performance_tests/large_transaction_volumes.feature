@@ -8,6 +8,7 @@ Feature: Assess performance under large transaction volumes
 
 
 
+
 @large_transactions_test
 
 
@@ -17,7 +18,9 @@ Scenario: Ensure system performance does not degrade with large transaction volu
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" with large transactions
+
 
 
 
@@ -31,7 +34,9 @@ Scenario: Ensure system performance does not degrade with large transaction volu
 
 
 
+
 	Then the validation should complete within acceptable time limits
+
 
 
 

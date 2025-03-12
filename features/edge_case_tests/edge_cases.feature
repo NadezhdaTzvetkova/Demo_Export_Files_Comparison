@@ -8,6 +8,7 @@ Feature: Handle edge cases in export file comparison
 
 
 
+
 @edge_cases_check
 
 
@@ -17,7 +18,9 @@ Scenario Outline: Detect "<issue>" in bank export files
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario Outline: Detect "<issue>" in bank export files
 
 
 
+
 	Then I should detect "<issue>"
+
 
 
 

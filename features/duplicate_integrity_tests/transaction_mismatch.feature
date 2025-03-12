@@ -8,6 +8,7 @@ Feature: Detect mismatched transaction records
 
 
 
+
 @transaction_mismatch_check
 
 
@@ -17,7 +18,9 @@ Scenario: Identify transactions present in one export file but missing in the ot
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario: Identify transactions present in one export file but missing in the ot
 
 
 
+
 	Then I should detect transactions that are missing in either file
+
 
 
 

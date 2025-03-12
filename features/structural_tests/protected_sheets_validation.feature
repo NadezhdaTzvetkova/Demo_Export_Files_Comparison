@@ -8,6 +8,7 @@ Feature: Validate protected or locked Excel sheets
 
 
 
+
 @protected_sheet_check
 
 
@@ -17,7 +18,9 @@ Scenario: Ensure locked sheets do not prevent data extraction in "bank_export_ex
 
 
 
+
 	Given I have an Excel bank export file "bank_export_excel_protected_sheet_validation_params.xlsx"
+
 
 
 
@@ -27,7 +30,9 @@ Scenario: Ensure locked sheets do not prevent data extraction in "bank_export_ex
 
 
 
+
 	Then all required data should be accessible for validation
+
 
 
 

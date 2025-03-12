@@ -8,6 +8,7 @@ Feature: Detect trailing spaces in text fields
 
 
 
+
 @trailing_spaces_check
 
 
@@ -17,7 +18,9 @@ Scenario Outline: Ensure "<text_column>" does not contain trailing spaces
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario Outline: Ensure "<text_column>" does not contain trailing spaces
 
 
 
+
 	Then no values should contain leading or trailing spaces
+
 
 
 

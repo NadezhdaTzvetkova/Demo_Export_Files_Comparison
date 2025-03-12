@@ -8,6 +8,7 @@ Feature: Validate handling of negative values in export files
 
 
 
+
 @negative_values_check
 
 
@@ -17,7 +18,9 @@ Scenario Outline: Ensure "<numeric_column>" handles negative values correctly in
 
 
 
+
 	Given I have a bank export file "bank_export_negative_values_test.xlsx" from the old system
+
 
 
 
@@ -27,12 +30,15 @@ Scenario Outline: Ensure "<numeric_column>" handles negative values correctly in
 
 
 
+
 	When I compare the "<numeric_column>" column
 
 
 
 
+
 	Then negative values should be processed correctly
+
 
 
 

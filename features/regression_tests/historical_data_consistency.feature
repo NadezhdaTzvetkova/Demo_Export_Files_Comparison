@@ -8,6 +8,7 @@ Feature: Validate consistency of historical data in exports
 
 
 
+
 @historical_data_match
 
 
@@ -17,7 +18,9 @@ Scenario: Ensure historical transactions remain unchanged across exports
 
 
 
+
 	Given I have a previous bank export file "bank_export_previous_month_test.xlsx"
+
 
 
 
@@ -31,7 +34,9 @@ Scenario: Ensure historical transactions remain unchanged across exports
 
 
 
+
 	Then historical data should match exactly
+
 
 
 

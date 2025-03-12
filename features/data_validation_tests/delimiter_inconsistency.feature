@@ -8,6 +8,7 @@ Feature: Detect inconsistent delimiters in CSV files
 
 
 
+
 @delimiter_check
 
 
@@ -17,7 +18,9 @@ Scenario: Identify incorrect or inconsistent delimiters in "bank_export_csv_inco
 
 
 
+
 	Given I have a CSV bank export file "bank_export_csv_inconsistent_delimiters_validation_params.csv"
+
 
 
 
@@ -27,7 +30,9 @@ Scenario: Identify incorrect or inconsistent delimiters in "bank_export_csv_inco
 
 
 
+
 	Then the delimiter should be consistent throughout the file
+
 
 
 

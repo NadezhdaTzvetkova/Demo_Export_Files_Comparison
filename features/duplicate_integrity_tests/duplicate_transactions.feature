@@ -8,6 +8,7 @@ Feature: Detect duplicate transactions in bank export files
 
 
 
+
 @duplicate_check
 
 
@@ -17,7 +18,9 @@ Scenario: Ensure duplicate transactions are detected in "bank_export_baseline_te
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario: Ensure duplicate transactions are detected in "bank_export_baseline_te
 
 
 
+
 	Then all duplicates should be flagged
+
 
 
 

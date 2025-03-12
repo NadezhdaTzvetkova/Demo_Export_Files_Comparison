@@ -8,6 +8,7 @@ Feature: Validate memory efficiency during export comparison
 
 
 
+
 @memory_efficiency_check
 
 
@@ -17,7 +18,9 @@ Scenario: Ensure system does not exceed memory limits when processing large file
 
 
 
+
 	Given I have a bank export file "bank_export_large_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario: Ensure system does not exceed memory limits when processing large file
 
 
 
+
 	Then memory consumption should remain within acceptable limits
+
 
 
 

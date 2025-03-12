@@ -8,6 +8,7 @@ Feature: Validate correct headers in export files
 
 
 
+
 @header_mismatch_check
 
 
@@ -17,7 +18,9 @@ Scenario: Detect missing or incorrect headers
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario: Detect missing or incorrect headers
 
 
 
+
 	Then there should be no missing or incorrect headers
+
 
 
 

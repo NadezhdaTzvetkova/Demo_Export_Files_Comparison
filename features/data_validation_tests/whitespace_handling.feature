@@ -8,6 +8,7 @@ Feature: Detect trailing and leading whitespace in fields
 
 
 
+
 @whitespace_check
 
 
@@ -17,7 +18,9 @@ Scenario Outline: Ensure "<column>" values do not contain leading or trailing sp
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -27,7 +30,9 @@ Scenario Outline: Ensure "<column>" values do not contain leading or trailing sp
 
 
 
+
 	When I check the "<column>" column
+
 
 
 
@@ -37,7 +42,9 @@ Scenario Outline: Ensure "<column>" values do not contain leading or trailing sp
 
 
 
+
 		And the differences should be "<difference_type>"   and "<difference_>"
+
 
 
 

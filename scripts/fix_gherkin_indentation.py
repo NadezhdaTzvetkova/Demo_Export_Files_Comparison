@@ -12,7 +12,7 @@ def get_feature_files_directory():
 
 
 def fix_gherkin_indentation(file_path):
-    """Fix indentation for Given/When/Then at base level and And/But indented by 1 Tab."""
+    """Fix indentation for Feature (base), Scenario (base), Given/When/Then (1 tab), and And/But (2 tabs)."""
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
@@ -22,22 +22,27 @@ def fix_gherkin_indentation(file_path):
     for line in lines:
         stripped = line.lstrip()
 
-        # Detect the start of a Scenario, Examples, Rule, or Feature
-        if stripped.startswith(("Scenario", "Examples", "Rule", "Feature")):
-            inside_scenario = True
-            formatted_lines.append(stripped)  # Keep at base level
+        # Feature and Scenario remain at base level
+        if stripped.startswith(("Feature", "Scenario")):
+            formatted_lines.append(stripped)
+            inside_scenario = stripped.startswith("Scenario")  # Enable scenario tracking
             continue
 
-        # Given/When/Then should be at base level (no indentation)
+        # Given, When, Then → 1 tab
         if stripped.startswith(("Given", "When", "Then")):
-            formatted_lines.append(stripped)  # No indentation
-        elif stripped.startswith(("And", "But")):
-            formatted_lines.append("\t" + stripped)  # Indent And/But by 1 tab
-        else:
-            formatted_lines.append(stripped)  # Preserve other lines
+            formatted_lines.append("\t" + stripped)
 
+        # And, But → 2 tabs under Given/When/Then
+        elif stripped.startswith(("And", "But")):
+            formatted_lines.append("\t\t" + stripped)
+
+        # Preserve everything else as is
+        else:
+            formatted_lines.append(line.rstrip())
+
+    # Ensure there is a newline at the end of each line
     with open(file_path, "w", encoding="utf-8") as file:
-        file.writelines([line + "\n" for line in formatted_lines])  # Ensure newline at end of each line
+        file.writelines([line + "\n" for line in formatted_lines])
 
 
 def process_feature_files(directory):
@@ -59,7 +64,7 @@ def process_feature_files(directory):
     for file in feature_files:
         fix_gherkin_indentation(file)
 
-    print("✅ Gherkin indentation fixed successfully! (1 Tab for And/But)")
+    print("✅ Gherkin indentation fixed successfully! (1 Tab for Given/When/Then, 2 Tabs for And/But)")
 
 
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ Feature: Identify extreme values in numeric fields
 
 
 
+
 @outlier_detection
 
 
@@ -17,7 +18,9 @@ Scenario Outline: Detect extreme "<numeric_column>" values
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario Outline: Detect extreme "<numeric_column>" values
 
 
 
+
 	Then any extreme outliers should be flagged
+
 
 
 

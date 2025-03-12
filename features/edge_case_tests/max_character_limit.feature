@@ -8,6 +8,7 @@ Feature: Validate maximum character limit in text fields
 
 
 
+
 @max_character_check
 
 
@@ -17,7 +18,9 @@ Scenario Outline: Ensure "<column>" does not exceed the allowed character limit
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario Outline: Ensure "<column>" does not exceed the allowed character limit
 
 
 
+
 	Then no values should exceed the maximum allowed length
+
 
 
 

@@ -8,6 +8,7 @@ Feature: Detect missing columns in bank export files
 
 
 
+
 @missing_columns_check
 
 
@@ -17,7 +18,9 @@ Scenario: Ensure missing columns are identified in "bank_export_missing_columns_
 
 
 
+
 	Given I have a bank export file "bank_export_missing_columns_test.xlsx" from the old system
+
 
 
 
@@ -31,7 +34,9 @@ Scenario: Ensure missing columns are identified in "bank_export_missing_columns_
 
 
 
+
 	Then I should identify the missing columns
+
 
 
 

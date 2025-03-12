@@ -8,6 +8,7 @@ Feature: Validate handling of missing values in export files
 
 
 
+
 @missing_values_check
 
 
@@ -17,7 +18,9 @@ Scenario Outline: Ensure "<column>" correctly processes missing values in "bank_
 
 
 
+
 	Given I have a bank export file "bank_export_missing_values_test.xlsx" from the old system
+
 
 
 
@@ -27,12 +30,15 @@ Scenario Outline: Ensure "<column>" correctly processes missing values in "bank_
 
 
 
+
 	When I check the "<column>" column
 
 
 
 
+
 	Then missing values should be handled properly
+
 
 
 

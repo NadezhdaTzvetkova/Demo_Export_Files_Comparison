@@ -8,6 +8,7 @@ Feature: Validate date format consistency in export files
 
 
 
+
 @date_format_check
 
 
@@ -17,7 +18,9 @@ Scenario Outline: Verify "<date_column>" format follows "YYYY-MM-DD"
 
 
 
+
 	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -27,12 +30,15 @@ Scenario Outline: Verify "<date_column>" format follows "YYYY-MM-DD"
 
 
 
+
 	When I check the format of "<date_column>"
 
 
 
 
+
 	Then all values should follow "YYYY-MM-DD"
+
 
 
 
