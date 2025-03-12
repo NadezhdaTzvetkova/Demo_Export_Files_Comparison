@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_customers.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_customers.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_transactions.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_transactions.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/fraudulent_transactions.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/fraudulent_transactions.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
