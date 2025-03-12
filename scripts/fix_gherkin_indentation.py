@@ -12,7 +12,7 @@ def get_feature_files_directory():
 
 
 def fix_gherkin_indentation(file_path):
-    """Fix indentation for Feature (base), Scenario (base), Given/When/Then (1 tab), And/But (2 tabs)."""
+    """Fix indentation and remove extra blank lines from Gherkin feature files."""
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
@@ -20,36 +20,50 @@ def fix_gherkin_indentation(file_path):
     inside_scenario = False
     previous_was_blank = False  # Track blank lines to remove unnecessary ones
 
-    for line in lines:
+    for i, line in enumerate(lines):
         stripped = line.strip()
 
-        # Remove excessive blank lines but allow single blank lines between sections
+        # Remove excessive blank lines (before Feature, Scenario, and Steps)
         if stripped == "":
             if previous_was_blank:
                 continue  # Skip consecutive blank lines
             previous_was_blank = True
-            formatted_lines.append("")  # Keep a single blank line
-            continue
-        else:
-            previous_was_blank = False  # Reset blank line tracker
+            continue  # Skip all empty lines except necessary ones
 
-        # Feature and Scenario remain at base level
-        if stripped.startswith(("Feature", "Scenario")):
+        # Ensure no blank line exists before Feature, Scenario, Scenario Outline
+        if stripped.startswith(("Feature", "Scenario", "Scenario Outline")):
+            if formatted_lines and formatted_lines[-1] == "":
+                formatted_lines.pop()  # Remove the last empty line if it's before these
             formatted_lines.append(stripped)
-            inside_scenario = stripped.startswith("Scenario")  # Enable scenario tracking
+            inside_scenario = stripped.startswith(("Scenario", "Scenario Outline"))  # Enable scenario tracking
+            previous_was_blank = False
             continue
 
-        # Given, When, Then → 1 tab
+        # Ensure no blank line exists between Tags (@) and Feature or Scenario
+        if stripped.startswith("@"):
+            if formatted_lines and formatted_lines[-1] == "":
+                formatted_lines.pop()  # Remove the last empty line before a tag
+            formatted_lines.append(stripped)
+            previous_was_blank = False
+            continue
+
+        # Given, When, Then → Indented by 1 tab
         if stripped.startswith(("Given", "When", "Then")):
+            if formatted_lines and formatted_lines[-1] == "":
+                formatted_lines.pop()  # Remove any empty line between steps
             formatted_lines.append("\t" + stripped)
 
-        # And, But → 2 tabs under Given/When/Then
+        # And, But → Indented by 2 tabs
         elif stripped.startswith(("And", "But")):
+            if formatted_lines and formatted_lines[-1] == "":
+                formatted_lines.pop()  # Remove any empty line between steps
             formatted_lines.append("\t\t" + stripped)
 
         # Preserve everything else as is
         else:
             formatted_lines.append(stripped)
+
+        previous_was_blank = False  # Reset blank line tracker
 
     # Ensure the file ends with a single newline
     formatted_lines.append("")
@@ -77,7 +91,7 @@ def process_feature_files(directory):
     for file in feature_files:
         fix_gherkin_indentation(file)
 
-    print("✅ Gherkin indentation fixed successfully! (1 Tab for Given/When/Then, 2 Tabs for And/But, Blank lines removed)")
+    print("✅ Gherkin indentation fixed successfully! No extra blank lines!")
 
 
 if __name__ == "__main__":
