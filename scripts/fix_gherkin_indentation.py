@@ -12,15 +12,26 @@ def get_feature_files_directory():
 
 
 def fix_gherkin_indentation(file_path):
-    """Fix indentation for Feature (base), Scenario (base), Given/When/Then (1 tab), and And/But (2 tabs)."""
+    """Fix indentation for Feature (base), Scenario (base), Given/When/Then (1 tab), And/But (2 tabs)."""
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
     formatted_lines = []
     inside_scenario = False
+    previous_was_blank = False  # Track blank lines to remove unnecessary ones
 
     for line in lines:
-        stripped = line.lstrip()
+        stripped = line.strip()
+
+        # Remove excessive blank lines but allow single blank lines between sections
+        if stripped == "":
+            if previous_was_blank:
+                continue  # Skip consecutive blank lines
+            previous_was_blank = True
+            formatted_lines.append("")  # Keep a single blank line
+            continue
+        else:
+            previous_was_blank = False  # Reset blank line tracker
 
         # Feature and Scenario remain at base level
         if stripped.startswith(("Feature", "Scenario")):
@@ -38,11 +49,13 @@ def fix_gherkin_indentation(file_path):
 
         # Preserve everything else as is
         else:
-            formatted_lines.append(line.rstrip())
+            formatted_lines.append(stripped)
 
-    # Ensure there is a newline at the end of each line
+    # Ensure the file ends with a single newline
+    formatted_lines.append("")
+
     with open(file_path, "w", encoding="utf-8") as file:
-        file.writelines([line + "\n" for line in formatted_lines])
+        file.write("\n".join(formatted_lines))
 
 
 def process_feature_files(directory):
@@ -64,7 +77,7 @@ def process_feature_files(directory):
     for file in feature_files:
         fix_gherkin_indentation(file)
 
-    print("✅ Gherkin indentation fixed successfully! (1 Tab for Given/When/Then, 2 Tabs for And/But)")
+    print("✅ Gherkin indentation fixed successfully! (1 Tab for Given/When/Then, 2 Tabs for And/But, Blank lines removed)")
 
 
 if __name__ == "__main__":
