@@ -7,6 +7,7 @@ Feature: Identify orphaned transactions (transactions without matching accounts)
 
 
 
+
 @orphaned_transaction_check
 
 
@@ -15,7 +16,9 @@ Scenario: Ensure all transactions are linked to a valid account
 
 
 
-Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_baseline_test.xlsx" from the old sy
 
 
 
-When I compare transaction-account mappings
+	When I compare transaction-account mappings
 
 
 
-Then no transactions should be orphaned
+
+	Then no transactions should be orphaned
+
 
 
 

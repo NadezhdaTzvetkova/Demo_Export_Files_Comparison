@@ -7,6 +7,7 @@ Feature: Validate transaction reference uniqueness
 
 
 
+
 @unique_transaction_references
 
 
@@ -15,7 +16,9 @@ Scenario: Ensure all transaction references are unique
 
 
 
-Given I have a bank export file "bank_export_excel_transaction_reference_uniqueness_validation_params.xlsx"
+
+	Given I have a bank export file "bank_export_excel_transaction_reference_uniqueness_validation_params.xlsx"
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_excel_transaction_reference_uniquen
 
 
 
-When I compare transaction reference numbers
+	When I compare transaction reference numbers
 
 
 
-Then no duplicate transaction references should exist
+
+	Then no duplicate transaction references should exist
+
 
 
 

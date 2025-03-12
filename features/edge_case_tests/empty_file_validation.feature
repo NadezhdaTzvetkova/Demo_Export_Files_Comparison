@@ -7,6 +7,7 @@ Feature: Handle empty export files
 
 
 
+
 @empty_file_check
 
 
@@ -15,7 +16,9 @@ Scenario: Detect when an export file is empty
 
 
 
-Given I have a bank export file "bank_export_empty_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_empty_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_empty_test.xlsx" from the old syste
 
 
 
-When I check the file contents
+	When I check the file contents
 
 
 
-Then the system should detect that the files are empty
+
+	Then the system should detect that the files are empty
+
 
 
 

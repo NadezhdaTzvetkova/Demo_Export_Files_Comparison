@@ -7,6 +7,7 @@ Feature: Validate currency consistency in bank export files
 
 
 
+
 @currency_match
 
 
@@ -15,19 +16,24 @@ Scenario Outline: Verify "<currency_column>" consistency in "bank_export_baselin
 
 
 
-Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
 
 
 
-	And I have a bank export file "bank_export_baseline_test.csv" from the new system
+
+		And I have a bank export file "bank_export_baseline_test.csv" from the new system
 
 
 
-When I compare the "<currency_column>" column
+
+	When I compare the "<currency_column>" column
 
 
 
-Then all currency values should match
+
+	Then all currency values should match
+
 
 
 

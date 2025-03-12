@@ -7,6 +7,7 @@ Feature: Validate column format consistency
 
 
 
+
 @column_format_check
 
 
@@ -15,7 +16,9 @@ Scenario Outline: Verify "<column>" format is consistent across exports
 
 
 
-Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_baseline_test.xlsx" from the old sy
 
 
 
-When I check the format of "<column>"
+	When I check the format of "<column>"
 
 
 
-Then the format should be consistent in both files
+
+	Then the format should be consistent in both files
+
 
 
 

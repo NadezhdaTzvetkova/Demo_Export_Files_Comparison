@@ -7,6 +7,7 @@ Feature: Validate performance with large transaction volumes
 
 
 
+
 @large_data_processing
 
 
@@ -15,7 +16,9 @@ Scenario: Ensure export comparison completes within time limits for large data
 
 
 
-Given I have a bank export file "bank_export_large_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_large_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_large_test.xlsx" from the old syste
 
 
 
-When I run the comparison process
+	When I run the comparison process
 
 
 
-Then the execution time should not exceed performance thresholds
+
+	Then the execution time should not exceed performance thresholds
+
 
 
 

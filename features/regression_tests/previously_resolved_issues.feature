@@ -7,6 +7,7 @@ Feature: Ensure previously resolved issues do not reoccur
 
 
 
+
 @bug_fix_verification
 
 
@@ -15,7 +16,9 @@ Scenario: Validate that previous data export bugs do not reappear
 
 
 
-Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_baseline_test.xlsx" from the old sy
 
 
 
-When I execute the export file comparison
+	When I execute the export file comparison
 
 
 
-Then no previously fixed data issues should reoccur
+
+	Then no previously fixed data issues should reoccur
+
 
 
 

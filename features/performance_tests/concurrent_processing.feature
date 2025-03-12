@@ -7,6 +7,7 @@ Feature: Validate concurrent processing of large export files
 
 
 
+
 @concurrent_processing_check
 
 
@@ -15,7 +16,9 @@ Scenario: Ensure concurrent processing does not cause data corruption
 
 
 
-Given I have a large bank export file "bank_export_large_test.xlsx" from the old system
+
+	Given I have a large bank export file "bank_export_large_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a large bank export file "bank_export_large_test.xlsx" from the old
 
 
 
-When multiple processes access these files simultaneously
+	When multiple processes access these files simultaneously
 
 
 
-Then data should not be corrupted
+
+	Then data should not be corrupted
+
 
 
 

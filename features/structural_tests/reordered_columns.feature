@@ -7,6 +7,7 @@ Feature: Validate handling of reordered columns in bank export files
 
 
 
+
 @column_order_check
 
 
@@ -15,7 +16,9 @@ Scenario: Ensure column reordering does not affect validation in "bank_export_re
 
 
 
-Given I have a bank export file "bank_export_reordered_columns_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_reordered_columns_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_reordered_columns_test.xlsx" from t
 
 
 
-When I compare the structure of both files
+	When I compare the structure of both files
 
 
 
-Then column reordering should not cause mismatches
+
+	Then column reordering should not cause mismatches
+
 
 
 

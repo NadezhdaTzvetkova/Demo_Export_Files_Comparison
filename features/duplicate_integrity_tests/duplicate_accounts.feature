@@ -7,6 +7,7 @@ Feature: Detect duplicate accounts in bank export files
 
 
 
+
 @duplicate_account_check
 
 
@@ -15,7 +16,9 @@ Scenario: Identify duplicate account numbers in export files
 
 
 
-Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_baseline_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_baseline_test.xlsx" from the old sy
 
 
 
-When I check for duplicate account numbers
+	When I check for duplicate account numbers
 
 
 
-Then all duplicate account numbers should be flagged
+
+	Then all duplicate account numbers should be flagged
+
 
 
 

@@ -7,6 +7,7 @@ Feature: Ensure NULL values are handled properly
 
 
 
+
 @null_values_check
 
 
@@ -15,7 +16,9 @@ Scenario Outline: Verify NULL values in "<column>" are correctly processed
 
 
 
-Given I have a bank export file "bank_export_missing_values_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_missing_values_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_missing_values_test.xlsx" from the 
 
 
 
-When I check the "<column>" column
+	When I check the "<column>" column
 
 
 
-Then NULL values should be properly handled
+
+	Then NULL values should be properly handled
+
 
 
 

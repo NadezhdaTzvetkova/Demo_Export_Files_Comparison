@@ -7,6 +7,7 @@ Feature: Detect extra columns in bank export files
 
 
 
+
 @extra_columns_check
 
 
@@ -15,7 +16,9 @@ Scenario: Ensure extra columns are identified in "bank_export_extra_columns_test
 
 
 
-Given I have a bank export file "bank_export_extra_columns_test.xlsx" from the old system
+
+	Given I have a bank export file "bank_export_extra_columns_test.xlsx" from the old system
+
 
 
 
@@ -23,11 +26,13 @@ Given I have a bank export file "bank_export_extra_columns_test.xlsx" from the o
 
 
 
-When I compare the structure of both files
+	When I compare the structure of both files
 
 
 
-Then I should identify any extra columns
+
+	Then I should identify any extra columns
+
 
 
 
