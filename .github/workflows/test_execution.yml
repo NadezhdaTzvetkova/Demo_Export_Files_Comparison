@@ -21,6 +21,10 @@ jobs:
       - name: 📦 Install Dependencies
         run: pip install -r requirements.txt
 
+      - name: 🔧 Fix Gherkin Indentation
+        run: python scripts/fix_gherkin_indentation.py
+
+
       - name: 🛠️ Run Tests
         run: python scripts/run_tests.py all
 

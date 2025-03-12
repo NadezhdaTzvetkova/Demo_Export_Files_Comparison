@@ -5,48 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change afterPath="$PROJECT_DIR$/scripts/fix_gherkin_indentation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/currency_consistency.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/currency_consistency.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/decimal_precision.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/decimal_precision.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/encoding_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/encoding_validation.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/invalid_account_numbers.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/invalid_account_numbers.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/invalid_currency_codes.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/invalid_currency_codes.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/missing_values.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/missing_values.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/negative_values.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/negative_values.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/special_characters_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/special_characters_validation.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/whitespace_handling.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/whitespace_handling.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_accounts.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_accounts.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_customers.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_customers.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_transactions.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/duplicate_transactions.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/fraudulent_transactions.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/fraudulent_transactions.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/orphaned_transactions.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/orphaned_transactions.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/duplicate_integrity_tests/transaction_mismatch.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/duplicate_integrity_tests/transaction_mismatch.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/edge_case_tests/edge_cases.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/edge_case_tests/edge_cases.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/edge_case_tests/empty_file_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/edge_case_tests/empty_file_validation.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/edge_case_tests/max_character_limit.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/edge_case_tests/max_character_limit.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/edge_case_tests/null_values_handling.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/edge_case_tests/null_values_handling.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/edge_case_tests/outlier_detection.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/edge_case_tests/outlier_detection.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/edge_case_tests/zero_value_transactions.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/edge_case_tests/zero_value_transactions.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/performance_tests/concurrent_processing.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/performance_tests/concurrent_processing.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/performance_tests/delayed_processing.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/performance_tests/delayed_processing.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/performance_tests/large_data_performance.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/performance_tests/large_data_performance.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/performance_tests/large_transaction_volumes.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/performance_tests/large_transaction_volumes.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/performance_tests/memory_usage.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/performance_tests/memory_usage.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/regression_tests/duplicate_imports_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/regression_tests/duplicate_imports_validation.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/regression_tests/historical_data_consistency.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/regression_tests/historical_data_consistency.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/regression_tests/previously_resolved_issues.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/regression_tests/previously_resolved_issues.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/regression_tests/regression_high_volume_transactions.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/regression_tests/regression_high_volume_transactions.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/regression_tests/regression_previous_bug_fixes.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/regression_tests/regression_previous_bug_fixes.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/regression_tests/transaction_reference_uniqueness.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/regression_tests/transaction_reference_uniqueness.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/structural_tests/column_case_sensitivity.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/column_case_sensitivity.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/structural_tests/column_format_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/column_format_validation.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/structural_tests/extra_columns.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/extra_columns.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/structural_tests/header_mismatch_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/header_mismatch_validation.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/structural_tests/missing_columns.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/missing_columns.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/structural_tests/reordered_columns.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/reordered_columns.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/structural_tests/trailing_spaces_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/structural_tests/trailing_spaces_validation.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/structural_tests/file_format.feature" beforeDir="false" afterPath="$PROJECT_DIR$/test_data/features/structural_tests/file_format.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/test_execution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/test_execution.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
