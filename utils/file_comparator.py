@@ -21,7 +21,7 @@ def compare_csv_files(file1: str, file2: str, ignore_order=True):
     df2 = pd.read_csv(file2, dtype=str)
 
     print("[INFO] Checking CSV column headers...")
-    if list(df1.columns) != list(df2.columns):
+    if set(df1.columns) != set(df2.columns):
         print("[ERROR] CSV column headers do not match!")
         return {"error": "Column headers do not match", "file1_columns": df1.columns.tolist(),
                 "file2_columns": df2.columns.tolist()}
@@ -61,7 +61,7 @@ def compare_excel_files(file1: str, file2: str, sheet_name=None, ignore_order=Tr
     df2 = pd.read_excel(file2, sheet_name=sheet_name or 0, dtype=str)
 
     print("[INFO] Checking Excel column headers...")
-    if list(df1.columns) != list(df2.columns):
+    if set(df1.columns) != set(df2.columns):
         print("[ERROR] Excel column headers do not match!")
         return {"error": "Column headers do not match", "file1_columns": df1.columns.tolist(),
                 "file2_columns": df2.columns.tolist()}
@@ -84,11 +84,11 @@ def compare_excel_files(file1: str, file2: str, sheet_name=None, ignore_order=Tr
 if __name__ == "__main__":
     print("[INFO] Starting file comparison...")
 
-    file1_csv = "data/bank_export_csv_format_validation_params.csv"
-    file2_csv = "data/bank_export_csv_format_validation_params_reference.csv"
+    file1_csv = "test_data/csv_files/bank_export_baseline_test.csv"
+    file2_csv = "test_data/csv_files/bank_export_reordered_columns_test.csv"
 
-    file1_excel = "data/bank_export_excel_format_validation_params.xlsx"
-    file2_excel = "data/bank_export_excel_format_validation_params_reference.xlsx"
+    file1_excel = "test_data/excel_files/bank_export_baseline_test.xlsx"
+    file2_excel = "test_data/excel_files/bank_export_reordered_columns_test.xlsx"
 
     print("[INFO] Checking CSV files...")
     csv_result = compare_csv_files(file1_csv, file2_csv)
