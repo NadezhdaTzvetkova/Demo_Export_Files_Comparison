@@ -47,11 +47,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/invalid_currency_codes_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/invalid_account_numbers_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/encoding_validation_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/decimal_precision_test_data" />
-      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/date_format_validation_test_data" />
     </key>
   </component>
   <component name="SharedIndexes">
