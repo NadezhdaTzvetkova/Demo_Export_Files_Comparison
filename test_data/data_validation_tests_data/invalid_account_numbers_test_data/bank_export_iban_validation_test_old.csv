@@ -1,0 +1,3 @@
+Transaction ID,Account Number,Customer ID,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Account Status,IBAN,BIC,Branch Code,Account Type,Transaction Description
+1003,DE89370400440532013000,CUST003,2024-02-01,750.00,USD,Transfer,2750.00,Active,DE89370400440532013000,COBADEFF,3301,Business,International transfer
+1004,GB29NWBK60161331926819X,CUST004,2024-02-05,200.00,GBP,Deposit,2950.00,Active,INVALID,INVALID,5678,Personal,Mobile deposit

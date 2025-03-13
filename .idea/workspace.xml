@@ -5,40 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_baseline_test_new.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_baseline_test_new.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_baseline_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_baseline_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_comma_delimiter_test_new.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_comma_delimiter_test_new.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_comma_delimiter_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_comma_delimiter_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_escape_character_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_escape_character_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_extra_delimiters_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_extra_delimiters_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_flexible_delimiters_test_new.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_flexible_delimiters_test_new.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_flexible_delimiters_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_flexible_delimiters_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_large_file_delimiter_test_new.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_large_file_delimiter_test_new.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_large_file_delimiter_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_large_file_delimiter_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_malformed_delimiter_test_new.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_malformed_delimiter_test_new.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_malformed_delimiter_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_malformed_delimiter_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_mixed_delimiters_test_new.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_mixed_delimiters_test_new.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_mixed_delimiters_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_mixed_delimiters_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_semicolon_delimiter_test_new.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_semicolon_delimiter_test_new.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_semicolon_delimiter_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_semicolon_delimiter_test_old.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_truncated_records_test_old.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data/bank_export_truncated_records_test_old.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,11 +46,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/encoding_validation_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/decimal_precision_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/date_format_validation_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/currency_consistency_test_data" />
-      <recent name="$PROJECT_DIR$/test_data" />
     </key>
   </component>
   <component name="SharedIndexes">

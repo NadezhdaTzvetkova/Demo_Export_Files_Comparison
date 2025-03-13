@@ -1,0 +1,3 @@
+Transaction ID,Account Number,Customer ID,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Account Status,IBAN,BIC,Branch Code,Account Type,Transaction Description
+1005,1235678901,CUST005,2024-03-10,1200.00,USD,Deposit,4200.00,Active,GB29NWBK60161331926819,NWBKGB2L,4040,Savings,Online deposit
+1006,1234567890,CUST006,2024-03-15,750.75,EUR,Withdrawal,3450.75,Inactive,INVALID,INVALID,9090,Checking,Wire transfer
