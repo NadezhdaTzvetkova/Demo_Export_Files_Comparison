@@ -1,0 +1,4 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID
+T001,1234567890,2025-01-15,1000.00,USD,Deposit,1500.00,C001
+T002,0987654321,2025-01-16,-500.50,EUR,Withdrawal,950.50,C002
+T003,5678901234,2025-01-17,250.75,GBP,Transfer,1200.25,C003

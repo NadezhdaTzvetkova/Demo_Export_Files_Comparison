@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change afterPath="$PROJECT_DIR$/features/steps/ile_comparator_steps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/file_mappings.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/test_file_mappings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/file_comparator.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file_comparator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/steps/ile_comparator_steps.py" beforeDir="false" afterPath="$PROJECT_DIR$/features/steps/file_comparator_steps.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +47,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test_data" />
+      <recent name="$PROJECT_DIR$/test_data/csv_files/data_validation_tests_data" />
       <recent name="$PROJECT_DIR$/features/compliance_validation_tests" />
     </key>
   </component>
