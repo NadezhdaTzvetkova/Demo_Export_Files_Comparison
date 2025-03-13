@@ -1,0 +1,4 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction
+TXN001,ACC123456,2024-03-12,1000.50,USD,Deposit,5000.50
+TXN002,ACC789012,2024-03-13,-200.00,EUR,Withdrawal,4800.50
+TXN003,ACC345678,2024-03-14,150.75,GBP,Transfer,4951.25

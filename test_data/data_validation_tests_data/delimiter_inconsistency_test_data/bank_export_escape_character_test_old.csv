@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Description
+TXN004,ACC987654,2024-03-15,-300.00,USD,Fee,4651.25,CUST004,Overdraft Fee
