@@ -93,3 +93,15 @@ Examples:
 | file_name                                    | sheet_name | trend_analysis_status |
 | bank_export_historical_missing_values.csv   | N/A        | Repeating Issue       |
 | bank_export_historical_missing_values.xlsx  | Sheet1     | One-time Anomaly      |
+@missing_values @dynamic_thresholds @adaptive_thresholds
+Scenario Outline: Adaptive validation for missing values based on transaction type
+	Given a bank export file "<file_name>"
+	When I check for missing values in the "<sheet_name>" sheet
+	Then missing values should be evaluated based on "<transaction_type>"
+		And thresholds should dynamically adjust for "<risk_category>"
+		And critical missing values should trigger "<escalation_action>"
+Examples:
+| file_name                              | sheet_name | transaction_type       | risk_category | escalation_action |
+| bank_export_missing_transactions.csv  | N/A        | Wire Transfer         | High          | Immediate Review  |
+| bank_export_missing_withdrawals.xlsx  | Sheet1     | ATM Withdrawal        | Medium        | Daily Report      |
+| bank_export_missing_payroll.csv       | N/A        | Payroll Payment       | Low           | Weekly Review     |
