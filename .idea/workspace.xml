@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change beforePath="$PROJECT_DIR$/features/data_validation_tests/missing_values.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/data_validation_tests/missing_values.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/financial_accuracy_tests/aml_suspicious_activity_validation.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/financial_accuracy_tests/basel_iii_capital_validation.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/financial_accuracy_tests/foreign_exchange_transactions.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/financial_accuracy_tests/interest_rate_calculations.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
