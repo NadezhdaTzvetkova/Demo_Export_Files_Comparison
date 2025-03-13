@@ -1,0 +1,4 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Description
+1001,ACC123456,2024-05-01,1500.50,USD,Deposit,Salary Payment
+1002,ACC789012,2024-05-02,250.75,EUR,Withdrawal,ATM Cash Out
+1003,ACC345678,2024-05-03,-500.00,GBP,Transfer,Loan Repayment
