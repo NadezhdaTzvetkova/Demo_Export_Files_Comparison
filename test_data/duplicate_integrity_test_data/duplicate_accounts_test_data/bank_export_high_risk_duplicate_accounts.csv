@@ -1,0 +1,6 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Account Holder Name,Fraud Flag
+T001,1234567890,2024-03-01,100.0,USD,Deposit,John Doe,No
+T002,1234567890,2024-03-02,150.0,USD,Withdrawal,John Doe,Yes
+T003,0987654321,2024-03-03,200.0,EUR,Transfer,Jane Smith,No
+T004,0987654321,2024-03-04,250.0,EUR,Deposit,Jane Smith,Yes
+T005,1122334455,2024-03-05,300.0,GBP,Withdrawal,Robert Brown,No
