@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init" />
+    <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,11 +49,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/special_characters_validation_test_data" />
+      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/decimal_precision_test_data" />
+      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/missing_values_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/invalid_currency_codes_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/invalid_account_numbers_test_data" />
-      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/encoding_validation_test_data" />
-      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/delimiter_inconsistency_test_data" />
-      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/decimal_precision_test_data" />
     </key>
   </component>
   <component name="SharedIndexes">
