@@ -1,0 +1,3 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Description,Timestamp
+1009,ACC5234567,2024-03-12,300.00,AUD,Deposit,5300.50,CUST009,Online Sale,2024-03-12 09:30:00 UTC
+1010,ACC5234568,2024-03-13,-120.00,SGD,Withdrawal,5180.50,CUST010,Travel Expense,2024-03-13 11:20:30 UTC+8

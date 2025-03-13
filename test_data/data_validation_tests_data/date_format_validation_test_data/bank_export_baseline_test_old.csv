@@ -1,0 +1,3 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Description,Timestamp
+1001,ACC1234567,2024-03-10,1000.50,USD,Deposit,5000.50,CUST001,Salary Deposit,2024-03-10 10:30:00
+1002,ACC1234568,2024-03-11,-200.00,EUR,Withdrawal,4800.50,CUST002,ATM Withdrawal,2024-03-11 12:45:30

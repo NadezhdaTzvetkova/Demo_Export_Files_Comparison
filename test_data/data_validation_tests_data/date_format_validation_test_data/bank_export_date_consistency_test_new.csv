@@ -1,0 +1,3 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Description,Timestamp
+1005,ACC3234567,2025-10-01,2000.00,JPY,Deposit,7500.50,CUST005,Bonus Payment,2025-10-01 16:00:00
+1006,ACC3234568,2026-01-15,-50.00,INR,Withdrawal,7450.50,CUST006,Bill Payment,2026-01-15 11:10:10
