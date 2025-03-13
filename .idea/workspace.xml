@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/steps/ile_comparator_steps.py" beforeDir="false" afterPath="$PROJECT_DIR$/features/steps/file_comparator_steps.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +46,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/date_format_validation_test_data" />
+      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/currency_consistency_test_data" />
       <recent name="$PROJECT_DIR$/test_data" />
       <recent name="$PROJECT_DIR$/test_data/csv_files/data_validation_tests_data" />
       <recent name="$PROJECT_DIR$/features/compliance_validation_tests" />
