@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Recipient,Sender Country,Recipient Country,Transaction Reference,Transaction Mode,Transaction Channel,AML Flag,Watchlist Match,Suspicious Activity Score,Risk Category
+1006,5566778899,2025-04-15,90000,USD,Credit Card,5000,CUST006,Michael Johnson,Canada,Brazil,REF333,Card,Bank,Yes,Behavioral Alert,85,High

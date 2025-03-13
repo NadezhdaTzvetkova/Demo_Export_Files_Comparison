@@ -5,7 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_currency_consistency_validation_params.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_date_consistency_validation_params.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_duplicate_transactions_validation_params.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_format_validation_params.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_format_validation_params_reference.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_large_transaction_volumes_validation_params.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_missing_dates_validation_params.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_required_columns_validation_params.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_csv_transaction_amounts_validation_params.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_excel_currency_consistency_validation_params.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_excel_date_consistency_validation_params.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_excel_duplicate_transactions_validation_params.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_excel_format_validation_params.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_excel_format_validation_params_reference.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_excel_large_transaction_volumes_validation_params.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_excel_required_columns_validation_params.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_data/bank_export_excel_transaction_amounts_validation_params.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,11 +65,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/whitespace_handling_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/special_characters_validation_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/decimal_precision_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/missing_values_test_data" />
       <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/invalid_currency_codes_test_data" />
-      <recent name="$PROJECT_DIR$/test_data/data_validation_tests_data/invalid_account_numbers_test_data" />
     </key>
   </component>
   <component name="SharedIndexes">

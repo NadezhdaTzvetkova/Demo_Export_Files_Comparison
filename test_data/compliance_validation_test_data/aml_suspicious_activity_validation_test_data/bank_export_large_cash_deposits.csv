@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Recipient,Sender Country,Recipient Country,Transaction Reference,Transaction Mode,Transaction Channel,AML Flag,Watchlist Match,Suspicious Activity Score,Risk Category
+1008,9900112233,2025-06-10,18000,USD,Cash Deposit,35000,CUST008,Peter Parker,USA,USA,REF555,Branch,Bank,Yes,Large Cash,78,Medium

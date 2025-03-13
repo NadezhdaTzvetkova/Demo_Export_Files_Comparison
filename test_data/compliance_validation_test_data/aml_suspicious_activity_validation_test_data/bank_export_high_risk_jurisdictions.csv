@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Recipient,Sender Country,Recipient Country,Transaction Reference,Transaction Mode,Transaction Channel,AML Flag,Watchlist Match,Suspicious Activity Score,Risk Category
+1005,3344556677,2025-04-05,15000,GBP,Online Payment,5000,CUST005,DEF Corporation,France,Iran,REF222,Card,Bank,Yes,High Risk,80,High

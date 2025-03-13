@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Recipient,Sender Country,Recipient Country,Transaction Reference,Transaction Mode,Transaction Channel,AML Flag,Watchlist Match,Suspicious Activity Score,Risk Category
+1002,0987654321,2025-02-10,60000,EUR,SWIFT Transfer,75000,CUST002,XYZ Corporation,Germany,Iran,REF456,Branch,Bank,Yes,EU Sanctions,85,High

@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Recipient,Sender Country,Recipient Country,Transaction Reference,Transaction Mode,Transaction Channel,AML Flag,Watchlist Match,Suspicious Activity Score,Risk Category
+1007,7788990011,2025-05-01,80000,EUR,Investment Transfer,100000,CUST007,XYZ Offshore Ltd.,USA,Cayman Islands,REF444,SWIFT,Bank,Yes,Shell Entity,92,High

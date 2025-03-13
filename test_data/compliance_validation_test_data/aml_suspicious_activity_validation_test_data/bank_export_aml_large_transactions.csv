@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Recipient,Sender Country,Recipient Country,Transaction Reference,Transaction Mode,Transaction Channel,AML Flag,Watchlist Match,Suspicious Activity Score,Risk Category
+1001,1234567890,2025-01-15,12000,USD,Wire Transfer,50000,CUST001,John Doe,USA,Russia,REF123,Online,Bank,Yes,OFAC Watchlist,90,High

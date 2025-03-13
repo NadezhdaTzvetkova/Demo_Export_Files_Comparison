@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Recipient,Sender Country,Recipient Country,Transaction Reference,Transaction Mode,Transaction Channel,AML Flag,Watchlist Match,Suspicious Activity Score,Risk Category
+1003,1122334455,2025-03-01,9999,USD,Deposit,100000,CUST003,Jane Smith,UK,China,REF789,Mobile,Bank,Yes,None,70,Medium

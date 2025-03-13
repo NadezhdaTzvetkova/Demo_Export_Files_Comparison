@@ -1,0 +1,2 @@
+Transaction ID,Account Number,Transaction Date,Transaction Amount,Currency Code,Transaction Type,Balance After Transaction,Customer ID,Recipient,Sender Country,Recipient Country,Transaction Reference,Transaction Mode,Transaction Channel,AML Flag,Watchlist Match,Suspicious Activity Score,Risk Category
+1004,5566778899,2025-03-15,25000,JPY,Wire Transfer,200000,CUST004,ABC Ltd.,North Korea,Japan,REF111,Online,Bank,Yes,Sanctions,95,High
