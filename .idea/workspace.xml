@@ -5,27 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="818521d7-af5e-492c-89ca-6f21f8ac36ca" name="Changes" comment="git init">
+      <change afterPath="$PROJECT_DIR$/utils/file_loader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/logger.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/financial_accuracy_tests/aml_suspicious_activity_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/compliance_validation_tests/aml_suspicious_activity_validation.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/behave.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/compare_exports.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/data_validation_tests/currency_consistency.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/data_validation_tests/data_integrity.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/data_validation_tests/date_formats.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/data_validation_tests/numeric_values.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/duplicate_and_integrity_tests/data_mismatch.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/duplicate_and_integrity_tests/duplicate_transactions.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/edge_case_tests/corrupted_rows.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/edge_case_tests/empty_files.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/edge_case_tests/extreme_values.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/performance_tests/large_transaction_volumes.feature " beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/steps/compare_steps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/structural_tests/column_headers.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/structural_tests/encoding.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/structural_tests/file_format.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/features/structural_tests/missing_columns.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_data/test_runner.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/file_comparator.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file_comparator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
