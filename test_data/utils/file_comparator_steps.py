@@ -1,6 +1,6 @@
 import json
 from behave import given, when, then
-from test_data.utils.test_data.file_comparator import compare_files
+from test_data.utils.file_comparator import compare_files
 
 @given('I have export file mappings')
 def step_given_file_mappings(context):
