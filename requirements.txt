@@ -1,0 +1,23 @@
+# Behave for BDD testing
+behave
+
+# Pandas for data validation and manipulation
+pandas
+
+# OpenPyXL for working with Excel files
+openpyxl
+
+# Pytest (optional, for additional testing)
+pytest
+
+# xlrd for reading older Excel files (.xls)
+xlrd
+
+# chardet for detecting file encoding issues
+chardet
+
+# pyarrow for efficient processing of large datasets and Parquet file handling
+pyarrow
+
+# Required for handling large files
+git-lfs

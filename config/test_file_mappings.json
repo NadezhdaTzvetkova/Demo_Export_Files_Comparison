@@ -1,0 +1,99 @@
+{
+    "file_mappings": [
+        {
+            "test_scenario": "Validate File Format",
+            "csv_file": "bank_export_csv_format_validation_params.csv",
+            "excel_file": "bank_export_excel_format_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Validate Required Columns",
+            "csv_file": "bank_export_csv_required_columns_validation_params.csv",
+            "excel_file": "bank_export_excel_required_columns_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Validate Date Consistency",
+            "csv_file": "bank_export_csv_date_consistency_validation_params.csv",
+            "excel_file": "bank_export_excel_date_consistency_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Validate Transaction Amounts with Edge Cases",
+            "csv_file": "bank_export_csv_transaction_amounts_validation_params.csv",
+            "excel_file": "bank_export_excel_transaction_amounts_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Validate Currency Consistency",
+            "csv_file": "bank_export_csv_currency_consistency_validation_params.csv",
+            "excel_file": "bank_export_excel_currency_consistency_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Detect Missing Transaction Dates",
+            "csv_file": "bank_export_csv_missing_dates_validation_params.csv",
+            "excel_file": "bank_export_excel_missing_dates_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Detect Duplicate Transactions",
+            "csv_file": "bank_export_csv_duplicate_transactions_validation_params.csv",
+            "excel_file": "bank_export_excel_duplicate_transactions_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Handle Extra and Missing Columns",
+            "csv_file": "bank_export_csv_extra_missing_columns_validation_params.csv",
+            "excel_file": "bank_export_excel_extra_missing_columns_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Handle Encoding Issues",
+            "csv_file": "bank_export_csv_encoding_validation_params.csv",
+            "excel_file": "bank_export_excel_encoding_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Detect Trailing and Leading Whitespace in Fields",
+            "csv_file": "bank_export_csv_whitespace_check_validation_params.csv",
+            "excel_file": "bank_export_excel_whitespace_check_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Handle Corrupted or Unreadable Files",
+            "csv_file": "bank_export_csv_corrupted_file_validation_params.csv",
+            "excel_file": "bank_export_excel_corrupted_file_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Handle Inconsistent Delimiters (CSV only)",
+            "csv_file": "bank_export_csv_inconsistent_delimiters_validation_params.csv",
+            "excel_file": null
+        },
+        {
+            "test_scenario": "Validate Hidden Rows (Excel only)",
+            "csv_file": null,
+            "excel_file": "bank_export_excel_hidden_rows_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Validate Merged Cells (Excel only)",
+            "csv_file": null,
+            "excel_file": "bank_export_excel_merged_cells_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Validate Protected or Locked Excel Sheets",
+            "csv_file": null,
+            "excel_file": "bank_export_excel_protected_sheet_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Detect Special Characters in Transaction Descriptions",
+            "csv_file": "bank_export_csv_special_characters_validation_params.csv",
+            "excel_file": "bank_export_excel_special_characters_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Validate Transaction Reference Uniqueness",
+            "csv_file": "bank_export_csv_transaction_reference_uniqueness_validation_params.csv",
+            "excel_file": "bank_export_excel_transaction_reference_uniqueness_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Handle Duplicate File Imports",
+            "csv_file": "bank_export_csv_duplicate_imports_validation_params.csv",
+            "excel_file": "bank_export_excel_duplicate_imports_validation_params.xlsx"
+        },
+        {
+            "test_scenario": "Validate Large Transaction Volumes",
+            "csv_file": "bank_export_csv_large_transaction_volumes_validation_params.csv",
+            "excel_file": "bank_export_excel_large_transaction_volumes_validation_params.xlsx"
+        }
+    ]
+}
