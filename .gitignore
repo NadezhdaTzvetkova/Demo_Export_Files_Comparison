@@ -23,7 +23,8 @@ gdrive_credentials.json
 scripts/credentials.json
 
 # Ignore test data that should not be committed
-test_data/
+test_data/*
+!test_data/.gitkeep
 *.csv
 *.xlsx
 *.parquet
