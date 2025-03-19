@@ -21,3 +21,7 @@ six==1.17.0
 tqdm==4.66.1
 tzdata==2025.1
 xlrd==2.0.1
+google-api-python-client==2.92.0
+google-auth-http2==0.1.0
+google-auth-oauthlib==1.0.0
+tqdm==4.66.1
