@@ -1,3 +1,37 @@
+# Ignore Python virtual environment
+.venv/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore PyCharm project settings
 .idea/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore logs and temp files
+logs/
+*.log
+*.tmp
+
+# Ignore sensitive credentials
+gdrive_credentials.json
 scripts/credentials.json
+
+# Ignore test data that should not be committed
+test_data/
+*.csv
+*.xlsx
+*.parquet
+
+# Ignore large files tracked by Git LFS (optional)
+*.lfs
+
+# Ignore environment config files
+.env
+.envrcgdrive_credentials.json
 scripts/credentials.json
