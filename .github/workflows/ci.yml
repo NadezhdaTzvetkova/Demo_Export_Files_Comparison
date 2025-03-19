@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -27,6 +27,7 @@ jobs:
           source .venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest  # Ensure pytest is installed
           git lfs install
           git lfs pull
 
@@ -35,6 +36,11 @@ jobs:
           source .venv/bin/activate
           pip install flake8
           flake8 scripts/ features/
+
+      - name: Run Pytest tests
+        run: |
+          source .venv/bin/activate
+          pytest --maxfail=5 --disable-warnings
 
       - name: Run BDD tests with Behave
         run: |
