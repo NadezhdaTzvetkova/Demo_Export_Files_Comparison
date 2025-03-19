@@ -1,11 +1,12 @@
 import os
 
+
 def list_created_files_folders(root_dir, level=3):
     # Loop through the directory structure
     for dirpath, dirnames, filenames in os.walk(root_dir):
         # Exclude system folders/files (e.g., starting with dot .)
-        dirnames[:] = [d for d in dirnames if not d.startswith('.')]
-        filenames[:] = [f for f in filenames if not f.startswith('.')]
+        dirnames[:] = [d for d in dirnames if not d.startswith(".")]
+        filenames[:] = [f for f in filenames if not f.startswith(".")]
 
         # Calculate the depth of the current directory
         depth = dirpath.count(os.sep) - root_dir.count(os.sep)
@@ -21,6 +22,7 @@ def list_created_files_folders(root_dir, level=3):
         for file in filenames:
             print(f"    File: {file}")
 
+
 # Replace with the path to your project
-project_path = '/Users/Nadezhda.Nikolova/PycharmProjects/Demo_Export_Files_Comparison/'
+project_path = "/Users/Nadezhda.Nikolova/PycharmProjects/Demo_Export_Files_Comparison/"
 list_created_files_folders(project_path)

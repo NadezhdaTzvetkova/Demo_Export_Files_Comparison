@@ -1,7 +1,7 @@
 import os
-import io
-from googleapiclient.discovery import build
+
 from google.oauth2 import service_account
+from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 
 # Load credentials securely from an environment variable
@@ -12,7 +12,9 @@ DOWNLOAD_DIR = "test_data/"  # Local folder for downloaded files
 
 def authenticate_drive():
     """Authenticate Google Drive API using service account."""
-    creds = service_account.Credentials.from_service_account_file(os.path.expanduser(CREDENTIALS_PATH))
+    creds = service_account.Credentials.from_service_account_file(
+        os.path.expanduser(CREDENTIALS_PATH)
+    )
     return build("drive", "v3", credentials=creds)
 
 
@@ -52,7 +54,9 @@ def download_file(service, file_id, file_name):
         done = False
         while not done:
             status, done = downloader.next_chunk()
-            print(f"📥 Downloading {file_name}: {int(status.progress() * 100)}% complete")
+            print(
+                f"📥 Downloading {file_name}: {int(status.progress() * 100)}% complete"
+            )
 
 
 def main():

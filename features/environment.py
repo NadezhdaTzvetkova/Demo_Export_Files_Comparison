@@ -1,6 +1,7 @@
 # features/environment.py
-import subprocess
 import os
+import subprocess
+
 
 def before_all(context):
     """Hook to run before all tests start."""
@@ -13,13 +14,16 @@ def before_all(context):
         else:
             print("❌ Error downloading files.")
 
+
 def before_feature(context, feature):
     """Hook to run before each feature."""
     print(f"🚀 Starting feature: {feature.name}")
 
+
 def before_scenario(context, scenario):
     """Hook to run before each scenario."""
     print(f"📌 Starting scenario: {scenario.name}")
+
 
 def after_scenario(context, scenario):
     """Hook to run after each scenario."""
@@ -28,9 +32,11 @@ def after_scenario(context, scenario):
     else:
         print(f"✅ Scenario passed: {scenario.name}")
 
+
 def after_feature(context, feature):
     """Hook to run after each feature."""
     print(f"🏁 Completed feature: {feature.name}")
+
 
 def after_all(context):
     """Hook to run after all tests complete."""

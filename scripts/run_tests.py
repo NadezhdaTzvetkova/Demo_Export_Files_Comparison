@@ -1,25 +1,25 @@
 import os
-import sys
 import subprocess
+import sys
 
 
 def get_project_root():
     """Return the root directory of the project."""
-    return os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 
 def run_command(command):
     """Run a shell command and check for errors."""
     print(f"🛠️ Running command: {command}")
-    result = subprocess.run(command, shell=True, capture_output=True, text=True, cwd=get_project_root())
+    result = subprocess.run(
+        command, shell=True, capture_output=True, text=True, cwd=get_project_root()
+    )
 
     if result.returncode != 0:
-        print(f"❌ Command failed: {command}")
-        print(f"Error output:\n{result.stderr}")
+        print(f"❌ Command failed: {command}\nError output:\n{result.stderr}")
         sys.exit(result.returncode)
     else:
-        print(f"✅ Command succeeded: {command}")
-        print(f"Output:\n{result.stdout}")
+        print(f"✅ Command succeeded: {command}\nOutput:\n{result.stdout}")
 
 
 # Define available test suites based on provided tags
@@ -113,7 +113,7 @@ TEST_SUITES = {
     "column_order": "--tags=column_order",
     "column_order_check": "--tags=column_order_check",
     "trailing_spaces": "--tags=trailing_spaces",
-    "trailing_spaces_check": "--tags=trailing_spaces_check"
+    "trailing_spaces_check": "--tags=trailing_spaces_check",
 }
 
 
@@ -126,11 +126,16 @@ def run_tests(suite):
     print(f"🚀 Running test suite: {suite}")
 
     # Run Behave with the selected suite
-    behave_cmd = f"behave {TEST_SUITES[suite]} --format=allure_behave.formatter:AllureFormatter -o reports/allure_results"
+    behave_cmd = (
+        "behave {tags} --format=allure_behave.formatter:AllureFormatter "
+        "-o reports/allure_results".format(tags=TEST_SUITES[suite])
+    )
     run_command(behave_cmd)
 
     print("📊 Generating Allure report...")
-    run_command("allure generate reports/allure_results -o reports/allure_report --clean")
+    run_command(
+        "allure generate reports/allure_results -o reports/allure_report --clean"
+    )
 
     print("✅ Test execution completed! To view the report, run:")
     print("🔍 allure open reports/allure_report")
