@@ -1,5 +1,4 @@
 import os
-import re
 
 def get_feature_files_directory():
     """Automatically detect the project's feature files directory."""
