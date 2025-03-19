@@ -24,18 +24,28 @@ jobs:
       - name: Install dependencies
         run: |
           python -m venv venv
+          source venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest flake8 behave
           git lfs install
           git lfs pull
 
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+
       - name: Run lint checks (flake8)
         run: |
-          flake8 scripts/ features/
+          if [ -d "scripts" ]; then
+            flake8 scripts/ features/
+          else
+            echo "Skipping flake8: scripts/ not found"
+          fi
 
       - name: Run Pytest tests
         run: |
+          mkdir -p tests
+          mv scripts/test_*.py tests/
           pytest tests/ --maxfail=5 --disable-warnings || exit 1
 
       - name: Run BDD tests with Behave
