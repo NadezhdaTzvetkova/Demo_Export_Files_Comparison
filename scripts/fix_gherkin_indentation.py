@@ -1,4 +1,5 @@
 import os
+import re
 
 
 def get_feature_files_directory():
@@ -12,17 +13,52 @@ def get_feature_files_directory():
     return feature_files_dir
 
 
+def validate_table_format(table_lines):
+    """Validate and fix formatting issues in Gherkin Examples tables."""
+    fixed_lines = []
+    max_columns = 0
+
+    for line in table_lines:
+        # Remove spaces between values instead of pipes
+        line = re.sub(r"\s+\|\s+", "|", line.strip())
+
+        # Ensure the row starts and ends with a "|"
+        if not line.startswith("|"):
+            line = "|" + line
+        if not line.endswith("|"):
+            line = line + "|"
+
+        # Count the number of columns in the row
+        column_count = line.count("|") - 1  # Subtract 1 to get actual columns
+        max_columns = max(max_columns, column_count)
+        fixed_lines.append(line)
+
+    # Ensure all rows have the same number of columns
+    for i, line in enumerate(fixed_lines):
+        current_columns = line.count("|") - 1
+        if current_columns < max_columns:
+            missing_pipes = max_columns - current_columns
+            fixed_lines[i] = line[:-1] + " |" * missing_pipes + "|"
+
+    return fixed_lines
+
 
 def fix_gherkin_indentation(file_path):
-    """Fix indentation, ensure a blank line before Scenario, Scenario Outline, and after Examples:."""
+    """Fix indentation, ensure spacing rules, and remove unsupported elements."""
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
     formatted_lines = []
     previous_was_blank = False
+    inside_examples = False
+    table_lines = []
 
     for line in lines:
         stripped = line.strip()
+
+        # Remove "---" separators (Behave does not support them)
+        if stripped == "---":
+            continue
 
         # Remove excessive blank lines
         if not stripped:
@@ -59,10 +95,24 @@ def fix_gherkin_indentation(file_path):
 
         # Ensure a blank line after Examples:
         if stripped.startswith("Examples:"):
+            if formatted_lines and formatted_lines[-1] != "":
+                formatted_lines.append("")  # Ensure a blank line before Examples
             formatted_lines.append(stripped)
             formatted_lines.append("")  # Ensure a blank line after Examples:
+            inside_examples = True
+            table_lines = []  # Reset table content tracking
             previous_was_blank = True
             continue
+
+        # Process table lines inside Examples
+        if inside_examples and stripped.startswith("|"):
+            table_lines.append(stripped)
+            continue
+
+        # If leaving Examples, process the table and append it
+        if inside_examples and not stripped.startswith("|"):
+            formatted_lines.extend(validate_table_format(table_lines))
+            inside_examples = False  # Exit table processing
 
         # Given, When, Then → Indented by 1 tab
         if stripped.startswith(("Given", "When", "Then")):
@@ -82,13 +132,16 @@ def fix_gherkin_indentation(file_path):
 
         previous_was_blank = False  # Reset blank line tracker
 
+    # Ensure the last table is processed
+    if inside_examples:
+        formatted_lines.extend(validate_table_format(table_lines))
+
     # Ensure the file ends with a single newline
     if formatted_lines[-1] != "":
         formatted_lines.append("")
 
     with open(file_path, "w", encoding="utf-8") as file:
         file.write("\n".join(formatted_lines))
-
 
 
 def process_feature_files(directory):
