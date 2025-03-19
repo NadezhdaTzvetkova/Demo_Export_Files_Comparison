@@ -23,27 +23,22 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m venv .venv
-          source .venv/bin/activate
+          python -m venv venv
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest  # Ensure pytest is installed
+          pip install pytest flake8 behave
           git lfs install
           git lfs pull
 
       - name: Run lint checks (flake8)
         run: |
-          source .venv/bin/activate
-          pip install flake8
           flake8 scripts/ features/
 
       - name: Run Pytest tests
         run: |
-          source .venv/bin/activate
-          pytest --maxfail=5 --disable-warnings
+          pytest tests/ --maxfail=5 --disable-warnings || exit 1
 
       - name: Run BDD tests with Behave
         run: |
-          source .venv/bin/activate
           behave --tags=regression_tests
           behave --tags=performance_tests
