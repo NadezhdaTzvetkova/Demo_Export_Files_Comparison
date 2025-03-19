@@ -1,0 +1,33 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+behave = "==1.2.6"
+chardet = "==5.2.0"
+et-xmlfile = "==2.0.0"
+git-lfs = "==1.6"
+iniconfig = "==2.0.0"
+numpy = "==2.2.4"
+openpyxl = "==3.1.5"
+packaging = "==24.2"
+pandas = "==2.2.3"
+parse = "==1.20.2"
+parse-type = "==0.6.4"
+pluggy = "==1.5.0"
+pyarrow = "==19.0.1"
+pytest = "==8.3.5"
+python-dateutil = "==2.9.0.post0"
+pytz = "==2025.1"
+six = "==1.17.0"
+tzdata = "==2025.1"
+xlrd = "==2.0.1"
+google-api-python-client = "==2.92.0"
+google-auth-oauthlib = "==1.0.0"
+tqdm = "==4.66.1"
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"
