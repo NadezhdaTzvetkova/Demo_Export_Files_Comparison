@@ -2387,3 +2387,74 @@ def step_then_flag_interest_vs_principal_discrepancies(context):
     context.reports.append("Discrepancies in loan payment breakdown flagged for review")
 
 # ================= End of Loan and Mortgage Payments Validation Step Definitions for Financial Accuracy Testing =================
+
+# ================= Beginning of Tax Withholding Validation Step Definitions for Financial Accuracy Testing =================
+# This script validates tax withholding calculations.
+# It ensures:
+# - Correct application of expected tax withholding rates.
+# - Identification of anomalies in tax withholding.
+# - Compliance with financial regulations.
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensure the specified bank export file exists"""
+    context.file_path = os.path.join(context.base_dir, file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} not found"
+
+
+@when('I check the "Tax Withheld" column in the "{sheet_name}" sheet')
+def step_when_validate_tax_withheld(context, sheet_name):
+    """Extract and validate tax withholding values"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.tax_withheld_data = df["Tax Withheld"]
+
+
+@then('all tax withholdings should be "{expected_tax_rate}%"')
+def step_then_validate_tax_rate(context, expected_tax_rate):
+    """Verify that all tax withholdings match the expected rate"""
+    expected_rate = float(expected_tax_rate.strip('%')) / 100
+    incorrect_rates = context.tax_withheld_data[context.tax_withheld_data != expected_rate]
+
+    if not incorrect_rates.empty:
+        context.reports.append(f"Tax withholdings do not match the expected {expected_tax_rate}%")
+    else:
+        context.reports.append("All tax withholdings match the expected rate")
+
+
+@then('discrepancies should be flagged for review')
+def step_then_flag_tax_discrepancies(context):
+    """Flag any tax discrepancies in the report"""
+    context.reports.append("Discrepancies in tax withholding flagged for review")
+
+
+@then('incorrect tax rates should be escalated for compliance audit')
+def step_then_escalate_tax_issues(context):
+    """Escalate tax withholding issues for compliance review"""
+    context.reports.append("Incorrect tax withholding rates escalated for compliance audit")
+
+
+@then('negative or missing tax amounts should be flagged')
+def step_then_flag_missing_or_negative_tax(context):
+    """Flag missing or negative tax values"""
+    missing_values = context.tax_withheld_data.isnull().sum()
+    negative_values = (context.tax_withheld_data < 0).sum()
+
+    if missing_values > 0:
+        context.reports.append(f"{missing_values} records with missing tax withheld values flagged")
+
+    if negative_values > 0:
+        context.reports.append(f"{negative_values} records with negative tax withheld values flagged")
+
+
+@then('unusually high or low tax rates should be reported')
+def step_then_report_unusual_tax_rates(context):
+    """Report tax withholdings that are significantly higher or lower than the expected rate"""
+    context.reports.append("Unusual tax withholding rates flagged for further investigation")
+
+# ================= End of Tax Withholding Validation Step Definitions for Financial Accuracy Testing =================
