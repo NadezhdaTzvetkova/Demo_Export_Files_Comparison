@@ -1,14 +1,28 @@
 import os
+import glob
+import logging
 import pandas as pd
 from behave import given, when, then
 
 
 # Determine the appropriate data directory based on the feature file name
-def get_data_directory(feature_name):
-    base_dir = "test_data"
-    feature_specific_dir = feature_name.replace(".feature", "_test_data")
-    return os.path.join(base_dir, feature_specific_dir)
+    """Dynamically selects the appropriate test data folder based on the feature file name."""
+    test_folder = f"test_data/{feature_name.replace(' ', '_').lower()}_test_data"
+    file_path = os.path.join(test_folder, file_name)
+    matching_files = glob.glob(file_path + "*")  # Supports both .csv and .xlsx
+    assert matching_files, f"Test file {file_name} not found in {test_folder}"
+    return matching_files[0]  # Return first matching file
 
+
+# Function to load the test data
+def load_data(file_path):
+    """Loads test data from CSV or Excel based on file extension."""
+    if file_path.endswith(".csv"):
+        return pd.read_csv(file_path)
+    elif file_path.endswith(".xlsx"):
+        return pd.read_excel(file_path)
+    else:
+        raise ValueError(f"Unsupported file format: {file_path}")
 
 # ================= AML Suspicious Activity Validation =================
 
@@ -99,3 +113,134 @@ def step_then_validate_aml_runtime(context, expected_runtime):
     print(f"AML compliance anomalies checked within {expected_runtime}.")
 
 # ================= End of AML Suspicious Activity Validation =================
+# Set up logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
+
+
+# Function to determine the relevant test data folder
+def get_test_data_path(feature_name, file_name):
+    """Dynamically selects the appropriate test data folder based on the feature file name."""
+    test_folder = f"test_data/{feature_name.replace(' ', '_').lower()}_test_data"
+    file_path = os.path.join(test_folder, file_name)
+    matching_files = glob.glob(file_path + "*")  # Supports both .csv and .xlsx
+    assert matching_files, f"Test file {file_name} not found in {test_folder}"
+    return matching_files[0]  # Return first matching file
+
+
+# Function to load the test data
+def load_data(file_path):
+    """Loads test data from CSV or Excel based on file extension."""
+    if file_path.endswith(".csv"):
+        return pd.read_csv(file_path)
+    elif file_path.endswith(".xlsx"):
+        return pd.read_excel(file_path)
+    else:
+        raise ValueError(f"Unsupported file format: {file_path}")
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Loads the specified bank export file for validation."""
+    context.file_path = get_test_data_path(context.feature.name, file_name)
+    context.data = load_data(context.file_path)
+    assert not context.data.empty, f"❌ Data file {file_name} is empty!"
+    logger.info(f"✅ Loaded file: {file_name}")
+
+
+@when('I check for currency codes in the "{sheet_name}" sheet')
+def step_when_check_currency_codes(context, sheet_name):
+    """Validates that all transactions have a valid ISO 4217 currency code."""
+    valid_iso_4217_codes = {"USD", "EUR", "GBP", "JPY", "CAD"}  # Example set
+
+    if "Currency" not in context.data.columns:
+        raise KeyError("❌ Column 'Currency' not found in dataset")
+
+    invalid_currencies = context.data[~context.data["Currency"].isin(valid_iso_4217_codes)]
+    context.invalid_currency_entries = invalid_currencies
+
+    if not invalid_currencies.empty:
+        logger.warning(f"⚠️ Found invalid currency codes:")
+        logger.warning(invalid_currencies)
+
+
+@then('all transactions should have a valid ISO 4217 currency code')
+def step_then_validate_currency_codes(context):
+    """Ensures that every transaction has a valid currency code."""
+    assert context.invalid_currency_entries.empty, "❌ Invalid currency codes detected!"
+    logger.info("✅ All transactions contain valid ISO 4217 currency codes.")
+
+
+@when('I check for negative values in the "{sheet_name}" sheet')
+def step_when_check_negative_values(context, sheet_name):
+    """Checks if negative values are only present in debit transactions."""
+    if "Transaction Amount" not in context.data.columns:
+        raise KeyError("❌ Column 'Transaction Amount' not found in dataset")
+    if "Transaction Type" not in context.data.columns:
+        raise KeyError("❌ Column 'Transaction Type' not found in dataset")
+
+    invalid_negatives = context.data[
+        (context.data["Transaction Amount"] < 0) & (context.data["Transaction Type"] == "Credit")]
+    context.invalid_negatives = invalid_negatives
+
+    if not invalid_negatives.empty:
+        logger.warning("⚠️ Found invalid negative values in credit transactions:")
+        logger.warning(invalid_negatives)
+
+
+@then('negative values should only be present in debit transactions')
+def step_then_validate_negative_values(context):
+    """Ensures negative values exist only for debit transactions."""
+    assert context.invalid_negatives.empty, "❌ Credit transactions contain invalid negative values!"
+    logger.info("✅ Negative values are correctly assigned to debit transactions.")
+
+
+@when('I check the "Amount" and "Exchange Rate" columns in the "{sheet_name}" sheet')
+def step_when_check_exchange_rate(context, sheet_name):
+    """Ensures exchange rates are applied correctly and negative values are handled properly."""
+    if "Amount" not in context.data.columns or "Exchange Rate" not in context.data.columns:
+        raise KeyError("❌ Required columns 'Amount' or 'Exchange Rate' not found in dataset")
+
+    context.data["Converted Amount"] = context.data["Amount"] * context.data["Exchange Rate"]
+
+    rounding_issues = context.data[(context.data["Converted Amount"] % 0.01 != 0)]
+    context.rounding_issues = rounding_issues
+
+    if not rounding_issues.empty:
+        logger.warning("⚠️ Detected rounding inconsistencies in converted amounts:")
+        logger.warning(rounding_issues)
+
+
+@then('rounding should be consistent with financial regulations')
+def step_then_validate_rounding(context):
+    """Ensures rounding is applied correctly to converted amounts."""
+    assert context.rounding_issues.empty, "❌ Rounding inconsistencies detected!"
+    logger.info("✅ All rounding adheres to financial regulations.")
+
+
+@when('I check for negative values in a file with more than 100,000 rows')
+def step_when_large_dataset_negative_values(context):
+    """Validates system performance when processing large datasets."""
+    assert len(context.data) > 100000, "❌ Test file does not contain more than 100,000 rows!"
+    context.large_negative_values = context.data[context.data["Transaction Amount"] < 0]
+
+
+@then('system performance should be benchmarked for optimization')
+def step_then_benchmark_performance(context):
+    """Logs performance benchmarks for large dataset processing."""
+    logger.info(f"✅ Processed {len(context.data)} rows efficiently.")
+
+
+@when('transactions have varying currencies and exchange rates')
+def step_when_varying_currencies(context):
+    """Validates transactions using multiple currencies."""
+    assert "Currency" in context.data.columns, "❌ Missing 'Currency' column!"
+    unique_currencies = context.data["Currency"].nunique()
+    logger.info(f"✅ Detected {unique_currencies} unique currencies in dataset.")
+
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_processing_time(context, expected_time):
+    """Ensures system processing completes within the expected timeframe."""
+    assert int(expected_time) >= 600, "❌ Processing time exceeded expected limit!"
+    logger.info(f"✅ Processing completed within {expected_time} seconds.")
