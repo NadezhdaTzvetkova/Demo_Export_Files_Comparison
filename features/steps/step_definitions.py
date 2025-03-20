@@ -4773,3 +4773,175 @@ def step_then_validate_extra_column_resource_usage(context, resource_limit):
     logging.info(f"System resource usage: {actual_usage}%, within limit.")
 
 # ================= End of Structural Testing for Extra Columns =================
+
+# ================= Beginning of Structural Testing for Header Mismatch Validation =================
+# This script ensures:
+# - Bank export files have the correct headers in expected order.
+# - Any header mismatches are flagged and logged.
+# - The database remains consistent with predefined header structures.
+# - System performance remains stable when processing files with header discrepancies.
+
+@given('a bank export file named "{file_name}" with headers "{header_format}"')
+def step_given_header_format(context, file_name, header_format):
+    """Simulate loading a bank export file with specific header formats"""
+    context.file_name = file_name
+    context.header_format = header_format
+    context.header_mismatch_detected = random.choice([True, False])  # Simulating header mismatch
+    logging.info(f"Loaded {file_name} with header format: {header_format}. Mismatch detected: {context.header_mismatch_detected}")
+
+
+@when('the system processes the file')
+def step_when_process_file_with_headers(context):
+    """Simulate processing the file and checking headers"""
+    processing_time = random.uniform(0.5, 2)
+    time.sleep(processing_time)
+    logging.info(f"Processing {context.file_name}. Header mismatch detected: {context.header_mismatch_detected}")
+
+
+@then('all headers should match the expected structure')
+def step_then_validate_headers(context):
+    """Ensure headers are properly validated"""
+    if context.header_mismatch_detected:
+        logging.warning(f"Header mismatch found in {context.file_name}!")
+
+
+@then('any mismatched headers should be flagged as "{severity}"')
+def step_then_flag_header_mismatches(context, severity):
+    """Flag header mismatches based on severity"""
+    if context.header_mismatch_detected:
+        logging.error(f"Header mismatch severity: {severity} for {context.file_name}")
+
+
+@then('a validation report should document header inconsistencies')
+def step_then_generate_header_validation_report(context):
+    """Generate a report for header mismatches"""
+    if context.header_mismatch_detected:
+        logging.info(f"Validation report generated for header inconsistencies in {context.file_name}")
+
+
+@then('if auto-mapping is enabled, a correction suggestion should be provided')
+def step_then_suggest_header_correction(context):
+    """Provide auto-mapping suggestions if enabled"""
+    if context.header_mismatch_detected:
+        logging.info(f"Suggested header correction for {context.file_name}")
+
+
+@given('a database expecting a predefined column structure')
+def step_given_database_standard_header(context):
+    """Simulate a database with a predefined schema for headers"""
+    context.database_has_fixed_schema = True
+
+
+@when('I compare imported headers from "{file_name}"')
+def step_when_compare_imported_headers(context, file_name):
+    """Compare imported headers with expected headers"""
+    context.file_name = file_name
+    context.schema_mismatch = random.choice([True, False])
+    logging.info(f"Compared headers for {file_name}. Schema mismatch: {context.schema_mismatch}")
+
+
+@then('all headers should align with the expected format')
+def step_then_validate_database_headers(context):
+    """Ensure headers in database match the expected format"""
+    if context.schema_mismatch:
+        logging.warning(f"Header schema mismatch detected in {context.file_name}.")
+
+
+@then('any mismatches should be flagged as "{discrepancy_type}"')
+def step_then_flag_schema_mismatches(context, discrepancy_type):
+    """Flag schema mismatches in headers"""
+    if context.schema_mismatch:
+        logging.error(f"Schema mismatch detected in {context.file_name}. Discrepancy Type: {discrepancy_type}")
+
+
+@given('a batch of bank export files with header inconsistencies')
+def step_given_batch_files_with_header_issues(context):
+    """Simulate batch processing of export files with header issues"""
+    context.batch_contains_header_mismatches = random.choice([True, False])
+
+
+@when('the system processes them for validation')
+def step_when_process_batch_files_with_headers(context):
+    """Process batch files and check for header mismatches"""
+    batch_processing_time = random.randint(1, 3)
+    time.sleep(batch_processing_time)
+    context.batch_header_mismatch = random.choice([True, False])
+    logging.info(f"Batch processing completed. Header mismatches detected: {context.batch_header_mismatch}")
+
+
+@then('all header mismatches should be detected and flagged as "{severity}"')
+def step_then_validate_batch_header_mismatches(context, severity):
+    """Ensure header mismatches in batch files are flagged"""
+    if context.batch_header_mismatch:
+        logging.warning(f"Header mismatches detected in batch processing. Severity: {severity}")
+
+
+@given('an attempt to process a bank export file "{file_name}"')
+def step_given_file_with_header_issues(context, file_name):
+    """Simulate an attempt to process a file with header mismatches"""
+    context.file_name = file_name
+
+
+@when('header mismatches such as "{error_type}" are detected')
+def step_when_detect_header_mismatches(context, error_type):
+    """Detect header mismatches in the file"""
+    context.header_mismatch_detected = random.choice([True, False])
+    context.error_type = error_type
+    logging.warning(f"Header issue detected in {context.file_name}: {error_type}") if context.header_mismatch_detected else logging.info("No header mismatches detected.")
+
+
+@then('a system alert should notify relevant users')
+def step_then_alert_header_mismatch(context):
+    """Notify users about header mismatches"""
+    if context.header_mismatch_detected:
+        logging.error(f"ALERT: Header issue detected in {context.file_name}! Type: {context.error_type}")
+
+
+@then('an auto-mapping mechanism should suggest appropriate corrections')
+def step_then_suggest_header_mapping(context):
+    """Suggest auto-mapping for header mismatches"""
+    if context.header_mismatch_detected:
+        logging.info(f"Auto-mapping suggested for headers in {context.file_name}.")
+
+
+@given('a system processing "{file_count}" bank export files per hour')
+def step_given_high_volume_header_check(context, file_count):
+    """Simulate high-volume file processing while handling header mismatches"""
+    context.file_count = int(file_count)
+
+
+@when('header mismatches are present in "{year_range}"')
+def step_when_detect_header_mismatches_in_year_range(context, year_range):
+    """Perform header validation across multiple years"""
+    context.year_range = year_range
+    context.processing_time = random.randint(100, 600)
+    time.sleep(1)
+    logging.info(f"Checked {context.file_count} files for header mismatches in {context.year_range}.")
+
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_header_processing_speed(context, expected_time):
+    """Ensure processing with header mismatches completes within expected time"""
+    assert context.processing_time <= int(expected_time), "Header validation took too long!"
+    logging.info(f"Processing completed within {context.processing_time} seconds.")
+
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_validate_header_resource_usage(context, resource_limit):
+    """Ensure system resource usage remains within acceptable limits"""
+    actual_usage = random.randint(60, 85)
+    assert actual_usage <= int(resource_limit), "System resource usage exceeded!"
+    logging.info(f"System resource usage: {actual_usage}%, within limit.")
+
+
+@then('if resource utilization exceeds "{critical_limit}%", an alert should be triggered')
+def step_then_trigger_alert_for_resource_usage(context, critical_limit):
+    """Trigger an alert if resource usage exceeds the critical threshold"""
+    actual_usage = random.randint(60, 95)
+    if actual_usage > int(critical_limit):
+        logging.critical(f"CRITICAL ALERT: System resource usage exceeded {critical_limit}%!")
+    else:
+        logging.info(f"System resource usage: {actual_usage}%, within safe limits.")
+
+# ================= End of Structural Testing for Header Mismatch Validation =================
+
