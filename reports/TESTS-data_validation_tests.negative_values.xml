@@ -1,0 +1,43 @@
+<testsuite name="data_validation_tests.negative_values.Validate handling of negative values in export files" tests="3" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.084040" hostname="Mac.localstaff"><testcase classname="data_validation_tests.negative_values.Validate handling of negative values in export files" name="Ensure &quot;transaction_amount&quot; handles negative values correctly in &quot;bank_export_negative_values_test.xlsx&quot; and &quot;bank_export_negative_values_test.csv&quot; -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @negative_values_check
+  Scenario Outline: Ensure "transaction_amount" handles negative values correctly in "bank_export_negative_values_test.xlsx" and "bank_export_negative_values_test.csv" -- @1.1 
+    Given I have a bank export file "bank_export_negative_values_test.xlsx" from the old system ... undefined in 0.000s
+    And I have a bank export file "bank_export_negative_values_test.csv" from the new system ... undefined in 0.000s
+    When I compare the "transaction_amount" column ... undefined in 0.000s
+    Then negative values should be processed correctly ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.negative_values.Validate handling of negative values in export files" name="Ensure &quot;account_balance&quot; handles negative values correctly in &quot;bank_export_negative_values_test.xlsx&quot; and &quot;bank_export_negative_values_test.csv&quot; -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @negative_values_check
+  Scenario Outline: Ensure "account_balance" handles negative values correctly in "bank_export_negative_values_test.xlsx" and "bank_export_negative_values_test.csv" -- @1.2 
+    Given I have a bank export file "bank_export_negative_values_test.xlsx" from the old system ... undefined in 0.000s
+    And I have a bank export file "bank_export_negative_values_test.csv" from the new system ... undefined in 0.000s
+    When I compare the "account_balance" column ... undefined in 0.000s
+    Then negative values should be processed correctly ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.negative_values.Validate handling of negative values in export files" name="Ensure &quot;overdraft_limit&quot; handles negative values correctly in &quot;bank_export_negative_values_test.xlsx&quot; and &quot;bank_export_negative_values_test.csv&quot; -- @1.3 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @negative_values_check
+  Scenario Outline: Ensure "overdraft_limit" handles negative values correctly in "bank_export_negative_values_test.xlsx" and "bank_export_negative_values_test.csv" -- @1.3 
+    Given I have a bank export file "bank_export_negative_values_test.xlsx" from the old system ... undefined in 0.000s
+    And I have a bank export file "bank_export_negative_values_test.csv" from the new system ... undefined in 0.000s
+    When I compare the "overdraft_limit" column ... undefined in 0.000s
+    Then negative values should be processed correctly ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

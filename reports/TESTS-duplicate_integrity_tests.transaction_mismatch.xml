@@ -1,0 +1,151 @@
+<testsuite name="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.115633" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Identify transactions with mismatched details -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @data_integrity @validation
+  Scenario Outline: Identify transactions with mismatched details -- @1.1 
+    Given a bank export file "bank_export_transaction_mismatch_test.csv" ... untested in 0.000s
+    When I compare the "Transaction ID", "Amount", and "Currency" columns in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with mismatched details should be flagged ... undefined in 0.000s
+    And flagged transactions should be reviewed for potential data entry errors ... undefined in 0.000s
+    And a report should be generated listing mismatches ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Identify transactions with mismatched details -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @data_integrity @validation
+  Scenario Outline: Identify transactions with mismatched details -- @1.2 
+    Given a bank export file "bank_export_transaction_mismatch_test.xlsx" ... untested in 0.000s
+    When I compare the "Transaction ID", "Amount", and "Currency" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with mismatched details should be flagged ... undefined in 0.000s
+    And flagged transactions should be reviewed for potential data entry errors ... undefined in 0.000s
+    And a report should be generated listing mismatches ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Detect transactions with mismatched dates -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @edge_case @date_inconsistency
+  Scenario Outline: Detect transactions with mismatched dates -- @1.1 
+    Given a bank export file "bank_export_transaction_mismatch_date_conflict.csv" ... untested in 0.000s
+    When I check the "Transaction ID" and "Date" columns in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with conflicting dates should be flagged ... undefined in 0.000s
+    And transactions with future-dated timestamps should trigger an alert ... undefined in 0.000s
+    And flagged records should be manually reviewed for correction ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Detect transactions with mismatched dates -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @edge_case @date_inconsistency
+  Scenario Outline: Detect transactions with mismatched dates -- @1.2 
+    Given a bank export file "bank_export_transaction_mismatch_date_conflict.xlsx" ... untested in 0.000s
+    When I check the "Transaction ID" and "Date" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with conflicting dates should be flagged ... undefined in 0.000s
+    And transactions with future-dated timestamps should trigger an alert ... undefined in 0.000s
+    And flagged records should be manually reviewed for correction ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Identify transactions with inconsistent amounts -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @data_quality @amount_variance
+  Scenario Outline: Identify transactions with inconsistent amounts -- @1.1 
+    Given a bank export file "bank_export_transaction_mismatch_amount_variance.csv" ... untested in 0.000s
+    When I compare the "Transaction ID" and "Amount" columns in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with different amounts in multiple records should be flagged ... undefined in 0.000s
+    And a system alert should be generated for financial reconciliation ... undefined in 0.000s
+    And flagged transactions should be reviewed for possible fraud ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Identify transactions with inconsistent amounts -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @data_quality @amount_variance
+  Scenario Outline: Identify transactions with inconsistent amounts -- @1.2 
+    Given a bank export file "bank_export_transaction_mismatch_amount_variance.xlsx" ... untested in 0.000s
+    When I compare the "Transaction ID" and "Amount" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with different amounts in multiple records should be flagged ... undefined in 0.000s
+    And a system alert should be generated for financial reconciliation ... undefined in 0.000s
+    And flagged transactions should be reviewed for possible fraud ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Validate transaction mismatch detection in large datasets -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @edge_case @large_files @performance
+  Scenario Outline: Validate transaction mismatch detection in large datasets -- @1.1 
+    Given a bank export file "bank_export_large_file_transaction_mismatch.csv" ... untested in 0.000s
+    When I check for transaction mismatches in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all mismatched transactions should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And flagged transaction mismatches should be logged for auditing ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Validate transaction mismatch detection in large datasets -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @edge_case @large_files @performance
+  Scenario Outline: Validate transaction mismatch detection in large datasets -- @1.2 
+    Given a bank export file "bank_export_large_file_transaction_mismatch.xlsx" ... untested in 0.000s
+    When I check for transaction mismatches in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all mismatched transactions should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And flagged transaction mismatches should be logged for auditing ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Detect transaction mismatches linked to fraudulent activities -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @high_risk @fraud_detection
+  Scenario Outline: Detect transaction mismatches linked to fraudulent activities -- @1.1 
+    Given a bank export file "bank_export_high_risk_transaction_mismatch.csv" ... untested in 0.000s
+    When I check for transaction mismatches in high-risk transactions in the "N/A" sheet ... undefined in 0.000s
+    Then mismatched transactions linked to fraudulent activities should be flagged ... undefined in 0.000s
+    And flagged cases should trigger an alert for compliance review ... undefined in 0.000s
+    And an escalation report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Detect transaction mismatches linked to fraudulent activities -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @transaction_mismatch @high_risk @fraud_detection
+  Scenario Outline: Detect transaction mismatches linked to fraudulent activities -- @1.2 
+    Given a bank export file "bank_export_high_risk_transaction_mismatch.xlsx" ... untested in 0.000s
+    When I check for transaction mismatches in high-risk transactions in the "Sheet1" sheet ... undefined in 0.000s
+    Then mismatched transactions linked to fraudulent activities should be flagged ... undefined in 0.000s
+    And flagged cases should trigger an alert for compliance review ... undefined in 0.000s
+    And an escalation report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

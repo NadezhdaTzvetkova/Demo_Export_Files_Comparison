@@ -1,0 +1,275 @@
+<testsuite name="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" tests="19" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.047395" hostname="Mac.localstaff"><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Ensure all monetary values follow correct decimal precision -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @format_check
+  Scenario Outline: Ensure all monetary values follow correct decimal precision -- @1.1 
+    Given a bank export file "bank_export_baseline_test.csv" ... untested in 0.000s
+    When I check the "Amount" column in the "N/A" sheet ... undefined in 0.000s
+    Then all monetary values should have exactly "2" decimal places ... undefined in 0.000s
+    And values should not contain more than "2" decimal places ... undefined in 0.000s
+    And rounding inconsistencies should be flagged ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Ensure all monetary values follow correct decimal precision -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @format_check
+  Scenario Outline: Ensure all monetary values follow correct decimal precision -- @1.2 
+    Given a bank export file "bank_export_baseline_test.xlsx" ... untested in 0.000s
+    When I check the "Amount" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then all monetary values should have exactly "2" decimal places ... undefined in 0.000s
+    And values should not contain more than "2" decimal places ... undefined in 0.000s
+    And rounding inconsistencies should be flagged ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Detect incorrect decimal precision values -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @rounding_errors @edge_case
+  Scenario Outline: Detect incorrect decimal precision values -- @1.1 
+    Given a bank export file "bank_export_decimal_precision_test.csv" ... untested in 0.000s
+    When I check the "Amount" column in the "N/A" sheet ... undefined in 0.000s
+    Then values with more than "2" decimal places should be flagged ... undefined in 0.000s
+    And rounding errors should be logged with suggested corrections ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Detect incorrect decimal precision values -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @rounding_errors @edge_case
+  Scenario Outline: Detect incorrect decimal precision values -- @1.2 
+    Given a bank export file "bank_export_decimal_precision_test.xlsx" ... untested in 0.000s
+    When I check the "Amount" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then values with more than "2" decimal places should be flagged ... undefined in 0.000s
+    And rounding errors should be logged with suggested corrections ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Ensure large transactions maintain correct decimal precision -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @large_transactions @financial_compliance
+  Scenario Outline: Ensure large transactions maintain correct decimal precision -- @1.1 
+    Given a bank export file "bank_export_large_transactions_test.csv" ... untested in 0.000s
+    When I check the "Amount" column in the "N/A" sheet ... undefined in 0.000s
+    Then large transactions above "1,000,000" should have correctly formatted decimal precision ... undefined in 0.000s
+    And any rounding discrepancies should be reported ... undefined in 0.000s
+    And scientific notation should not be used ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Ensure large transactions maintain correct decimal precision -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @large_transactions @financial_compliance
+  Scenario Outline: Ensure large transactions maintain correct decimal precision -- @1.2 
+    Given a bank export file "bank_export_large_transactions_test.xlsx" ... untested in 0.000s
+    When I check the "Amount" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then large transactions above "1,000,000" should have correctly formatted decimal precision ... undefined in 0.000s
+    And any rounding discrepancies should be reported ... undefined in 0.000s
+    And scientific notation should not be used ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Ensure decimal precision is maintained for negative transactions -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @negative_values @data_integrity
+  Scenario Outline: Ensure decimal precision is maintained for negative transactions -- @1.1 
+    Given a bank export file "bank_export_negative_values_test.csv" ... untested in 0.000s
+    When I check the "Amount" column in the "N/A" sheet ... undefined in 0.000s
+    Then negative values should have consistent decimal precision ... undefined in 0.000s
+    And any discrepancies in negative amounts should be flagged ... undefined in 0.000s
+    And transactions marked as refunds should retain precision without rounding issues ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Ensure decimal precision is maintained for negative transactions -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @negative_values @data_integrity
+  Scenario Outline: Ensure decimal precision is maintained for negative transactions -- @1.2 
+    Given a bank export file "bank_export_negative_values_test.xlsx" ... untested in 0.000s
+    When I check the "Amount" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then negative values should have consistent decimal precision ... undefined in 0.000s
+    And any discrepancies in negative amounts should be flagged ... undefined in 0.000s
+    And transactions marked as refunds should retain precision without rounding issues ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Validate decimal precision for foreign currency conversions -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @currency_conversion @exchange_rate_validation
+  Scenario Outline: Validate decimal precision for foreign currency conversions -- @1.1 
+    Given a bank export file "bank_export_foreign_transactions_test.csv" ... untested in 0.000s
+    When I check the "Amount" and "Exchange Rate" columns in the "N/A" sheet ... undefined in 0.000s
+    Then converted values should maintain accurate decimal precision as per "ISO 4217" ... undefined in 0.000s
+    And rounding should be consistent with financial regulations ... undefined in 0.000s
+    And discrepancies should be logged for review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Validate decimal precision for foreign currency conversions -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @currency_conversion @exchange_rate_validation
+  Scenario Outline: Validate decimal precision for foreign currency conversions -- @1.2 
+    Given a bank export file "bank_export_foreign_transactions_test.xlsx" ... untested in 0.000s
+    When I check the "Amount" and "Exchange Rate" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then converted values should maintain accurate decimal precision as per "ISO 4217" ... undefined in 0.000s
+    And rounding should be consistent with financial regulations ... undefined in 0.000s
+    And discrepancies should be logged for review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Validate different decimal precision rules for multiple currencies -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @multi_currency @locale_check
+  Scenario Outline: Validate different decimal precision rules for multiple currencies -- @1.1 
+    Given a bank export file "bank_export_mixed_currency_test.csv" ... untested in 0.000s
+    When I check monetary values in "USD" transactions ... undefined in 0.000s
+    Then decimal precision should match the expected standard "2" ... undefined in 0.000s
+    And transactions should be converted correctly based on their regional standards ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Validate different decimal precision rules for multiple currencies -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @multi_currency @locale_check
+  Scenario Outline: Validate different decimal precision rules for multiple currencies -- @1.2 
+    Given a bank export file "bank_export_mixed_currency_test.xlsx" ... untested in 0.000s
+    When I check monetary values in "JPY" transactions ... undefined in 0.000s
+    Then decimal precision should match the expected standard "0" ... undefined in 0.000s
+    And transactions should be converted correctly based on their regional standards ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Validate different decimal precision rules for multiple currencies -- @1.3 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @multi_currency @locale_check
+  Scenario Outline: Validate different decimal precision rules for multiple currencies -- @1.3 
+    Given a bank export file "bank_export_mixed_currency_test.xlsx" ... untested in 0.000s
+    When I check monetary values in "KWD" transactions ... undefined in 0.000s
+    Then decimal precision should match the expected standard "3" ... undefined in 0.000s
+    And transactions should be converted correctly based on their regional standards ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Assess system performance for decimal precision validation in high-volume transactions -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @high_volume_transactions @performance_testing
+  Scenario Outline: Assess system performance for decimal precision validation in high-volume transactions -- @1.1 
+    Given a system processing "1000" bank export files per hour ... undefined in 0.000s
+    When decimal validation is performed on "1,000,000" transactions ... undefined in 0.000s
+    Then processing should complete within "300" seconds ... undefined in 0.000s
+    And system resources should not exceed "75%" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Assess system performance for decimal precision validation in high-volume transactions -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @high_volume_transactions @performance_testing
+  Scenario Outline: Assess system performance for decimal precision validation in high-volume transactions -- @1.2 
+    Given a system processing "5000" bank export files per hour ... undefined in 0.000s
+    When decimal validation is performed on "5,000,000" transactions ... undefined in 0.000s
+    Then processing should complete within "600" seconds ... undefined in 0.000s
+    And system resources should not exceed "85%" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Validate decimal precision in regulatory financial reports -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @regulatory_compliance @financial_reporting
+  Scenario Outline: Validate decimal precision in regulatory financial reports -- @1.1 
+    Given a bank export file "bank_export_tax_filing_2023.csv" ... untested in 0.000s
+    When I check decimal precision in "Annual Tax Report" ... undefined in 0.000s
+    Then all monetary fields should adhere to "IRS Financial Guide" ... undefined in 0.000s
+    And discrepancies should be flagged for compliance review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Validate decimal precision in regulatory financial reports -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @regulatory_compliance @financial_reporting
+  Scenario Outline: Validate decimal precision in regulatory financial reports -- @1.2 
+    Given a bank export file "bank_export_financial_statement.xlsx" ... untested in 0.000s
+    When I check decimal precision in "Q2 Earnings Report" ... undefined in 0.000s
+    Then all monetary fields should adhere to "GAAP Accounting" ... undefined in 0.000s
+    And discrepancies should be flagged for compliance review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Detect corrupt or unreadable decimal values -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @corrupt_data_handling @edge_case
+  Scenario Outline: Detect corrupt or unreadable decimal values -- @1.1 
+    Given a bank export file "transactions_corrupt_decimals.csv" ... untested in 0.000s
+    When I check the "Amount" column for anomalies ... undefined in 0.000s
+    Then corrupted or unreadable decimal values should be flagged as "Encoding Error" ... undefined in 0.000s
+    And the file should be logged for manual review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.decimal_precision.Validate Decimal Precision Consistency in Exported Bank Files" name="Detect corrupt or unreadable decimal values -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @decimal_precision @corrupt_data_handling @edge_case
+  Scenario Outline: Detect corrupt or unreadable decimal values -- @1.2 
+    Given a bank export file "transactions_unreadable_amounts.xlsx" ... untested in 0.000s
+    When I check the "Amount" column for anomalies ... undefined in 0.000s
+    Then corrupted or unreadable decimal values should be flagged as "Parsing Failure" ... undefined in 0.000s
+    And the file should be logged for manual review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

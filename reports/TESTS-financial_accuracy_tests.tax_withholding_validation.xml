@@ -1,0 +1,59 @@
+<testsuite name="financial_accuracy_tests.tax_withholding_validation.Tax Withholding Validation" tests="4" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.163294" hostname="Mac.localstaff"><testcase classname="financial_accuracy_tests.tax_withholding_validation.Tax Withholding Validation" name="Ensure correct tax withholding percentage -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @tax_withholding @compliance
+  Scenario Outline: Ensure correct tax withholding percentage -- @1.1 
+    Given a bank export file "tax_withholding_standard_test.csv" ... untested in 0.000s
+    When I check the "Tax Withheld" column in the "N/A" sheet ... undefined in 0.000s
+    Then all tax withholdings should be "15.00%%" ... undefined in 0.000s
+    And discrepancies should be flagged for review ... undefined in 0.000s
+    And incorrect tax rates should be escalated for compliance audit ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="financial_accuracy_tests.tax_withholding_validation.Tax Withholding Validation" name="Ensure correct tax withholding percentage -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @tax_withholding @compliance
+  Scenario Outline: Ensure correct tax withholding percentage -- @1.2 
+    Given a bank export file "tax_withholding_standard_test.xlsx" ... untested in 0.000s
+    When I check the "Tax Withheld" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then all tax withholdings should be "15.00%%" ... undefined in 0.000s
+    And discrepancies should be flagged for review ... undefined in 0.000s
+    And incorrect tax rates should be escalated for compliance audit ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="financial_accuracy_tests.tax_withholding_validation.Tax Withholding Validation" name="Detect tax withholding anomalies -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @tax_compliance @edge_case
+  Scenario Outline: Detect tax withholding anomalies -- @1.1 
+    Given a bank export file "tax_withholding_anomalies_test.csv" ... untested in 0.000s
+    When I check the "Tax Withheld" column in the "N/A" sheet ... undefined in 0.000s
+    Then negative or missing tax amounts should be flagged ... undefined in 0.000s
+    And unusually high or low tax rates should be reported ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="financial_accuracy_tests.tax_withholding_validation.Tax Withholding Validation" name="Detect tax withholding anomalies -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @tax_compliance @edge_case
+  Scenario Outline: Detect tax withholding anomalies -- @1.2 
+    Given a bank export file "tax_withholding_anomalies_test.xlsx" ... untested in 0.000s
+    When I check the "Tax Withheld" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then negative or missing tax amounts should be flagged ... undefined in 0.000s
+    And unusually high or low tax rates should be reported ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

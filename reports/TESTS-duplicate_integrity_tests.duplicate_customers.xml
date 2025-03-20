@@ -1,0 +1,151 @@
+<testsuite name="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.100042" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Identify duplicate customer records in the database -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @data_integrity @customer_validation
+  Scenario Outline: Identify duplicate customer records in the database -- @1.1 
+    Given a bank export file "bank_export_duplicate_customers_test.csv" ... untested in 0.000s
+    When I check the "Customer ID" column in the "N/A" sheet ... undefined in 0.000s
+    Then duplicate customer records should be flagged ... undefined in 0.000s
+    And a report should be generated listing duplicate occurrences ... undefined in 0.000s
+    And duplicate customers should be marked for manual review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Identify duplicate customer records in the database -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @data_integrity @customer_validation
+  Scenario Outline: Identify duplicate customer records in the database -- @1.2 
+    Given a bank export file "bank_export_duplicate_customers_test.xlsx" ... untested in 0.000s
+    When I check the "Customer ID" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then duplicate customer records should be flagged ... undefined in 0.000s
+    And a report should be generated listing duplicate occurrences ... undefined in 0.000s
+    And duplicate customers should be marked for manual review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Detect duplicate customers with name variations -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @edge_case @name_variations
+  Scenario Outline: Detect duplicate customers with name variations -- @1.1 
+    Given a bank export file "bank_export_duplicate_customers_name_variations.csv" ... untested in 0.000s
+    When I check the "Customer Name" and "Customer ID" columns in the "N/A" sheet ... undefined in 0.000s
+    Then customer records with matching IDs but different names should be flagged ... undefined in 0.000s
+    And an audit trail should be created for potential fraud investigation ... undefined in 0.000s
+    And a suggestion should be generated for possible name standardization ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Detect duplicate customers with name variations -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @edge_case @name_variations
+  Scenario Outline: Detect duplicate customers with name variations -- @1.2 
+    Given a bank export file "bank_export_duplicate_customers_name_variations.xlsx" ... untested in 0.000s
+    When I check the "Customer Name" and "Customer ID" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then customer records with matching IDs but different names should be flagged ... undefined in 0.000s
+    And an audit trail should be created for potential fraud investigation ... undefined in 0.000s
+    And a suggestion should be generated for possible name standardization ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Identify duplicate customers with missing mandatory fields -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @data_quality @missing_values
+  Scenario Outline: Identify duplicate customers with missing mandatory fields -- @1.1 
+    Given a bank export file "bank_export_duplicate_customers_missing_fields.csv" ... untested in 0.000s
+    When I check the "Customer ID" and "Customer Name" columns in the "N/A" sheet ... undefined in 0.000s
+    Then duplicate customers with missing values should be flagged ... undefined in 0.000s
+    And incomplete records should be marked for manual review ... undefined in 0.000s
+    And an automated recommendation should be provided to correct missing values ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Identify duplicate customers with missing mandatory fields -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @data_quality @missing_values
+  Scenario Outline: Identify duplicate customers with missing mandatory fields -- @1.2 
+    Given a bank export file "bank_export_duplicate_customers_missing_fields.xlsx" ... untested in 0.000s
+    When I check the "Customer ID" and "Customer Name" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then duplicate customers with missing values should be flagged ... undefined in 0.000s
+    And incomplete records should be marked for manual review ... undefined in 0.000s
+    And an automated recommendation should be provided to correct missing values ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Validate duplicate customer detection in large datasets -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @edge_case @large_files @performance
+  Scenario Outline: Validate duplicate customer detection in large datasets -- @1.1 
+    Given a bank export file "bank_export_large_file_duplicate_customers.csv" ... untested in 0.000s
+    When I check for duplicate customers in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all duplicate occurrences should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And flagged duplicates should be logged for auditing ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Validate duplicate customer detection in large datasets -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @edge_case @large_files @performance
+  Scenario Outline: Validate duplicate customer detection in large datasets -- @1.2 
+    Given a bank export file "bank_export_large_file_duplicate_customers.xlsx" ... untested in 0.000s
+    When I check for duplicate customers in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all duplicate occurrences should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And flagged duplicates should be logged for auditing ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Detect duplicate customers linked to suspicious transactions -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @high_risk @fraud_detection
+  Scenario Outline: Detect duplicate customers linked to suspicious transactions -- @1.1 
+    Given a bank export file "bank_export_high_risk_duplicate_customers.csv" ... untested in 0.000s
+    When I check for duplicate customers in high-risk transactions in the "N/A" sheet ... undefined in 0.000s
+    Then duplicate customer records involved in fraudulent transactions should be flagged ... undefined in 0.000s
+    And flagged cases should trigger an alert for compliance review ... undefined in 0.000s
+    And an escalation report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.duplicate_customers.Detect Duplicate Customer Records in Export Files" name="Detect duplicate customers linked to suspicious transactions -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @duplicate_customers @high_risk @fraud_detection
+  Scenario Outline: Detect duplicate customers linked to suspicious transactions -- @1.2 
+    Given a bank export file "bank_export_high_risk_duplicate_customers.xlsx" ... untested in 0.000s
+    When I check for duplicate customers in high-risk transactions in the "Sheet1" sheet ... undefined in 0.000s
+    Then duplicate customer records involved in fraudulent transactions should be flagged ... undefined in 0.000s
+    And flagged cases should trigger an alert for compliance review ... undefined in 0.000s
+    And an escalation report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

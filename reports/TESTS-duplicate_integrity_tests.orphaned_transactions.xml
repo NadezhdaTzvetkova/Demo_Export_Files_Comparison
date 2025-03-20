@@ -1,0 +1,151 @@
+<testsuite name="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.112036" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Identify transactions without a linked account -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @data_integrity @transaction_validation
+  Scenario Outline: Identify transactions without a linked account -- @1.1 
+    Given a bank export file "bank_export_orphaned_transactions_test.csv" ... untested in 0.000s
+    When I check the "Transaction ID" and "Account Number" columns in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with missing or unlinked accounts should be flagged ... undefined in 0.000s
+    And an alert should be generated for data consistency review ... undefined in 0.000s
+    And flagged transactions should be escalated for manual verification ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Identify transactions without a linked account -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @data_integrity @transaction_validation
+  Scenario Outline: Identify transactions without a linked account -- @1.2 
+    Given a bank export file "bank_export_orphaned_transactions_test.xlsx" ... untested in 0.000s
+    When I check the "Transaction ID" and "Account Number" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with missing or unlinked accounts should be flagged ... undefined in 0.000s
+    And an alert should be generated for data consistency review ... undefined in 0.000s
+    And flagged transactions should be escalated for manual verification ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Detect transactions linked to non-existent accounts -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @edge_case @mislinked_accounts
+  Scenario Outline: Detect transactions linked to non-existent accounts -- @1.1 
+    Given a bank export file "bank_export_orphaned_transactions_mislinked.csv" ... untested in 0.000s
+    When I check the "Transaction ID" and "Account Number" columns in the "N/A" sheet ... undefined in 0.000s
+    Then transactions linked to accounts that do not exist in the database should be flagged ... undefined in 0.000s
+    And a reconciliation report should be generated ... undefined in 0.000s
+    And flagged cases should be escalated for correction ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Detect transactions linked to non-existent accounts -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @edge_case @mislinked_accounts
+  Scenario Outline: Detect transactions linked to non-existent accounts -- @1.2 
+    Given a bank export file "bank_export_orphaned_transactions_mislinked.xlsx" ... untested in 0.000s
+    When I check the "Transaction ID" and "Account Number" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions linked to accounts that do not exist in the database should be flagged ... undefined in 0.000s
+    And a reconciliation report should be generated ... undefined in 0.000s
+    And flagged cases should be escalated for correction ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Identify transactions with missing account holder names -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @data_quality @missing_account_names
+  Scenario Outline: Identify transactions with missing account holder names -- @1.1 
+    Given a bank export file "bank_export_orphaned_transactions_missing_names.csv" ... untested in 0.000s
+    When I check the "Transaction ID" and "Account Holder Name" columns in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with missing account holder names should be flagged ... undefined in 0.000s
+    And incomplete records should be marked for manual review ... undefined in 0.000s
+    And an automated recommendation should be provided to correct missing values ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Identify transactions with missing account holder names -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @data_quality @missing_account_names
+  Scenario Outline: Identify transactions with missing account holder names -- @1.2 
+    Given a bank export file "bank_export_orphaned_transactions_missing_names.xlsx" ... untested in 0.000s
+    When I check the "Transaction ID" and "Account Holder Name" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with missing account holder names should be flagged ... undefined in 0.000s
+    And incomplete records should be marked for manual review ... undefined in 0.000s
+    And an automated recommendation should be provided to correct missing values ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Validate orphaned transaction detection in large datasets -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @edge_case @large_files @performance
+  Scenario Outline: Validate orphaned transaction detection in large datasets -- @1.1 
+    Given a bank export file "bank_export_large_file_orphaned_transactions.csv" ... untested in 0.000s
+    When I check for orphaned transactions in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all orphaned occurrences should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And flagged orphaned transactions should be logged for auditing ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Validate orphaned transaction detection in large datasets -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @edge_case @large_files @performance
+  Scenario Outline: Validate orphaned transaction detection in large datasets -- @1.2 
+    Given a bank export file "bank_export_large_file_orphaned_transactions.xlsx" ... untested in 0.000s
+    When I check for orphaned transactions in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all orphaned occurrences should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And flagged orphaned transactions should be logged for auditing ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Detect orphaned transactions linked to suspicious activities -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @high_risk @fraud_detection
+  Scenario Outline: Detect orphaned transactions linked to suspicious activities -- @1.1 
+    Given a bank export file "bank_export_high_risk_orphaned_transactions.csv" ... untested in 0.000s
+    When I check for orphaned transactions in high-risk transactions in the "N/A" sheet ... undefined in 0.000s
+    Then orphaned transactions linked to fraudulent activities should be flagged ... undefined in 0.000s
+    And flagged cases should trigger an alert for compliance review ... undefined in 0.000s
+    And an escalation report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Detect orphaned transactions linked to suspicious activities -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @orphaned_transactions @high_risk @fraud_detection
+  Scenario Outline: Detect orphaned transactions linked to suspicious activities -- @1.2 
+    Given a bank export file "bank_export_high_risk_orphaned_transactions.xlsx" ... untested in 0.000s
+    When I check for orphaned transactions in high-risk transactions in the "Sheet1" sheet ... undefined in 0.000s
+    Then orphaned transactions linked to fraudulent activities should be flagged ... undefined in 0.000s
+    And flagged cases should trigger an alert for compliance review ... undefined in 0.000s
+    And an escalation report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

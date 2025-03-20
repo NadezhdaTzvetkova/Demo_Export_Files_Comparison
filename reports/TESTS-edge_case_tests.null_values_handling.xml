@@ -1,0 +1,221 @@
+<testsuite name="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" tests="14" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.138578" hostname="Mac.localstaff"><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Validate handling of empty export files -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @empty_files @validation
+  Scenario Outline: Validate handling of empty export files -- @1.1 
+    Given a bank export file "bank_export_empty_file.csv" ... untested in 0.000s
+    When I attempt to process the file ... undefined in 0.000s
+    Then the system should detect it as empty ... undefined in 0.000s
+    And an appropriate error message should be returned ... undefined in 0.000s
+    And the file should be excluded from processing ... undefined in 0.000s
+    And a system log entry should be recorded for tracking ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Validate handling of empty export files -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @empty_files @validation
+  Scenario Outline: Validate handling of empty export files -- @1.2 
+    Given a bank export file "bank_export_empty_file.xlsx" ... untested in 0.000s
+    When I attempt to process the file ... undefined in 0.000s
+    Then the system should detect it as empty ... undefined in 0.000s
+    And an appropriate error message should be returned ... undefined in 0.000s
+    And the file should be excluded from processing ... undefined in 0.000s
+    And a system log entry should be recorded for tracking ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Ensure system stability when processing multiple empty files -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @empty_files @error_handling
+  Scenario Outline: Ensure system stability when processing multiple empty files -- @1.1 
+    Given a batch of bank export files ... undefined in 0.000s
+      | file_name                    |
+      | bank_export_empty_file_1.csv |
+      | bank_export_empty_file_2.csv |
+      | bank_export_empty_file_3.csv |
+    When I attempt to process these files ... undefined in 0.000s
+    Then the system should continue processing non-empty files ... undefined in 0.000s
+    And an appropriate error should be logged for each empty file ... undefined in 0.000s
+    And system resources should remain stable ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Ensure system stability when processing multiple empty files -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @empty_files @error_handling
+  Scenario Outline: Ensure system stability when processing multiple empty files -- @1.2 
+    Given a batch of bank export files ... undefined in 0.000s
+      | file_name                     |
+      | bank_export_empty_file_1.xlsx |
+      | bank_export_empty_file_2.xlsx |
+      | bank_export_empty_file_3.xlsx |
+    When I attempt to process these files ... undefined in 0.000s
+    Then the system should continue processing non-empty files ... undefined in 0.000s
+    And an appropriate error should be logged for each empty file ... undefined in 0.000s
+    And system resources should remain stable ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Detect missing values in critical fields -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @data_validation
+  Scenario Outline: Detect missing values in critical fields -- @1.1 
+    Given a bank export file "bank_export_null_values.csv" ... untested in 0.000s
+    When I check the "Transaction Amount" column in the "N/A" sheet ... undefined in 0.000s
+    Then records with missing values should be flagged ... undefined in 0.000s
+    And a report should be generated listing the affected rows ... undefined in 0.000s
+    And a recommendation should be provided for data correction ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Detect missing values in critical fields -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @data_validation
+  Scenario Outline: Detect missing values in critical fields -- @1.2 
+    Given a bank export file "bank_export_null_values.xlsx" ... untested in 0.000s
+    When I check the "Account Holder Name" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then records with missing values should be flagged ... undefined in 0.000s
+    And a report should be generated listing the affected rows ... undefined in 0.000s
+    And a recommendation should be provided for data correction ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Ensure system stability when processing files with missing values -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @error_handling
+  Scenario Outline: Ensure system stability when processing files with missing values -- @1.1 
+    Given a bank export file "bank_export_null_values_transactions.csv" ... untested in 0.000s
+    When I attempt to process records with missing values in the "Transaction Date" column ... undefined in 0.000s
+    Then the system should continue processing valid records ... undefined in 0.000s
+    And invalid records should be flagged for manual review ... undefined in 0.000s
+    And an error log should be generated listing affected transactions ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Ensure system stability when processing files with missing values -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @error_handling
+  Scenario Outline: Ensure system stability when processing files with missing values -- @1.2 
+    Given a bank export file "bank_export_null_values_transactions.xlsx" ... untested in 0.000s
+    When I attempt to process records with missing values in the "Transaction Amount" column ... undefined in 0.000s
+    Then the system should continue processing valid records ... undefined in 0.000s
+    And invalid records should be flagged for manual review ... undefined in 0.000s
+    And an error log should be generated listing affected transactions ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Test system performance when handling large files with missing values -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @performance
+  Scenario Outline: Test system performance when handling large files with missing values -- @1.1 
+    Given a bank export file "bank_export_large_null_values.csv" ... untested in 0.000s
+    When I attempt to process a file with more than 100,000 rows and missing values ... undefined in 0.000s
+    Then the system should handle the data efficiently ... undefined in 0.000s
+    And processing time should be logged for benchmarking ... undefined in 0.000s
+    And flagged missing values should be included in the validation report ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Test system performance when handling large files with missing values -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @performance
+  Scenario Outline: Test system performance when handling large files with missing values -- @1.2 
+    Given a bank export file "bank_export_large_null_values.xlsx" ... untested in 0.000s
+    When I attempt to process a file with more than 100,000 rows and missing values ... undefined in 0.000s
+    Then the system should handle the data efficiently ... undefined in 0.000s
+    And processing time should be logged for benchmarking ... undefined in 0.000s
+    And flagged missing values should be included in the validation report ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Define acceptable thresholds for missing values -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @data_quality @threshold
+  Scenario Outline: Define acceptable thresholds for missing values -- @1.1 
+    Given a bank export file "bank_export_null_values_threshold.csv" ... untested in 0.000s
+    When I analyze the percentage of missing values in the "Transaction ID" column ... undefined in 0.000s
+    Then if missing values exceed "5%%", an alert should be generated ... undefined in 0.000s
+    And transactions above the threshold should be marked for review ... undefined in 0.000s
+    And corrective action should be recommended based on data quality standards ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Define acceptable thresholds for missing values -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @data_quality @threshold
+  Scenario Outline: Define acceptable thresholds for missing values -- @1.2 
+    Given a bank export file "bank_export_null_values_threshold.xlsx" ... untested in 0.000s
+    When I analyze the percentage of missing values in the "Account Number" column ... undefined in 0.000s
+    Then if missing values exceed "10%%", an alert should be generated ... undefined in 0.000s
+    And transactions above the threshold should be marked for review ... undefined in 0.000s
+    And corrective action should be recommended based on data quality standards ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Detect fraudulent patterns in missing value occurrences -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @fraud_detection
+  Scenario Outline: Detect fraudulent patterns in missing value occurrences -- @1.1 
+    Given a bank export file "bank_export_high_risk_null_values.csv" ... untested in 0.000s
+    When I check missing values in high-risk transaction fields in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with strategic missing data should be flagged as suspicious ... undefined in 0.000s
+    And flagged cases should trigger an alert for compliance review ... undefined in 0.000s
+    And a fraud report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="edge_case_tests.null_values_handling.Handle Edge Cases in Export Files" name="Detect fraudulent patterns in missing value occurrences -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @edge_cases @null_values @fraud_detection
+  Scenario Outline: Detect fraudulent patterns in missing value occurrences -- @1.2 
+    Given a bank export file "bank_export_high_risk_null_values.xlsx" ... untested in 0.000s
+    When I check missing values in high-risk transaction fields in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with strategic missing data should be flagged as suspicious ... undefined in 0.000s
+    And flagged cases should trigger an alert for compliance review ... undefined in 0.000s
+    And a fraud report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

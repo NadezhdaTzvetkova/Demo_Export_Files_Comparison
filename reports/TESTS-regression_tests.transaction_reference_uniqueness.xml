@@ -1,0 +1,149 @@
+<testsuite name="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.206594" hostname="Mac.localstaff"><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Ensure transaction references remain unique -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @data_integrity
+  Scenario Outline: Ensure transaction references remain unique -- @1.1 
+    Given a bank export file named "transactions_2022.csv" containing "1,000,000" transactions ... undefined in 0.000s
+    When the system processes the file ... undefined in 0.000s
+    Then each transaction should have a unique reference ID ... undefined in 0.000s
+    And duplicate transaction references should be flagged as "High" ... undefined in 0.000s
+    And a validation report should confirm uniqueness ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Ensure transaction references remain unique -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @data_integrity
+  Scenario Outline: Ensure transaction references remain unique -- @1.2 
+    Given a bank export file named "transactions_2023.xlsx" containing "5,000,000" transactions ... undefined in 0.000s
+    When the system processes the file ... undefined in 0.000s
+    Then each transaction should have a unique reference ID ... undefined in 0.000s
+    And duplicate transaction references should be flagged as "Medium" ... undefined in 0.000s
+    And a validation report should confirm uniqueness ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Validate database consistency for transaction references -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @database_consistency
+  Scenario Outline: Validate database consistency for transaction references -- @1.1 
+    Given a database containing transaction records from "2018 - 2022" ... undefined in 0.000s
+    When I check for duplicate transaction references ... undefined in 0.000s
+    Then no duplicate references should exist ... undefined in 0.000s
+    And any detected duplicates should be logged as "Duplicate Found" ... undefined in 0.000s
+    And alerts should be generated for critical violations ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Validate database consistency for transaction references -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @database_consistency
+  Scenario Outline: Validate database consistency for transaction references -- @1.2 
+    Given a database containing transaction records from "2023 - 2024" ... undefined in 0.000s
+    When I check for duplicate transaction references ... undefined in 0.000s
+    Then no duplicate references should exist ... undefined in 0.000s
+    And any detected duplicates should be logged as "Reference Mismatch" ... undefined in 0.000s
+    And alerts should be generated for critical violations ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Ensure batch processing maintains transaction reference uniqueness -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @batch_processing
+  Scenario Outline: Ensure batch processing maintains transaction reference uniqueness -- @1.1 
+    Given a batch of bank export files from "2018 - 2022" ... undefined in 0.000s
+    When I process them for validation ... undefined in 0.000s
+    Then all transactions should maintain unique references ... undefined in 0.000s
+    And any detected duplicate references should be flagged as "High" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Ensure batch processing maintains transaction reference uniqueness -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @batch_processing
+  Scenario Outline: Ensure batch processing maintains transaction reference uniqueness -- @1.2 
+    Given a batch of bank export files from "2023 - 2024" ... undefined in 0.000s
+    When I process them for validation ... undefined in 0.000s
+    Then all transactions should maintain unique references ... undefined in 0.000s
+    And any detected duplicate references should be flagged as "Medium" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Verify proper error handling for duplicate transaction references -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @error_handling
+  Scenario Outline: Verify proper error handling for duplicate transaction references -- @1.1 
+    Given an attempt to process a bank export file "transactions_2019.csv" ... undefined in 0.000s
+    When duplicate transaction references such as "Duplicate Reference ID" are detected ... undefined in 0.000s
+    Then a system alert should notify relevant users ... undefined in 0.000s
+    And the issue should be escalated if its severity level is "High" ... undefined in 0.000s
+    And a historical report should be updated with the reoccurrence ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Verify proper error handling for duplicate transaction references -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @error_handling
+  Scenario Outline: Verify proper error handling for duplicate transaction references -- @1.2 
+    Given an attempt to process a bank export file "transactions_2021.xlsx" ... undefined in 0.000s
+    When duplicate transaction references such as "Missing Reference" are detected ... undefined in 0.000s
+    Then a system alert should notify relevant users ... undefined in 0.000s
+    And the issue should be escalated if its severity level is "Medium" ... undefined in 0.000s
+    And a historical report should be updated with the reoccurrence ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Evaluate performance impact of transaction reference uniqueness validation -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @performance_testing
+  Scenario Outline: Evaluate performance impact of transaction reference uniqueness validation -- @1.1 
+    Given a system processing "100" bank export files per hour ... undefined in 0.000s
+    When checking for duplicate transaction references in "2015 - 2020" ... undefined in 0.000s
+    Then processing should complete within "300" seconds ... undefined in 0.000s
+    And system resources should not exceed "70%" ... undefined in 0.000s
+    And data integrity should remain stable throughout the process ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.transaction_reference_uniqueness.Validate Transaction Reference Uniqueness in Regression Testing" name="Evaluate performance impact of transaction reference uniqueness validation -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @transaction_reference_uniqueness @performance_testing
+  Scenario Outline: Evaluate performance impact of transaction reference uniqueness validation -- @1.2 
+    Given a system processing "500" bank export files per hour ... undefined in 0.000s
+    When checking for duplicate transaction references in "2021 - 2023" ... undefined in 0.000s
+    Then processing should complete within "600" seconds ... undefined in 0.000s
+    And system resources should not exceed "80%" ... undefined in 0.000s
+    And data integrity should remain stable throughout the process ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

@@ -1,0 +1,151 @@
+<testsuite name="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.108414" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Identify fraudulent transactions based on high-risk indicators -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @data_integrity @fraud_detection
+  Scenario Outline: Identify fraudulent transactions based on high-risk indicators -- @1.1 
+    Given a bank export file "bank_export_fraudulent_transactions_test.csv" ... untested in 0.000s
+    When I check the "Transaction ID" column in the "N/A" sheet ... undefined in 0.000s
+    Then transactions flagged with high-risk indicators should be identified ... undefined in 0.000s
+    And an alert should be generated for compliance review ... undefined in 0.000s
+    And flagged transactions should be escalated for investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Identify fraudulent transactions based on high-risk indicators -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @data_integrity @fraud_detection
+  Scenario Outline: Identify fraudulent transactions based on high-risk indicators -- @1.2 
+    Given a bank export file "bank_export_fraudulent_transactions_test.xlsx" ... untested in 0.000s
+    When I check the "Transaction ID" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions flagged with high-risk indicators should be identified ... undefined in 0.000s
+    And an alert should be generated for compliance review ... undefined in 0.000s
+    And flagged transactions should be escalated for investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Detect transactions with unusual amount variations -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @edge_case @amount_mismatch
+  Scenario Outline: Detect transactions with unusual amount variations -- @1.1 
+    Given a bank export file "bank_export_fraudulent_transactions_amount_mismatch.csv" ... untested in 0.000s
+    When I check the "Transaction ID" and "Amount" columns in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with inconsistent amounts should be flagged ... undefined in 0.000s
+    And transactions exceeding predefined thresholds should trigger an alert ... undefined in 0.000s
+    And flagged transactions should be reviewed manually for fraud risk ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Detect transactions with unusual amount variations -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @edge_case @amount_mismatch
+  Scenario Outline: Detect transactions with unusual amount variations -- @1.2 
+    Given a bank export file "bank_export_fraudulent_transactions_amount_mismatch.xlsx" ... untested in 0.000s
+    When I check the "Transaction ID" and "Amount" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with inconsistent amounts should be flagged ... undefined in 0.000s
+    And transactions exceeding predefined thresholds should trigger an alert ... undefined in 0.000s
+    And flagged transactions should be reviewed manually for fraud risk ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Identify transactions with mismatched locations -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @data_quality @location_mismatch
+  Scenario Outline: Identify transactions with mismatched locations -- @1.1 
+    Given a bank export file "bank_export_fraudulent_transactions_location_mismatch.csv" ... untested in 0.000s
+    When I check the "Transaction ID" and "Location" columns in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with conflicting locations within a short time frame should be flagged ... undefined in 0.000s
+    And flagged transactions should be reviewed for potential fraud patterns ... undefined in 0.000s
+    And system-generated recommendations should be provided for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Identify transactions with mismatched locations -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @data_quality @location_mismatch
+  Scenario Outline: Identify transactions with mismatched locations -- @1.2 
+    Given a bank export file "bank_export_fraudulent_transactions_location_mismatch.xlsx" ... untested in 0.000s
+    When I check the "Transaction ID" and "Location" columns in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with conflicting locations within a short time frame should be flagged ... undefined in 0.000s
+    And flagged transactions should be reviewed for potential fraud patterns ... undefined in 0.000s
+    And system-generated recommendations should be provided for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Validate fraudulent transaction detection in large datasets -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @edge_case @large_files @performance
+  Scenario Outline: Validate fraudulent transaction detection in large datasets -- @1.1 
+    Given a bank export file "bank_export_large_file_fraudulent_transactions.csv" ... untested in 0.000s
+    When I check for fraudulent transactions in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all fraudulent occurrences should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And flagged fraud cases should be logged for auditing ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Validate fraudulent transaction detection in large datasets -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @edge_case @large_files @performance
+  Scenario Outline: Validate fraudulent transaction detection in large datasets -- @1.2 
+    Given a bank export file "bank_export_large_file_fraudulent_transactions.xlsx" ... untested in 0.000s
+    When I check for fraudulent transactions in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all fraudulent occurrences should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And flagged fraud cases should be logged for auditing ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Detect transactions linked to known fraud patterns -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @high_risk @fraud_patterns
+  Scenario Outline: Detect transactions linked to known fraud patterns -- @1.1 
+    Given a bank export file "bank_export_high_risk_fraudulent_transactions.csv" ... untested in 0.000s
+    When I check for high-risk transactions in the "N/A" sheet ... undefined in 0.000s
+    Then transactions matching known fraud patterns should be flagged ... undefined in 0.000s
+    And flagged cases should trigger an alert for regulatory compliance review ... undefined in 0.000s
+    And an escalation report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="duplicate_integrity_tests.fraudulent_transactions.Detect Fraudulent Transactions in Export Files" name="Detect transactions linked to known fraud patterns -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fraudulent_transactions @high_risk @fraud_patterns
+  Scenario Outline: Detect transactions linked to known fraud patterns -- @1.2 
+    Given a bank export file "bank_export_high_risk_fraudulent_transactions.xlsx" ... untested in 0.000s
+    When I check for high-risk transactions in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions matching known fraud patterns should be flagged ... undefined in 0.000s
+    And flagged cases should trigger an alert for regulatory compliance review ... undefined in 0.000s
+    And an escalation report should be generated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

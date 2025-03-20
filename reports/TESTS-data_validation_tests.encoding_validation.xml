@@ -1,0 +1,269 @@
+<testsuite name="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" tests="18" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.060929" hostname="Mac.localstaff"><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Ensure file encoding is UTF-8 or ASCII -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @format_check @data_integrity
+  Scenario Outline: Ensure file encoding is UTF-8 or ASCII -- @1.1 
+    Given a bank export file "bank_export_baseline_test.csv" ... untested in 0.000s
+    When I check the file encoding ... undefined in 0.000s
+    Then the file encoding should be "UTF-8" ... undefined in 0.000s
+    And non-standard encodings should be flagged ... undefined in 0.000s
+    And the system should suggest converting to a standard encoding ... undefined in 0.000s
+    And a conversion report should list all affected files ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Ensure file encoding is UTF-8 or ASCII -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @format_check @data_integrity
+  Scenario Outline: Ensure file encoding is UTF-8 or ASCII -- @1.2 
+    Given a bank export file "bank_export_baseline_test.xlsx" ... untested in 0.000s
+    When I check the file encoding ... undefined in 0.000s
+    Then the file encoding should be "ASCII" ... undefined in 0.000s
+    And non-standard encodings should be flagged ... undefined in 0.000s
+    And the system should suggest converting to a standard encoding ... undefined in 0.000s
+    And a conversion report should list all affected files ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect files with non-UTF-8 encoding -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @non_utf8_encoding @edge_case
+  Scenario Outline: Detect files with non-UTF-8 encoding -- @1.1 
+    Given a bank export file "bank_export_non_utf8_encoding_test.csv" ... untested in 0.000s
+    When I check the file encoding ... undefined in 0.000s
+    Then files encoded in "ISO-8859-1" should be flagged ... undefined in 0.000s
+    And conversion options should be suggested ... undefined in 0.000s
+    And encoding-related errors should be logged ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect files with non-UTF-8 encoding -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @non_utf8_encoding @edge_case
+  Scenario Outline: Detect files with non-UTF-8 encoding -- @1.2 
+    Given a bank export file "bank_export_non_utf8_encoding_test.xlsx" ... untested in 0.000s
+    When I check the file encoding ... undefined in 0.000s
+    Then files encoded in "UTF-16" should be flagged ... undefined in 0.000s
+    And conversion options should be suggested ... undefined in 0.000s
+    And encoding-related errors should be logged ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect invalid characters due to encoding issues -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @invalid_characters @data_corruption
+  Scenario Outline: Detect invalid characters due to encoding issues -- @1.1 
+    Given a bank export file "bank_export_invalid_characters_test.csv" ... untested in 0.000s
+    When I scan the file for encoding errors ... undefined in 0.000s
+    Then non-printable or special characters should be flagged ... undefined in 0.000s
+    And invalid characters should be replaced or removed as per system policy ... undefined in 0.000s
+    And an error report should be generated ... undefined in 0.000s
+    And system should attempt auto-correction if enabled ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect invalid characters due to encoding issues -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @invalid_characters @data_corruption
+  Scenario Outline: Detect invalid characters due to encoding issues -- @1.2 
+    Given a bank export file "bank_export_invalid_characters_test.xlsx" ... untested in 0.000s
+    When I scan the file for encoding errors ... undefined in 0.000s
+    Then non-printable or special characters should be flagged ... undefined in 0.000s
+    And invalid characters should be replaced or removed as per system policy ... undefined in 0.000s
+    And an error report should be generated ... undefined in 0.000s
+    And system should attempt auto-correction if enabled ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect mixed encoding formats within a single file -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @mixed_encodings @corrupted_data
+  Scenario Outline: Detect mixed encoding formats within a single file -- @1.1 
+    Given a bank export file "bank_export_mixed_encoding_test.csv" ... untested in 0.000s
+    When I check the encoding format of each row ... undefined in 0.000s
+    Then rows with inconsistent encodings should be flagged ... undefined in 0.000s
+    And a structured log should list affected rows with recommended fixes ... undefined in 0.000s
+    And encoding mismatches should be highlighted for manual review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect mixed encoding formats within a single file -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @mixed_encodings @corrupted_data
+  Scenario Outline: Detect mixed encoding formats within a single file -- @1.2 
+    Given a bank export file "bank_export_mixed_encoding_test.xlsx" ... untested in 0.000s
+    When I check the encoding format of each row ... undefined in 0.000s
+    Then rows with inconsistent encodings should be flagged ... undefined in 0.000s
+    And a structured log should list affected rows with recommended fixes ... undefined in 0.000s
+    And encoding mismatches should be highlighted for manual review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Validate encoding consistency in large files -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @large_files @performance_testing
+  Scenario Outline: Validate encoding consistency in large files -- @1.1 
+    Given a bank export file "bank_export_large_file_encoding_test.csv" ... untested in 0.000s
+    When I check the encoding format in a file with "100000" rows ... undefined in 0.000s
+    Then encoding should be consistent across all rows ... undefined in 0.000s
+    And inconsistencies should be flagged for bulk correction ... undefined in 0.000s
+    And performance benchmarks should be recorded ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Validate encoding consistency in large files -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @large_files @performance_testing
+  Scenario Outline: Validate encoding consistency in large files -- @1.2 
+    Given a bank export file "bank_export_large_file_encoding_test.xlsx" ... untested in 0.000s
+    When I check the encoding format in a file with "500000" rows ... undefined in 0.000s
+    Then encoding should be consistent across all rows ... undefined in 0.000s
+    And inconsistencies should be flagged for bulk correction ... undefined in 0.000s
+    And performance benchmarks should be recorded ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Ensure encoding consistency in regulatory reports -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @regulatory_compliance @financial_reports
+  Scenario Outline: Ensure encoding consistency in regulatory reports -- @1.1 
+    Given a bank export file "bank_export_tax_report_2023.csv" ... untested in 0.000s
+    When I check encoding compliance in "Annual Tax Report" ... undefined in 0.000s
+    Then encoding should follow "UTF-8 (IRS Standard)" ... undefined in 0.000s
+    And non-compliant files should be flagged for review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Ensure encoding consistency in regulatory reports -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @regulatory_compliance @financial_reports
+  Scenario Outline: Ensure encoding consistency in regulatory reports -- @1.2 
+    Given a bank export file "bank_export_basel_compliance.xlsx" ... untested in 0.000s
+    When I check encoding compliance in "Basel III Compliance Report" ... undefined in 0.000s
+    Then encoding should follow "ISO 20022" ... undefined in 0.000s
+    And non-compliant files should be flagged for review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect anomalous encoding shifts within structured data -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @data_integrity @anomaly_detection
+  Scenario Outline: Detect anomalous encoding shifts within structured data -- @1.1 
+    Given a bank export file "bank_export_encoding_anomalies_test.csv" ... untested in 0.000s
+    When I analyze character encoding patterns ... undefined in 0.000s
+    Then unexpected shifts in encoding within records should be flagged ... undefined in 0.000s
+    And auto-repair mechanisms should attempt corrections ... undefined in 0.000s
+    And audit logs should track encoding anomalies ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect anomalous encoding shifts within structured data -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @data_integrity @anomaly_detection
+  Scenario Outline: Detect anomalous encoding shifts within structured data -- @1.2 
+    Given a bank export file "bank_export_encoding_anomalies_test.xlsx" ... untested in 0.000s
+    When I analyze character encoding patterns ... undefined in 0.000s
+    Then unexpected shifts in encoding within records should be flagged ... undefined in 0.000s
+    And auto-repair mechanisms should attempt corrections ... undefined in 0.000s
+    And audit logs should track encoding anomalies ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect corrupt or unreadable encoding formats -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @corrupt_data_handling @edge_case
+  Scenario Outline: Detect corrupt or unreadable encoding formats -- @1.1 
+    Given a bank export file "transactions_corrupt_encoding.csv" ... untested in 0.000s
+    When I check the file for parsing failures ... undefined in 0.000s
+    Then records with unreadable encoding should be flagged as "Encoding Error" ... undefined in 0.000s
+    And the system should suggest corrective action ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Detect corrupt or unreadable encoding formats -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @corrupt_data_handling @edge_case
+  Scenario Outline: Detect corrupt or unreadable encoding formats -- @1.2 
+    Given a bank export file "transactions_incorrect_charset.xlsx" ... untested in 0.000s
+    When I check the file for parsing failures ... undefined in 0.000s
+    Then records with unreadable encoding should be flagged as "Parsing Failure" ... undefined in 0.000s
+    And the system should suggest corrective action ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Validate system resilience against encoding conversion errors -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @error_resilience @data_recovery
+  Scenario Outline: Validate system resilience against encoding conversion errors -- @1.1 
+    Given a bank export file "bank_export_wrong_encoding_test.csv" with incorrect encoding ... undefined in 0.000s
+    When I attempt to convert it to "UTF-8" ... undefined in 0.000s
+    Then system should preserve data integrity ... undefined in 0.000s
+    And corrupted fields should be flagged for manual review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Validate system resilience against encoding conversion errors -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @encoding_validation @error_resilience @data_recovery
+  Scenario Outline: Validate system resilience against encoding conversion errors -- @1.2 
+    Given a bank export file "bank_export_wrong_encoding_test.xlsx" with incorrect encoding ... undefined in 0.000s
+    When I attempt to convert it to "ASCII" ... undefined in 0.000s
+    Then system should preserve data integrity ... undefined in 0.000s
+    And corrupted fields should be flagged for manual review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

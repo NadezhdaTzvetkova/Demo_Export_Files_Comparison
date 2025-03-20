@@ -1,0 +1,89 @@
+<testsuite name="financial_accuracy_tests.loan_mortgage_payments_validation.Loan and Mortgage Payments Validation" tests="6" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.161612" hostname="Mac.localstaff"><testcase classname="financial_accuracy_tests.loan_mortgage_payments_validation.Loan and Mortgage Payments Validation" name="Validate mortgage payment calculations -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @loan_payments @data_integrity
+  Scenario Outline: Validate mortgage payment calculations -- @1.1 
+    Given a bank export file "mortgage_export_baseline_test.csv" ... untested in 0.000s
+    When I compare "Loan Principal", "Interest Rate", and "Monthly Payment" in the "N/A" sheet ... undefined in 0.000s
+    Then the monthly payment should be calculated using "P*(r(1+r)^n)/((1+r)^n-1)" ... undefined in 0.000s
+    And rounding errors should not exceed "0.01" ... undefined in 0.000s
+    And incorrect calculations should be flagged ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="financial_accuracy_tests.loan_mortgage_payments_validation.Loan and Mortgage Payments Validation" name="Validate mortgage payment calculations -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @loan_payments @data_integrity
+  Scenario Outline: Validate mortgage payment calculations -- @1.2 
+    Given a bank export file "mortgage_export_baseline_test.xlsx" ... untested in 0.000s
+    When I compare "Loan Principal", "Interest Rate", and "Monthly Payment" in the "Sheet1" sheet ... undefined in 0.000s
+    Then the monthly payment should be calculated using "P*(r(1+r)^n)/((1+r)^n-1)" ... undefined in 0.000s
+    And rounding errors should not exceed "0.01" ... undefined in 0.000s
+    And incorrect calculations should be flagged ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="financial_accuracy_tests.loan_mortgage_payments_validation.Loan and Mortgage Payments Validation" name="Verify loan amortization schedule consistency -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @loan_amortization @edge_case
+  Scenario Outline: Verify loan amortization schedule consistency -- @1.1 
+    Given a bank export file "loan_amortization_schedule_test.csv" ... untested in 0.000s
+    When I check the "Amortization Schedule" column in the "N/A" sheet ... undefined in 0.000s
+    Then all payments should be distributed correctly across the loan term ... undefined in 0.000s
+    And extra payments should be applied to principal correctly ... undefined in 0.000s
+    And any over/underpayment should be flagged for review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="financial_accuracy_tests.loan_mortgage_payments_validation.Loan and Mortgage Payments Validation" name="Verify loan amortization schedule consistency -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @loan_amortization @edge_case
+  Scenario Outline: Verify loan amortization schedule consistency -- @1.2 
+    Given a bank export file "loan_amortization_schedule_test.xlsx" ... untested in 0.000s
+    When I check the "Amortization Schedule" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then all payments should be distributed correctly across the loan term ... undefined in 0.000s
+    And extra payments should be applied to principal correctly ... undefined in 0.000s
+    And any over/underpayment should be flagged for review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="financial_accuracy_tests.loan_mortgage_payments_validation.Loan and Mortgage Payments Validation" name="Validate interest vs. principal breakdown in payments -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @interest_vs_principal @data_analysis
+  Scenario Outline: Validate interest vs. principal breakdown in payments -- @1.1 
+    Given a bank export file "mortgage_interest_vs_principal_test.csv" ... untested in 0.000s
+    When I check "Interest Paid" and "Principal Paid" for each payment in the "N/A" sheet ... undefined in 0.000s
+    Then the sum of all payments should match the total loan amount plus interest ... undefined in 0.000s
+    And discrepancies should be flagged for further review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="financial_accuracy_tests.loan_mortgage_payments_validation.Loan and Mortgage Payments Validation" name="Validate interest vs. principal breakdown in payments -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @financial_accuracy @interest_vs_principal @data_analysis
+  Scenario Outline: Validate interest vs. principal breakdown in payments -- @1.2 
+    Given a bank export file "mortgage_interest_vs_principal_test.xlsx" ... untested in 0.000s
+    When I check "Interest Paid" and "Principal Paid" for each payment in the "Sheet1" sheet ... undefined in 0.000s
+    Then the sum of all payments should match the total loan amount plus interest ... undefined in 0.000s
+    And discrepancies should be flagged for further review ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

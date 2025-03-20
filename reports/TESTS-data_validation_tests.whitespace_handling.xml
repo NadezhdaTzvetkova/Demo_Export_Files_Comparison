@@ -1,0 +1,181 @@
+<testsuite name="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" tests="12" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.092807" hostname="Mac.localstaff"><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Ensure fields do not contain leading or trailing spaces -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @data_quality @field_validation
+  Scenario Outline: Ensure fields do not contain leading or trailing spaces -- @1.1 
+    Given a bank export file "bank_export_baseline_test.csv" ... untested in 0.000s
+    When I check for whitespace issues in the "Description" column in the "N/A" sheet ... undefined in 0.000s
+    Then leading and trailing spaces should be removed from all text fields ... undefined in 0.000s
+    And fields with excessive whitespace should be flagged ... undefined in 0.000s
+    And a correction suggestion should be provided ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Ensure fields do not contain leading or trailing spaces -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @data_quality @field_validation
+  Scenario Outline: Ensure fields do not contain leading or trailing spaces -- @1.2 
+    Given a bank export file "bank_export_baseline_test.xlsx" ... untested in 0.000s
+    When I check for whitespace issues in the "Description" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then leading and trailing spaces should be removed from all text fields ... undefined in 0.000s
+    And fields with excessive whitespace should be flagged ... undefined in 0.000s
+    And a correction suggestion should be provided ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Detect leading or trailing spaces in account numbers -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @account_numbers @edge_case
+  Scenario Outline: Detect leading or trailing spaces in account numbers -- @1.1 
+    Given a bank export file "bank_export_invalid_account_whitespace.csv" ... untested in 0.000s
+    When I check the "Account Number" column in the "N/A" sheet ... undefined in 0.000s
+    Then account numbers should not contain leading or trailing spaces ... undefined in 0.000s
+    And account numbers with extra whitespace should be flagged ... undefined in 0.000s
+    And flagged accounts should be logged for manual correction ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Detect leading or trailing spaces in account numbers -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @account_numbers @edge_case
+  Scenario Outline: Detect leading or trailing spaces in account numbers -- @1.2 
+    Given a bank export file "bank_export_invalid_account_whitespace.xlsx" ... untested in 0.000s
+    When I check the "Account Number" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then account numbers should not contain leading or trailing spaces ... undefined in 0.000s
+    And account numbers with extra whitespace should be flagged ... undefined in 0.000s
+    And flagged accounts should be logged for manual correction ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Detect whitespace issues in transaction IDs -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @transaction_id @data_integrity
+  Scenario Outline: Detect whitespace issues in transaction IDs -- @1.1 
+    Given a bank export file "bank_export_invalid_transaction_whitespace.csv" ... untested in 0.000s
+    When I check the "Transaction ID" column in the "N/A" sheet ... undefined in 0.000s
+    Then transaction IDs should not contain leading or trailing spaces ... undefined in 0.000s
+    And transaction IDs with extra spaces should be flagged ... undefined in 0.000s
+    And flagged transactions should be reviewed manually ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Detect whitespace issues in transaction IDs -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @transaction_id @data_integrity
+  Scenario Outline: Detect whitespace issues in transaction IDs -- @1.2 
+    Given a bank export file "bank_export_invalid_transaction_whitespace.xlsx" ... untested in 0.000s
+    When I check the "Transaction ID" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then transaction IDs should not contain leading or trailing spaces ... undefined in 0.000s
+    And transaction IDs with extra spaces should be flagged ... undefined in 0.000s
+    And flagged transactions should be reviewed manually ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Ensure currency codes do not contain extra spaces -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @currency_codes @data_consistency
+  Scenario Outline: Ensure currency codes do not contain extra spaces -- @1.1 
+    Given a bank export file "bank_export_invalid_currency_whitespace.csv" ... untested in 0.000s
+    When I check the "Currency" column in the "N/A" sheet ... undefined in 0.000s
+    Then currency codes should not have leading or trailing spaces ... undefined in 0.000s
+    And currency codes with extra whitespace should be flagged ... undefined in 0.000s
+    And flagged transactions should be reviewed manually ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Ensure currency codes do not contain extra spaces -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @currency_codes @data_consistency
+  Scenario Outline: Ensure currency codes do not contain extra spaces -- @1.2 
+    Given a bank export file "bank_export_invalid_currency_whitespace.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then currency codes should not have leading or trailing spaces ... undefined in 0.000s
+    And currency codes with extra whitespace should be flagged ... undefined in 0.000s
+    And flagged transactions should be reviewed manually ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Validate whitespace handling in large datasets -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @edge_case @large_files @performance
+  Scenario Outline: Validate whitespace handling in large datasets -- @1.1 
+    Given a bank export file "bank_export_large_file_whitespace.csv" ... untested in 0.000s
+    When I check for whitespace issues in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all occurrences should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And a detailed report should be generated with flagged records ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Validate whitespace handling in large datasets -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @edge_case @large_files @performance
+  Scenario Outline: Validate whitespace handling in large datasets -- @1.2 
+    Given a bank export file "bank_export_large_file_whitespace.xlsx" ... untested in 0.000s
+    When I check for whitespace issues in a file with more than 100,000 rows ... undefined in 0.000s
+    Then all occurrences should be detected efficiently ... undefined in 0.000s
+    And system performance should be benchmarked for optimization ... undefined in 0.000s
+    And a detailed report should be generated with flagged records ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Detect suspicious usage of whitespace in high-risk transactions -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @high_risk @fraud_detection
+  Scenario Outline: Detect suspicious usage of whitespace in high-risk transactions -- @1.1 
+    Given a bank export file "bank_export_high_risk_whitespace.csv" ... untested in 0.000s
+    When I check for whitespace issues in the "Description" column in the "N/A" sheet ... undefined in 0.000s
+    Then transactions with excessive whitespace should be flagged ... undefined in 0.000s
+    And suspicious cases should trigger an alert for fraud analysis ... undefined in 0.000s
+    And flagged transactions should be escalated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.whitespace_handling.Validate Whitespace Handling in Export Files" name="Detect suspicious usage of whitespace in high-risk transactions -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @whitespace_handling @high_risk @fraud_detection
+  Scenario Outline: Detect suspicious usage of whitespace in high-risk transactions -- @1.2 
+    Given a bank export file "bank_export_high_risk_whitespace.xlsx" ... untested in 0.000s
+    When I check for whitespace issues in the "Description" column in the "Sheet1" sheet ... undefined in 0.000s
+    Then transactions with excessive whitespace should be flagged ... undefined in 0.000s
+    And suspicious cases should trigger an alert for fraud analysis ... undefined in 0.000s
+    And flagged transactions should be escalated for further investigation ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

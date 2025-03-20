@@ -1,0 +1,151 @@
+<testsuite name="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.203858" hostname="Mac.localstaff"><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Ensure previously fixed data-related issues do not reoccur -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @data_integrity
+  Scenario Outline: Ensure previously fixed data-related issues do not reoccur -- @1.1 
+    Given a bank export file named "transactions_2021.csv" that had an issue fixed in version "v1.2.3" ... undefined in 0.000s
+    When I process the file ... undefined in 0.000s
+    Then the issue should not reoccur ... undefined in 0.000s
+    And a validation report should confirm the resolution ... undefined in 0.000s
+    And any unexpected reappearance should be logged as "High" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Ensure previously fixed data-related issues do not reoccur -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @data_integrity
+  Scenario Outline: Ensure previously fixed data-related issues do not reoccur -- @1.2 
+    Given a bank export file named "transactions_2023.xlsx" that had an issue fixed in version "v2.5.1" ... undefined in 0.000s
+    When I process the file ... undefined in 0.000s
+    Then the issue should not reoccur ... undefined in 0.000s
+    And a validation report should confirm the resolution ... undefined in 0.000s
+    And any unexpected reappearance should be logged as "Medium" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Validate database consistency for previously fixed issues -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @database_consistency
+  Scenario Outline: Validate database consistency for previously fixed issues -- @1.1 
+    Given a database that contained records affected by "Duplicate Transactions" ... undefined in 0.000s
+    When I compare the latest records with the resolved state ... undefined in 0.000s
+    Then no past issues should reappear ... undefined in 0.000s
+    And any detected inconsistencies should be logged as "Unexpected Duplicates" ... undefined in 0.000s
+    And alerts should be generated for critical regressions ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Validate database consistency for previously fixed issues -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @database_consistency
+  Scenario Outline: Validate database consistency for previously fixed issues -- @1.2 
+    Given a database that contained records affected by "Invalid Currencies" ... undefined in 0.000s
+    When I compare the latest records with the resolved state ... undefined in 0.000s
+    Then no past issues should reappear ... undefined in 0.000s
+    And any detected inconsistencies should be logged as "Non-standard Codes" ... undefined in 0.000s
+    And alerts should be generated for critical regressions ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Ensure batch processing maintains resolved bug fixes -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @batch_processing
+  Scenario Outline: Ensure batch processing maintains resolved bug fixes -- @1.1 
+    Given a batch of bank export files from "2018 - 2022" containing previously flagged issues ... undefined in 0.000s
+    When I process them for validation ... undefined in 0.000s
+    Then all records should pass consistency checks ... undefined in 0.000s
+    And no previously fixed issues should reoccur ... undefined in 0.000s
+    And any detected issues should be flagged as "High" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Ensure batch processing maintains resolved bug fixes -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @batch_processing
+  Scenario Outline: Ensure batch processing maintains resolved bug fixes -- @1.2 
+    Given a batch of bank export files from "2023 - 2024" containing previously flagged issues ... undefined in 0.000s
+    When I process them for validation ... undefined in 0.000s
+    Then all records should pass consistency checks ... undefined in 0.000s
+    And no previously fixed issues should reoccur ... undefined in 0.000s
+    And any detected issues should be flagged as "Medium" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Verify proper error handling for regression of resolved issues -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @error_handling
+  Scenario Outline: Verify proper error handling for regression of resolved issues -- @1.1 
+    Given an attempt to process a bank export file "transactions_2019.csv" ... undefined in 0.000s
+    When a previously fixed issue such as "Corrupted Data Reentry" is detected again ... undefined in 0.000s
+    Then a system alert should notify relevant users ... undefined in 0.000s
+    And the issue should be escalated if its severity level is "High" ... undefined in 0.000s
+    And a historical report should be updated with the reoccurrence ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Verify proper error handling for regression of resolved issues -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @error_handling
+  Scenario Outline: Verify proper error handling for regression of resolved issues -- @1.2 
+    Given an attempt to process a bank export file "transactions_2021.xlsx" ... undefined in 0.000s
+    When a previously fixed issue such as "Unexpected Null Values" is detected again ... undefined in 0.000s
+    Then a system alert should notify relevant users ... undefined in 0.000s
+    And the issue should be escalated if its severity level is "Medium" ... undefined in 0.000s
+    And a historical report should be updated with the reoccurrence ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Evaluate performance impact of verifying previously resolved issues -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @performance_testing
+  Scenario Outline: Evaluate performance impact of verifying previously resolved issues -- @1.1 
+    Given a system processing "100" bank export files per hour ... undefined in 0.000s
+    When checking for previously fixed issues in "2015 - 2020" ... undefined in 0.000s
+    Then processing should complete within "300" seconds ... undefined in 0.000s
+    And system resources should not exceed "70%" ... undefined in 0.000s
+    And data integrity should remain stable throughout the process ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="regression_tests.regression_previous_bug_fixes.Validate Previously Fixed Bugs in Regression Testing" name="Evaluate performance impact of verifying previously resolved issues -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @regression_tests @previous_bug_fixes @performance_testing
+  Scenario Outline: Evaluate performance impact of verifying previously resolved issues -- @1.2 
+    Given a system processing "500" bank export files per hour ... undefined in 0.000s
+    When checking for previously fixed issues in "2021 - 2023" ... undefined in 0.000s
+    Then processing should complete within "600" seconds ... undefined in 0.000s
+    And system resources should not exceed "80%" ... undefined in 0.000s
+    And data integrity should remain stable throughout the process ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>
