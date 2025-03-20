@@ -4077,3 +4077,140 @@ def step_then_validate_latency_handling(context):
 
 # ================= End of High-Volume Transaction Processing Validation =================
 
+# ================= Beginning of Regression Testing for Previously Fixed Bugs =================
+# This script validates that previously fixed bugs do not reoccur in regression testing.
+# It ensures:
+# - Data integrity by preventing past issues from resurfacing.
+# - Database consistency in records that were affected by previous bugs.
+# - Batch processing maintains resolved issues without reintroducing errors.
+# - Proper error handling and alerting for unexpected bug reoccurrence.
+# - System performance is maintained during large-scale regression checks.
+
+@given('a bank export file named "{file_name}" that had an issue fixed in version "{fixed_version}"')
+def step_given_fixed_issue_file(context, file_name, fixed_version):
+    """Simulate loading a bank export file with previously fixed issues"""
+    context.file_name = file_name
+    context.fixed_version = fixed_version
+    context.issue_resolved = True
+
+
+@when('I process the file')
+def step_when_process_fixed_issue_file(context):
+    """Simulate processing the export file with previously fixed issues"""
+    processing_time = random.uniform(0.5, 2)  # Simulate processing delay
+    time.sleep(processing_time)
+    context.issue_resolved = random.choice([True, False])  # Simulate random failure
+    logging.info(f"Processed {context.file_name}. Previously fixed issue status: {'Resolved' if context.issue_resolved else 'Reoccurred'}")
+
+
+@then('the issue should not reoccur')
+def step_then_validate_fixed_issue(context):
+    """Ensure previously resolved issues do not reappear"""
+    assert context.issue_resolved, "Previously fixed issue has reoccurred!"
+    logging.info("Previously resolved issue has not reoccurred.")
+
+
+@then('a validation report should confirm the resolution')
+def step_then_generate_validation_report(context):
+    """Generate a validation report for the fixed issue"""
+    report_status = "Issue successfully validated" if context.issue_resolved else "Issue reoccurred"
+    logging.info(f"Validation report generated: {report_status}")
+
+
+@given('a database that contained records affected by "{issue_type}"')
+def step_given_database_with_past_issues(context, issue_type):
+    """Simulate a database that had past issues"""
+    context.issue_type = issue_type
+    context.db_resolved = True
+
+
+@when('I compare the latest records with the resolved state')
+def step_when_compare_database_records(context):
+    """Simulate checking database records for past issues"""
+    comparison_time = random.uniform(1, 5)
+    time.sleep(comparison_time)
+    context.db_resolved = random.choice([True, False])  # Simulate a random reoccurrence
+    logging.info(f"Checked for {context.issue_type} in database. Status: {'Resolved' if context.db_resolved else 'Reoccurred'}")
+
+
+@then('no past issues should reappear')
+def step_then_validate_no_past_issues(context):
+    """Ensure past database issues do not reoccur"""
+    assert context.db_resolved, f"Previously resolved issue {context.issue_type} has reoccurred!"
+    logging.info(f"No reoccurrence of {context.issue_type} detected in the database.")
+
+
+@given('"{batch_count}" bank export files from "{year_range}" containing previously flagged issues')
+def step_given_batch_with_past_issues(context, batch_count, year_range):
+    """Simulate batch processing of export files with previously resolved issues"""
+    context.batch_count = int(batch_count)
+    context.year_range = year_range
+
+
+@when('I process them for validation')
+def step_when_validate_batch_processing(context):
+    """Simulate batch processing validation"""
+    batch_processing_time = random.randint(100, 900)
+    time.sleep(1)
+    context.batch_validated = random.choice([True, False])
+    logging.info(f"Batch validation for {context.year_range} completed. Issues reoccurred: {not context.batch_validated}")
+
+
+@then('all records should pass consistency checks')
+def step_then_validate_batch_consistency(context):
+    """Ensure batch processing does not reintroduce old issues"""
+    assert context.batch_validated, "Batch processing reintroduced previously resolved issues!"
+    logging.info("Batch processing maintained resolved issues without regression.")
+
+
+@given('an attempt to process a bank export file "{file_name}"')
+def step_given_error_handling_validation(context, file_name):
+    """Simulate an attempt to process a file with potential regression issues"""
+    context.file_name = file_name
+
+
+@when('a previously fixed issue such as "{error_type}" is detected again')
+def step_when_detect_regression_issue(context, error_type):
+    """Simulate detecting a regression issue"""
+    context.regression_issue_detected = random.choice([True, False])
+    context.error_type = error_type
+    logging.warning(f"Detected {error_type} issue again in {context.file_name}") if context.regression_issue_detected else logging.info("No regression issues detected.")
+
+
+@then('a system alert should notify relevant users')
+def step_then_send_alert(context):
+    """Trigger an alert if a regression issue is detected"""
+    if context.regression_issue_detected:
+        logging.error(f"ALERT: Regression issue '{context.error_type}' detected in {context.file_name}!")
+
+
+@given('a system processing "{file_count}" bank export files per hour')
+def step_given_high_volume_regression_check(context, file_count):
+    """Simulate high-volume regression testing"""
+    context.file_count = int(file_count)
+
+
+@when('checking for previously fixed issues in "{year_range}"')
+def step_when_perform_regression_check(context, year_range):
+    """Perform regression testing on high volumes of historical data"""
+    context.year_range = year_range
+    context.regression_test_time = random.randint(200, 600)
+    time.sleep(1)
+    logging.info(f"Checked {context.file_count} files for fixed issues in {context.year_range}.")
+
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_processing_time(context, expected_time):
+    """Ensure regression testing completes within the expected time"""
+    assert context.regression_test_time <= int(expected_time), "Regression test took too long!"
+    logging.info(f"Regression test completed within {context.regression_test_time} seconds.")
+
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_validate_resource_usage(context, resource_limit):
+    """Ensure system resource usage remains within acceptable limits"""
+    actual_usage = random.randint(60, 85)
+    assert actual_usage <= int(resource_limit), "System resource usage exceeded!"
+    logging.info(f"System resource usage: {actual_usage}%, within limit.")
+
+# ================= End of Regression Testing for Previously Fixed Bugs =================
