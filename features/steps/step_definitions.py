@@ -655,7 +655,7 @@ def step_then_alert_regulatory_issues(context):
 def get_data_path(file_name):
     """Dynamically determines the correct test data folder based on the feature file."""
     base_dir = "test_data"
-    feature_folder = "invalid_currency_codes_fixed_test_data"
+    feature_folder = ("invalid_currency_codes_test_data")
     return os.path.join(base_dir, feature_folder, file_name)
 
 def is_valid_currency_code(currency_code, pattern):
