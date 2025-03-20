@@ -1100,3 +1100,51 @@ def step_then_escalate_for_investigation(context):
     logging.info(f"Escalating {len(context.fraudulent_transactions)} transactions for fraud investigation.")
 
 # ================= End of Fraudulent Transactions Validation =================
+
+
+# ================= Beginning of Orphaned Transactions Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "duplicate_integrity_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+
+@when('I check the "Transaction ID" and "Account Number" columns in the "{sheet_name}" sheet')
+def step_when_check_orphaned_transactions(context, sheet_name):
+    if context.file_path.endswith('.csv'):
+        context.data = pd.read_csv(context.file_path)
+    else:
+        context.data = pd.read_excel(context.file_path, sheet_name=sheet_name)
+
+    assert "Transaction ID" in context.data.columns, "Column 'Transaction ID' not found in file."
+    assert "Account Number" in context.data.columns, "Column 'Account Number' not found in file."
+
+    context.orphaned_transactions = context.data[context.data["Account Number"].isna()]
+
+
+@then('transactions with missing or unlinked accounts should be flagged')
+def step_then_flag_orphaned_transactions(context):
+    assert not context.orphaned_transactions.empty, "No orphaned transactions detected."
+    logging.info(f"Flagged orphaned transactions: {len(context.orphaned_transactions)} records.")
+
+
+@then('an alert should be generated for data consistency review')
+def step_then_generate_data_consistency_alert(context):
+    logging.warning(f"Data consistency alert: {len(context.orphaned_transactions)} orphaned transactions detected.")
+
+
+@then('flagged transactions should be escalated for manual verification')
+def step_then_escalate_for_manual_verification(context):
+    logging.info(f"Escalating {len(context.orphaned_transactions)} orphaned transactions for manual verification.")
+
+# ================= End of Orphaned Transactions Validation =================
