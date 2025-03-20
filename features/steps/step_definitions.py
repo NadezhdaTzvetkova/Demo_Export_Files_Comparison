@@ -898,3 +898,57 @@ def step_then_suggest_correction(context):
     logging.info("Suggested corrections for whitespace issues applied where necessary.")
 
 # ================= End of Whitespace Handling Validation =================
+
+# ================= Beginning of Duplicate Accounts Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "duplicate_integrity_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+
+@when('I check the "Account Number" column in the "{sheet_name}" sheet')
+def step_when_check_duplicate_accounts(context, sheet_name):
+    if context.file_path.endswith('.csv'):
+        context.data = pd.read_csv(context.file_path)
+    else:
+        context.data = pd.read_excel(context.file_path, sheet_name=sheet_name)
+
+    assert "Account Number" in context.data.columns, "Column 'Account Number' not found in file."
+
+    context.duplicate_accounts = context.data["Account Number"].duplicated(keep=False)
+
+
+@then('duplicate account numbers should be flagged')
+def step_then_flag_duplicate_accounts(context):
+    flagged_duplicates = context.data[context.duplicate_accounts]
+    assert not flagged_duplicates.empty, "No duplicate accounts detected."
+    logging.info(f"Flagged duplicate accounts: {len(flagged_duplicates)} records.")
+
+
+@then('a report should be generated listing duplicate occurrences')
+def step_then_generate_report(context):
+    flagged_duplicates = context.data[context.duplicate_accounts]
+    report_path = os.path.join("reports", "duplicate_accounts_report.csv")
+    flagged_duplicates.to_csv(report_path, index=False)
+    logging.info(f"Duplicate accounts report generated at {report_path}.")
+
+
+@then('accounts with high-frequency duplication should be escalated for review')
+def step_then_escalate_high_frequency_duplicates(context):
+    flagged_duplicates = context.data[context.duplicate_accounts]
+    duplicate_counts = flagged_duplicates["Account Number"].value_counts()
+    high_risk_accounts = duplicate_counts[duplicate_counts > 5]  # Example threshold for escalation
+    assert not high_risk_accounts.empty, "No high-frequency duplicate accounts detected."
+    logging.info(f"High-risk duplicate accounts flagged: {len(high_risk_accounts)} occurrences.")
+
+# ================= End of Duplicate Accounts Validation =================
