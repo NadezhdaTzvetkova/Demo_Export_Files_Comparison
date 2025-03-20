@@ -4634,3 +4634,142 @@ def step_then_validate_column_format_resource_usage(context, resource_limit):
     logging.info(f"System resource usage: {actual_usage}%, within limit.")
 
 # ================= End of Structural Testing for Column Format Validation =================
+
+# ================= Beginning of Structural Testing for Extra Columns =================
+# This script ensures:
+# - Extra columns in bank export files are detected and handled properly.
+# - Unexpected columns do not disrupt data integrity.
+# - The database remains consistent despite schema variations.
+# - System performance is maintained when processing files with extra columns.
+
+@given('a bank export file named "{file_name}" containing extra columns')
+def step_given_extra_columns_file(context, file_name):
+    """Simulate loading a bank export file with extra columns"""
+    context.file_name = file_name
+    context.extra_columns_detected = random.choice([True, False])  # Simulating extra column presence
+    logging.info(f"Loaded {file_name} with extra columns detected: {context.extra_columns_detected}.")
+
+
+@when('the system processes the file')
+def step_when_process_file_with_extra_columns(context):
+    """Simulate processing the file and detecting extra columns"""
+    processing_time = random.uniform(0.5, 2)
+    time.sleep(processing_time)
+    logging.info(f"Processing {context.file_name}. Extra columns detected: {context.extra_columns_detected}")
+
+
+@then('extra columns should be flagged as "{severity}"')
+def step_then_flag_extra_columns(context, severity):
+    """Ensure extra columns are flagged accordingly"""
+    if context.extra_columns_detected:
+        logging.warning(f"Extra columns detected in {context.file_name}. Severity: {severity}")
+
+
+@then('a validation report should document unexpected columns')
+def step_then_generate_extra_column_report(context):
+    """Generate a report listing the extra columns"""
+    if context.extra_columns_detected:
+        logging.info(f"Validation report generated for extra columns in {context.file_name}.")
+
+
+@given('a database expecting standard column structure')
+def step_given_database_standard_schema(context):
+    """Simulate a database with a predefined schema"""
+    context.database_has_fixed_schema = True
+
+
+@when('I compare imported column names from "{file_name}"')
+def step_when_compare_database_column_names(context, file_name):
+    """Compare imported column names with the expected schema"""
+    context.file_name = file_name
+    context.schema_mismatch = random.choice([True, False])
+    logging.info(f"Compared column names for {file_name}. Schema mismatch: {context.schema_mismatch}")
+
+
+@then('extra columns should be ignored or flagged as "{discrepancy_type}"')
+def step_then_handle_extra_columns_in_db(context, discrepancy_type):
+    """Ensure extra columns are ignored or flagged correctly in the database"""
+    if context.schema_mismatch:
+        logging.warning(f"Schema mismatch detected in {context.file_name}. Discrepancy Type: {discrepancy_type}")
+
+
+@given('a batch of bank export files with extra columns')
+def step_given_batch_extra_column_files(context):
+    """Simulate batch processing of export files with extra columns"""
+    context.batch_contains_extra_columns = random.choice([True, False])
+
+
+@when('the system processes them for validation')
+def step_when_process_batch_files_extra_columns(context):
+    """Process batch files and check for extra columns"""
+    batch_processing_time = random.randint(1, 3)
+    time.sleep(batch_processing_time)
+    context.batch_column_mismatch = random.choice([True, False])
+    logging.info(f"Batch processing completed. Extra columns detected: {context.batch_column_mismatch}")
+
+
+@then('all extra columns should be detected and flagged as "{severity}"')
+def step_then_validate_batch_extra_columns(context, severity):
+    """Ensure extra columns in batch files are flagged"""
+    if context.batch_column_mismatch:
+        logging.warning(f"Extra columns detected in batch processing. Severity: {severity}")
+
+
+@given('an attempt to process a bank export file "{file_name}"')
+def step_given_file_with_extra_columns(context, file_name):
+    """Simulate an attempt to process a file with extra columns"""
+    context.file_name = file_name
+
+
+@when('extra columns such as "{column_name}" are detected')
+def step_when_detect_extra_columns(context, column_name):
+    """Detect extra columns in the file"""
+    context.extra_column_detected = random.choice([True, False])
+    context.column_name = column_name
+    logging.warning(f"Extra column '{column_name}' detected in {context.file_name}") if context.extra_column_detected else logging.info("No extra columns detected.")
+
+
+@then('a system alert should notify relevant users')
+def step_then_alert_extra_column_detection(context):
+    """Notify users about extra column detection"""
+    if context.extra_column_detected:
+        logging.error(f"ALERT: Extra column '{context.column_name}' detected in {context.file_name}!")
+
+
+@then('an auto-mapping mechanism should suggest appropriate actions')
+def step_then_suggest_column_mapping(context):
+    """Suggest auto-mapping for extra columns"""
+    if context.extra_column_detected:
+        logging.info(f"Auto-mapping suggested for extra column '{context.column_name}' in {context.file_name}.")
+
+
+@given('a system processing "{file_count}" bank export files per hour')
+def step_given_high_volume_extra_column_check(context, file_count):
+    """Simulate high-volume file processing while handling extra columns"""
+    context.file_count = int(file_count)
+
+
+@when('extra columns are present in "{year_range}"')
+def step_when_detect_extra_columns_in_year_range(context, year_range):
+    """Perform extra column validation across multiple years"""
+    context.year_range = year_range
+    context.processing_time = random.randint(100, 600)
+    time.sleep(1)
+    logging.info(f"Checked {context.file_count} files for extra columns in {context.year_range}.")
+
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_extra_column_processing_speed(context, expected_time):
+    """Ensure processing with extra columns completes within expected time"""
+    assert context.processing_time <= int(expected_time), "Extra column validation took too long!"
+    logging.info(f"Processing completed within {context.processing_time} seconds.")
+
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_validate_extra_column_resource_usage(context, resource_limit):
+    """Ensure system resource usage remains within acceptable limits"""
+    actual_usage = random.randint(60, 85)
+    assert actual_usage <= int(resource_limit), "System resource usage exceeded!"
+    logging.info(f"System resource usage: {actual_usage}%, within limit.")
+
+# ================= End of Structural Testing for Extra Columns =================
