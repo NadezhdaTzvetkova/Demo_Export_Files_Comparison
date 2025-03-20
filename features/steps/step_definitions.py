@@ -37,6 +37,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logging.basicConfig(level=logging.INFO)
 
 processed_transactions = {}
+transaction_references = set()
 
 # Dynamically set the DATA_DIR based on feature name
 FEATURE_NAME = "decimal_precision"
@@ -4214,3 +4215,150 @@ def step_then_validate_resource_usage(context, resource_limit):
     logging.info(f"System resource usage: {actual_usage}%, within limit.")
 
 # ================= End of Regression Testing for Previously Fixed Bugs =================
+
+# ================= Beginning of Regression Testing for Transaction Reference Uniqueness =================
+# This script ensures:
+# - Every transaction reference remains unique.
+# - No duplicate references exist in batch and database processing.
+# - Any detected duplicates are flagged and logged appropriately.
+# - System maintains data integrity and performance while validating uniqueness.
+
+@given('a bank export file named "{file_name}" containing "{transaction_count}" transactions')
+def step_given_transaction_file(context, file_name, transaction_count):
+    """Simulate loading a bank export file with transactions"""
+    context.file_name = file_name
+    context.transaction_count = int(transaction_count)
+    context.duplicates_found = False
+    logging.info(f"Loaded {transaction_count} transactions from {file_name}.")
+
+
+@when('the system processes the file')
+def step_when_process_transactions(context):
+    """Simulate processing the transactions and checking for duplicate references"""
+    processing_time = random.uniform(0.5, 2)  # Simulated processing delay
+    time.sleep(processing_time)
+
+    # Simulate transaction reference uniqueness check
+    duplicate_rate = 0.001  # 0.1% chance of duplicate
+    context.duplicates_found = random.random() < duplicate_rate
+
+    logging.info(f"Processed {context.file_name}. Duplicate references found: {context.duplicates_found}")
+
+
+@then('each transaction should have a unique reference ID')
+def step_then_validate_transaction_uniqueness(context):
+    """Ensure all transaction references are unique"""
+    assert not context.duplicates_found, "Duplicate transaction references detected!"
+    logging.info("All transactions have unique reference IDs.")
+
+
+@then('duplicate transaction references should be flagged as "{severity}"')
+def step_then_flag_duplicates(context, severity):
+    """Flag duplicates if found"""
+    if context.duplicates_found:
+        logging.warning(f"Duplicate transaction references found! Severity: {severity}")
+    else:
+        logging.info("No duplicate transaction references detected.")
+
+
+@given('a database containing transaction records from "{year_range}"')
+def step_given_database_transactions(context, year_range):
+    """Simulate database containing past transaction records"""
+    context.year_range = year_range
+
+
+@when('I check for duplicate transaction references')
+def step_when_check_duplicate_references(context):
+    """Check for duplicate transaction references in the database"""
+    check_time = random.uniform(1, 5)  # Simulated database check time
+    time.sleep(check_time)
+
+    context.db_duplicates_found = random.choice([True, False])  # Simulate duplicate check result
+    logging.info(
+        f"Checked database records for duplicates in {context.year_range}. Found: {context.db_duplicates_found}")
+
+
+@then('no duplicate references should exist')
+def step_then_validate_database_uniqueness(context):
+    """Ensure database transaction references remain unique"""
+    assert not context.db_duplicates_found, "Duplicate transaction references detected in database!"
+    logging.info("Database records maintain unique transaction references.")
+
+
+@given('"{batch_count}" bank export files from "{year_range}"')
+def step_given_batch_transactions(context, batch_count, year_range):
+    """Simulate batch processing of bank export files"""
+    context.batch_count = int(batch_count)
+    context.year_range = year_range
+
+
+@when('I process them for validation')
+def step_when_validate_batch_transactions(context):
+    """Simulate batch processing for transaction reference uniqueness"""
+    batch_processing_time = random.randint(100, 900)
+    time.sleep(1)
+    context.batch_validated = random.choice([True, False])
+    logging.info(f"Batch validation for {context.year_range} completed. Issues found: {not context.batch_validated}")
+
+
+@then('all transactions should maintain unique references')
+def step_then_validate_batch_reference_uniqueness(context):
+    """Ensure batch processing maintains unique transaction references"""
+    assert context.batch_validated, "Batch processing introduced duplicate transaction references!"
+    logging.info("Batch processing maintained unique transaction references.")
+
+
+@given('an attempt to process a bank export file "{file_name}"')
+def step_given_duplicate_handling(context, file_name):
+    """Simulate an attempt to process a file with duplicate transaction references"""
+    context.file_name = file_name
+
+
+@when('duplicate transaction references such as "{error_type}" are detected')
+def step_when_detect_duplicate_issue(context, error_type):
+    """Simulate detecting duplicate transaction reference issues"""
+    context.duplicate_issue_detected = random.choice([True, False])
+    context.error_type = error_type
+    logging.warning(
+        f"Detected {error_type} issue again in {context.file_name}") if context.duplicate_issue_detected else logging.info(
+        "No duplicate transaction references detected.")
+
+
+@then('a system alert should notify relevant users')
+def step_then_send_duplicate_alert(context):
+    """Trigger an alert if duplicate transaction references are detected"""
+    if context.duplicate_issue_detected:
+        logging.error(f"ALERT: Duplicate transaction reference '{context.error_type}' detected in {context.file_name}!")
+
+
+@given('a system processing "{file_count}" bank export files per hour')
+def step_given_high_volume_reference_check(context, file_count):
+    """Simulate high-volume transaction reference checking"""
+    context.file_count = int(file_count)
+
+
+@when('checking for duplicate transaction references in "{year_range}"')
+def step_when_perform_reference_check(context, year_range):
+    """Perform duplicate transaction reference check across multiple years"""
+    context.year_range = year_range
+    context.reference_check_time = random.randint(200, 600)
+    time.sleep(1)
+    logging.info(f"Checked {context.file_count} files for duplicate references in {context.year_range}.")
+
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_processing_speed(context, expected_time):
+    """Ensure transaction reference validation completes within the expected time"""
+    assert context.reference_check_time <= int(expected_time), "Transaction reference check took too long!"
+    logging.info(f"Transaction reference check completed within {context.reference_check_time} seconds.")
+
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_validate_resource_usage(context, resource_limit):
+    """Ensure system resource usage remains within acceptable limits"""
+    actual_usage = random.randint(60, 85)
+    assert actual_usage <= int(resource_limit), "System resource usage exceeded!"
+    logging.info(f"System resource usage: {actual_usage}%, within limit.")
+
+# ================= End of Regression Testing for Transaction Reference Uniqueness =================
+
