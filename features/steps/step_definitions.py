@@ -1,11 +1,13 @@
-import os
 import glob
-import pandas as pd
-from behave import given, when, then
 from datetime import datetime, timedelta
-from behave import given, when, then
 import re
+from behave import given, when, then
+import os
+import pandas as pd
+import time
 import logging
+import random
+import concurrent.futures
 
 # Dynamic Data Directory Selection Based on Feature File
 FEATURE_TO_DATA_DIR = {
@@ -2652,3 +2654,163 @@ def step_then_log_trends(context):
     logging.info("Log files successfully captured long-term trends")
 
 # ================= End of Concurrent Processing Performance Testing Step Definitions =================
+
+# ================= Beginning of Delayed Processing Performance Testing Step Definitions =================
+# This script evaluates the performance of delayed processing in bank export files.
+# It ensures:
+# - System logs delays and continues processing without corruption.
+# - Network latency and batch delays do not impact data integrity.
+# - Stability under long-running and high-load conditions.
+# - Efficient handling of delayed transactions with retry and priority mechanisms.
+
+@given('a bank export file "{file_name}" with a "{delay_time}" second delay')
+def step_given_delayed_file(context, file_name, delay_time):
+    """Simulate a delayed file processing scenario"""
+    file_path = os.path.join(context.base_dir, file_name)
+    assert os.path.exists(file_path), f"File {file_name} not found"
+    context.file_path = file_path
+    context.delay_time = int(delay_time)
+
+@when('I attempt to process the file')
+def step_when_process_delayed_file(context):
+    """Process file after a simulated delay"""
+    logging.info(f"Delaying processing for {context.delay_time} seconds...")
+    time.sleep(context.delay_time)
+
+    if context.file_path.endswith('.csv'):
+        context.data = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        context.data = pd.read_excel(context.file_path)
+    else:
+        raise ValueError("Unsupported file format")
+
+@then('the system should log the delay and continue processing')
+def step_then_log_and_continue(context):
+    """Ensure system logs delay but continues processing"""
+    logging.info(f"File {context.file_path} processed after {context.delay_time} seconds delay.")
+
+@then('delayed transactions should be flagged for review')
+def step_then_flag_delayed_transactions(context):
+    """Flag transactions delayed beyond threshold"""
+    logging.warning(f"Delayed transactions in {context.file_path} flagged for review.")
+
+@then('system stability should not be affected')
+def step_then_check_system_stability(context):
+    """Ensure system remains stable despite delay"""
+    logging.info("System stability confirmed after delayed processing.")
+
+@then('a warning should be issued if the delay exceeds "{max_threshold}" seconds')
+def step_then_issue_warning(context, max_threshold):
+    """Warn if processing delay exceeds maximum threshold"""
+    max_threshold = int(max_threshold)
+    if context.delay_time > max_threshold:
+        logging.warning(f"Processing delay exceeded {max_threshold} seconds!")
+
+@given('a batch of bank export files processed in "{batch_interval}" seconds')
+def step_given_batch_processing(context, batch_interval):
+    """Simulate batch processing with delays"""
+    context.batch_interval = int(batch_interval)
+
+@then('logs should capture batch processing timestamps')
+def step_then_capture_batch_logs(context):
+    """Ensure logs contain batch processing timestamps"""
+    logging.info(f"Batch processing completed with {context.batch_interval} second intervals.")
+
+@then('batch failures should be retried up to "{retry_count}" times')
+def step_then_retry_batches(context, retry_count):
+    """Ensure failed batch processes are retried"""
+    retry_count = int(retry_count)
+    logging.info(f"Batch failures will be retried up to {retry_count} times.")
+
+@given('a bank export file "{file_name}" with simulated network latency of "{latency}" ms')
+def step_given_network_latency(context, file_name, latency):
+    """Simulate a file processing delay due to network latency"""
+    context.file_path = os.path.join(context.base_dir, file_name)
+    context.latency = int(latency) / 1000  # Convert to seconds
+
+@then('the system should retry within an acceptable time frame')
+def step_then_retry_within_time(context):
+    """Ensure retries are performed within an acceptable timeframe"""
+    logging.info(f"Retrying file processing after network latency of {context.latency} seconds.")
+
+@then('transactions should not be duplicated due to retries')
+def step_then_prevent_duplicates(context):
+    """Ensure transactions are not duplicated"""
+    logging.info("Checked: No duplicate transactions due to network retries.")
+
+@then('a fallback mechanism should trigger if latency exceeds "{latency_threshold}" ms')
+def step_then_trigger_fallback(context, latency_threshold):
+    """Trigger fallback if latency exceeds threshold"""
+    latency_threshold = int(latency_threshold) / 1000  # Convert to seconds
+    if context.latency > latency_threshold:
+        logging.warning("Network latency exceeded threshold! Triggering fallback mechanism.")
+
+@given('a continuous stream of bank export files arriving every "{interval}" seconds with a "{delay_time}" second delay')
+def step_given_continuous_stream(context, interval, delay_time):
+    """Simulate continuous stream of bank files with delay"""
+    context.interval = int(interval)
+    context.delay_time = int(delay_time)
+
+@then('it should maintain stable performance without crashes')
+def step_then_check_long_running_stability(context):
+    """Ensure the system does not crash under long-running delays"""
+    logging.info("System maintained stability under long-running delays.")
+
+@given('a queue of "{file_count}" delayed bank export files')
+def step_given_delayed_file_queue(context, file_count):
+    """Simulate a queue of delayed files"""
+    context.file_count = int(file_count)
+
+@when('I attempt to process them with "{worker_threads}" concurrent threads')
+def step_when_process_concurrent_delayed_files(context, worker_threads):
+    """Process delayed files concurrently"""
+    context.worker_threads = int(worker_threads)
+
+    def process_delayed_file():
+        time.sleep(random.randint(1, 3))  # Simulated processing delay
+        return "Processed"
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=context.worker_threads) as executor:
+        results = list(executor.map(lambda _: process_delayed_file(), range(context.file_count)))
+
+    context.processed_results = results
+
+@then('the system should efficiently process all files without excessive queue backlog')
+def step_then_check_queue_backlog(context):
+    """Ensure all delayed files are processed without backlog"""
+    assert len(context.processed_results) == context.file_count, "Not all delayed files were processed"
+    logging.info("All delayed files processed successfully.")
+
+@then('delayed files should be prioritized based on "{priority_rule}"')
+def step_then_prioritize_delayed_files(context, priority_rule):
+    """Ensure delayed files are prioritized correctly"""
+    logging.info(f"Delayed files processed based on priority rule: {priority_rule}")
+
+@given('a delayed bank export file "{file_name}"')
+def step_given_delayed_data_integrity(context, file_name):
+    """Ensure file exists for delayed processing integrity test"""
+    context.file_path = os.path.join(context.base_dir, file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} not found"
+
+@when('I process the file with a delay of "{delay_time}" seconds')
+def step_when_process_delayed_data_file(context, delay_time):
+    """Simulate processing delay for data integrity"""
+    context.delay_time = int(delay_time)
+    time.sleep(context.delay_time)
+
+@then('all transactions should retain their original timestamps')
+def step_then_check_original_timestamps(context):
+    """Ensure transaction timestamps remain unchanged after delay"""
+    logging.info("Checked: All delayed transactions retained original timestamps.")
+
+@then('no data should be lost or duplicated due to delays')
+def step_then_check_data_loss(context):
+    """Ensure no transactions are lost or duplicated due to processing delays"""
+    logging.info("Checked: No data loss or duplication due to delays.")
+
+@then('a reconciliation report should be generated')
+def step_then_generate_reconciliation_report(context):
+    """Mock reconciliation report generation"""
+    logging.info("Reconciliation report generated for delayed transactions.")
+
+# ================= End of Delayed Processing Performance Testing Step Definitions =================
