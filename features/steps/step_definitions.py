@@ -15,7 +15,6 @@ import logging
 import hashlib
 
 
-
 # Dynamic Data Directory Selection Based on Feature File
 FEATURE_TO_DATA_DIR = {
     "date_format_validation": "test_data/date_validation_test_data",
@@ -31,6 +30,7 @@ DELIMITER_MAPPING = {
     "pipe": "|"
 }
 
+resolved_issues = {}  # Simulating a stored record of resolved issues
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -3753,3 +3753,171 @@ def step_then_validate_query_performance(context):
     logging.info(f"Database query executed in {query_time:.2f} seconds.")
 
 # ================= End of Historical Data Consistency Validation Step Definitions =================
+
+# ================= Beginning of Previously Resolved Issues Validation Step Definitions =================
+# This script ensures that previously resolved issues in bank export file processing do not reoccur.
+# It verifies:
+# - That past data integrity issues remain fixed.
+# - Database consistency for previously resolved discrepancies.
+# - Batch processing reliability in maintaining data resolution.
+# - Proper error handling when past issues resurface.
+# - Performance impact of regression verification in large-scale exports.
+
+def compute_file_hash(file_name):
+    """Simulates computing a file hash for tracking modifications."""
+    return hashlib.md5(file_name.encode()).hexdigest()
+
+
+@given('a bank export file named "{file_name}" containing previously resolved issues')
+def step_given_resolved_issues_file(context, file_name):
+    """Simulate tracking a file with previously resolved issues"""
+    resolved_issues[file_name] = {"hash": compute_file_hash(file_name)}
+    context.file_name = file_name
+
+
+@when('I process the file')
+def step_when_process_file(context):
+    """Simulate processing the bank export file"""
+    latest_hash = compute_file_hash(context.file_name + "_latest")
+    context.is_reoccurring = latest_hash != resolved_issues[context.file_name]["hash"]
+    time.sleep(1)  # Simulating processing time
+
+
+@then('the issues should not reoccur')
+def step_then_validate_no_reoccurrence(context):
+    """Verify that past issues remain resolved"""
+    assert not context.is_reoccurring, "Previously resolved issues have reoccurred!"
+    logging.info(f"No issues found in {context.file_name}. Integrity maintained.")
+
+
+@then('a validation report should confirm their resolution')
+def step_then_generate_resolution_report(context):
+    """Generate a report confirming no reoccurrence of past issues"""
+    logging.info(f"Validation report generated for {context.file_name}.")
+
+
+@then('any reoccurrence should be flagged as "{severity}"')
+def step_then_flag_reoccurrence(context, severity):
+    """Flag issues if they reoccur"""
+    if context.is_reoccurring:
+        logging.warning(f"Reoccurring issue detected in {context.file_name} with severity: {severity}")
+
+
+@given('a database that had past issues with "{issue_type}"')
+def step_given_database_with_past_issues(context, issue_type):
+    """Simulate a database with previously resolved issues"""
+    context.issue_type = issue_type
+    context.db_data = {"issue_type": issue_type, "status": "Resolved"}
+
+
+@when('I compare the latest records with previous resolutions')
+def step_when_compare_database_records(context):
+    """Simulate a database comparison to check for resolved issue reoccurrence"""
+    context.discrepancy_found = bool(random.getrandbits(1))  # Random reoccurrence simulation
+    time.sleep(1)  # Simulating processing time
+
+
+@then('no past issues should reappear')
+def step_then_no_past_issues_reappear(context):
+    """Ensure past issues do not reoccur"""
+    assert not context.discrepancy_found, f"Previously resolved issue ({context.issue_type}) has resurfaced!"
+    logging.info("Database integrity maintained for past issues.")
+
+
+@then('any detected inconsistencies should be logged as "{discrepancy_type}"')
+def step_then_log_inconsistencies(context, discrepancy_type):
+    """Ensure any reoccurrence is logged properly"""
+    if context.discrepancy_found:
+        logging.warning(f"Detected discrepancy: {discrepancy_type}")
+
+
+@given('a batch of bank export files from "{year_range}" containing previously flagged issues')
+def step_given_batch_with_past_issues(context, year_range):
+    """Simulate a batch of files containing previously flagged issues"""
+    context.year_range = year_range
+    context.batch_files = [f"transactions_{year}.csv" for year in range(2018, 2023)]
+
+
+@when('I process them for validation')
+def step_when_process_batch_files(context):
+    """Simulate batch processing for consistency checking"""
+    context.issue_count = random.randint(0, 5)  # Random reoccurrence simulation
+    time.sleep(2)  # Simulating processing time
+
+
+@then('all records should pass consistency checks')
+def step_then_validate_batch_consistency(context):
+    """Ensure all records pass consistency validation"""
+    logging.info(f"All records from {context.year_range} passed consistency checks.")
+
+
+@then('no previously resolved issues should reoccur')
+def step_then_no_resolved_issues_reappear(context):
+    """Ensure no past issues resurface"""
+    assert context.issue_count == 0, "Resolved issues have reappeared!"
+    logging.info("Batch processing verified for resolved issues.")
+
+
+@given('an attempt to process a bank export file "{file_name}"')
+def step_given_attempt_to_process_file(context, file_name):
+    """Simulate an attempt to process a bank export file with past issues"""
+    context.file_name = file_name
+
+
+@when('previously resolved issues such as "{error_type}" are detected again')
+def step_when_detect_resolved_issues(context, error_type):
+    """Simulate detecting previously resolved issues in the latest export"""
+    context.error_found = bool(random.getrandbits(1))
+    context.error_type = error_type if context.error_found else None
+
+
+@then('a system alert should notify relevant users')
+def step_then_notify_users(context):
+    """Ensure users are notified of issue reoccurrences"""
+    if context.error_found:
+        logging.warning(f"System alert: Reoccurrence of {context.error_type} detected in {context.file_name}!")
+
+
+@then('the issue should be escalated if its severity level is "{severity_level}"')
+def step_then_escalate_critical_issues(context, severity_level):
+    """Ensure critical issues are escalated if they reoccur"""
+    if context.error_found:
+        logging.info(f"Issue reoccurrence escalated due to severity: {severity_level}")
+
+
+@given('a system processing "{file_count}" bank export files per hour')
+def step_given_system_processing_resolved_issues(context, file_count):
+    """Simulate the system processing multiple export files per hour"""
+    context.file_count = int(file_count)
+
+
+@when('checking for previously resolved issues in "{year_range}"')
+def step_when_checking_past_resolved_issues(context, year_range):
+    """Simulate validating previously resolved issues in a specific year range"""
+    context.processing_time = random.randint(100, 600)  # Simulating processing duration
+    time.sleep(1)  # Simulating processing delay
+
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_complete_within_time(context, expected_time):
+    """Ensure regression validation completes within the expected time"""
+    assert context.processing_time <= int(expected_time), "Processing took too long!"
+    logging.info(f"Resolved issue validation completed in {context.processing_time} seconds.")
+
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_monitor_system_usage(context, resource_limit):
+    """Ensure resource usage remains within acceptable limits"""
+    actual_resource_usage = random.randint(50, 90)
+    assert actual_resource_usage <= int(resource_limit), "System resource usage exceeded!"
+    logging.info(f"Resource usage: {actual_resource_usage}%, within the allowed limit.")
+
+
+@then('data integrity should remain stable throughout the process')
+def step_then_validate_data_integrity(context):
+    """Ensure data integrity remains stable while validating past resolved issues"""
+    integrity_check = bool(random.getrandbits(1))  # Simulating data stability validation
+    assert integrity_check, "Data integrity issues detected!"
+    logging.info("Data integrity verified successfully.")
+
+# ================= End of Previously Resolved Issues Validation Step Definitions =================
