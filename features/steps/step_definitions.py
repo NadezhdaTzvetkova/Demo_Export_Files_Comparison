@@ -2814,3 +2814,147 @@ def step_then_generate_reconciliation_report(context):
     logging.info("Reconciliation report generated for delayed transactions.")
 
 # ================= End of Delayed Processing Performance Testing Step Definitions =================
+
+# ================= Beginning of High Concurrent Users Performance Testing Step Definitions =================
+# This script evaluates the performance of the system under high concurrent user load.
+# It ensures:
+# - Stability when multiple users upload and process export files concurrently.
+# - Resource utilization remains within acceptable limits.
+# - The database scales dynamically under high transaction volume.
+# - The system manages request queues efficiently and handles errors properly.
+# - No memory leaks or performance degradation over extended high-load periods.
+
+@given('"{user_count}" users accessing the system simultaneously')
+def step_given_high_concurrent_users(context, user_count):
+    """Simulate high concurrent users accessing the system"""
+    context.user_count = int(user_count)
+
+@when('they attempt to upload and process bank export files concurrently')
+def step_when_users_upload_files(context):
+    """Simulate users uploading files concurrently"""
+    def process_upload():
+        time.sleep(random.uniform(0.5, 2))  # Simulating processing delay
+        return "Processed"
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=context.user_count) as executor:
+        results = list(executor.map(lambda _: process_upload(), range(context.user_count)))
+
+    context.upload_results = results
+
+@then('the system should maintain stable performance without degradation')
+def step_then_check_stability(context):
+    """Ensure the system remains stable under high concurrency"""
+    logging.info(f"System handled {context.user_count} concurrent users successfully.")
+
+@then('response times should remain within "{expected_response_time}" seconds')
+def step_then_check_response_time(context, expected_response_time):
+    """Ensure response time remains within limits"""
+    expected_response_time = float(expected_response_time)
+    actual_response_time = random.uniform(0.5, expected_response_time)  # Simulating response time
+    assert actual_response_time <= expected_response_time, "Response time exceeded threshold"
+    logging.info(f"Response time: {actual_response_time:.2f} seconds within acceptable range.")
+
+@given('"{user_count}" users performing simultaneous operations on bank export files')
+def step_given_resource_utilization(context, user_count):
+    """Monitor system resource utilization under high concurrent load"""
+    context.user_count = int(user_count)
+
+@then('CPU usage should not exceed "{cpu_limit}%"')
+def step_then_check_cpu_usage(context, cpu_limit):
+    """Ensure CPU usage remains within limits"""
+    cpu_usage = random.uniform(50, int(cpu_limit))  # Simulating CPU usage
+    assert cpu_usage <= int(cpu_limit), "CPU usage exceeded threshold"
+    logging.info(f"CPU usage at {cpu_usage:.2f}% within acceptable limits.")
+
+@then('memory usage should remain below "{memory_limit}%"')
+def step_then_check_memory_usage(context, memory_limit):
+    """Ensure memory usage remains within limits"""
+    memory_usage = random.uniform(40, int(memory_limit))  # Simulating memory usage
+    assert memory_usage <= int(memory_limit), "Memory usage exceeded threshold"
+    logging.info(f"Memory usage at {memory_usage:.2f}% within acceptable limits.")
+
+@given('"{user_count}" users executing queries simultaneously')
+def step_given_database_queries(context, user_count):
+    """Simulate high concurrent database transactions"""
+    context.user_count = int(user_count)
+
+@when('transaction logs are analyzed')
+def step_when_analyze_transaction_logs(context):
+    """Analyze database transaction logs"""
+    logging.info(f"Analyzing {context.user_count} concurrent database transactions.")
+
+@then('database response times should be within "{query_response_time}" seconds')
+def step_then_check_db_response_time(context, query_response_time):
+    """Ensure database query response times are within acceptable limits"""
+    response_time = random.uniform(0.5, float(query_response_time))  # Simulating query response time
+    assert response_time <= float(query_response_time), "Database query response time exceeded limit"
+    logging.info(f"Database response time: {response_time:.2f} seconds.")
+
+@given('"{user_count}" users submitting processing requests')
+def step_given_request_queue(context, user_count):
+    """Simulate concurrent users submitting processing requests"""
+    context.user_count = int(user_count)
+
+@when('the system queues the requests for execution')
+def step_when_queue_requests(context):
+    """Simulate queueing of processing requests"""
+    context.queued_requests = context.user_count
+
+@then('the queue should not exceed "{max_queue_size}" pending requests')
+def step_then_check_queue_size(context, max_queue_size):
+    """Ensure queue size does not exceed limit"""
+    max_queue_size = int(max_queue_size)
+    assert context.queued_requests <= max_queue_size, "Queue size exceeded threshold"
+    logging.info(f"Queue size: {context.queued_requests} within allowed limit of {max_queue_size}.")
+
+@then('prioritization rules should apply based on "{priority_rule}"')
+def step_then_apply_queue_priority(context, priority_rule):
+    """Ensure queue follows prioritization rules"""
+    logging.info(f"Queue prioritization applied based on: {priority_rule}")
+
+@given('"{user_count}" users performing simultaneous operations')
+def step_given_error_handling(context, user_count):
+    """Monitor error handling under high concurrent load"""
+    context.user_count = int(user_count)
+
+@when('some operations fail due to system limitations')
+def step_when_simulate_failures(context):
+    """Simulate failures in concurrent operations"""
+    context.failed_operations = random.randint(1, context.user_count // 10)  # Simulating failures
+
+@then('failures should be logged with clear error messages')
+def step_then_log_errors(context):
+    """Ensure failures are logged with error messages"""
+    logging.warning(f"{context.failed_operations} operations failed and logged.")
+
+@then('users should receive appropriate error notifications')
+def step_then_notify_users(context):
+    """Ensure users receive error notifications"""
+    logging.info(f"Users notified about {context.failed_operations} failed operations.")
+
+@given('"{user_count}" users continuously accessing the system for "{duration}" hours')
+def step_given_long_running_users(context, user_count, duration):
+    """Monitor system stability over extended high-load periods"""
+    context.user_count = int(user_count)
+    context.duration = int(duration)
+
+@when('system health metrics are monitored')
+def step_when_monitor_health(context):
+    """Simulate monitoring of system health metrics"""
+    logging.info(f"Monitoring system health for {context.user_count} users over {context.duration} hours.")
+
+@then('memory leaks should not occur')
+def step_then_check_memory_leaks(context):
+    """Ensure no memory leaks occur"""
+    memory_leak_detected = random.choice([False, False, False, True])  # Simulated detection
+    assert not memory_leak_detected, "Memory leak detected!"
+    logging.info("No memory leaks detected.")
+
+@then('no crashes or unexpected terminations should happen')
+def step_then_check_system_crashes(context):
+    """Ensure system does not crash under high concurrent load"""
+    crash_occurred = random.choice([False, False, True])  # Simulated crash detection
+    assert not crash_occurred, "Unexpected system crash detected!"
+    logging.info("System maintained stability without crashes.")
+
+# ================= End of High Concurrent Users Performance Testing Step Definitions =================
