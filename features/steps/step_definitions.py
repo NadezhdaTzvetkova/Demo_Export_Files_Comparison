@@ -1148,3 +1148,126 @@ def step_then_escalate_for_manual_verification(context):
     logging.info(f"Escalating {len(context.orphaned_transactions)} orphaned transactions for manual verification.")
 
 # ================= End of Orphaned Transactions Validation =================
+
+# ================= Beginning of Transaction Mismatch Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "duplicate_integrity_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+
+@when('I compare the "Transaction ID", "Amount", and "Currency" columns in the "{sheet_name}" sheet')
+def step_when_compare_transaction_details(context, sheet_name):
+    if context.file_path.endswith('.csv'):
+        context.data = pd.read_csv(context.file_path)
+    else:
+        context.data = pd.read_excel(context.file_path, sheet_name=sheet_name)
+
+    assert all(col in context.data.columns for col in
+               ["Transaction ID", "Amount", "Currency"]), "Required columns missing in file."
+    context.mismatched_transactions = context.data.groupby("Transaction ID").filter(
+        lambda x: x["Amount"].nunique() > 1 or x["Currency"].nunique() > 1)
+
+
+@then('transactions with mismatched details should be flagged')
+def step_then_flag_mismatched_transactions(context):
+    assert not context.mismatched_transactions.empty, "No transaction mismatches detected."
+    logging.info(f"Flagged {len(context.mismatched_transactions)} transactions with mismatched details.")
+
+
+@then('flagged transactions should be reviewed for potential data entry errors')
+def step_then_review_data_entry_errors(context):
+    logging.warning(f"Review required: {len(context.mismatched_transactions)} potential data entry errors detected.")
+
+
+@then('a report should be generated listing mismatches')
+def step_then_generate_mismatch_report(context):
+    report_path = "reports/transaction_mismatch_report.csv"
+    context.mismatched_transactions.to_csv(report_path, index=False)
+    logging.info(f"Mismatch report generated at: {report_path}")
+
+# ================= End of Transaction Mismatch Validation =================
+
+# ================= Beginning of Edge Case Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "edge_case_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+@when('I attempt to process the file')
+def step_when_attempt_process_file(context):
+    if os.stat(context.file_path).st_size == 0:
+        context.is_empty = True
+    else:
+        context.is_empty = False
+
+@then('the system should detect it as empty')
+def step_then_detect_empty_file(context):
+    assert context.is_empty, "File is not empty."
+    logging.warning("Empty file detected and flagged.")
+
+@when('I check for special characters in the "{column_name}" column')
+def step_when_check_special_characters(context, column_name):
+    context.data = pd.read_csv(context.file_path) if context.file_path.endswith('.csv') else pd.read_excel(context.file_path)
+    context.special_char_issues = context.data[column_name].str.contains(r'[^a-zA-Z0-9 ]', na=False)
+
+@then('transactions containing special characters should be flagged')
+def step_then_flag_special_characters(context):
+    flagged_rows = context.data[context.special_char_issues]
+    assert not flagged_rows.empty, "No special characters found."
+    logging.warning(f"Flagged {len(flagged_rows)} transactions containing special characters.")
+
+@when('I check the "Date" column in the "{sheet_name}" sheet')
+def step_when_check_extreme_dates(context, sheet_name):
+    context.data = pd.read_csv(context.file_path) if context.file_path.endswith('.csv') else pd.read_excel(context.file_path, sheet_name=sheet_name)
+    context.extreme_dates = context.data["Date"][(context.data["Date"] < "1900-01-01") | (context.data["Date"] > "2100-01-01")]
+
+@then('transactions with dates in the far future or past should be flagged')
+def step_then_flag_extreme_dates(context):
+    assert not context.extreme_dates.empty, "No extreme dates found."
+    logging.warning(f"Flagged {len(context.extreme_dates)} transactions with extreme dates.")
+
+@when('I attempt to open the file')
+def step_when_attempt_open_file(context):
+    try:
+        context.data = pd.read_csv(context.file_path) if context.file_path.endswith('.csv') else pd.read_excel(context.file_path)
+        context.is_corrupt = False
+    except Exception as e:
+        logging.error(f"File corruption detected: {e}")
+        context.is_corrupt = True
+
+@then('an error should be raised indicating the file is corrupted')
+def step_then_detect_corrupt_file(context):
+    assert context.is_corrupt, "File is not corrupted."
+    logging.warning("Corrupt file detected and flagged for review.")
+
+@when('I check for whitespace issues in the "{column_name}" column')
+def step_when_check_whitespace(context, column_name):
+    context.data[column_name] = context.data[column_name].astype(str)
+    context.whitespace_issues = context.data[column_name].str.contains(r'^\s|\s$', na=False)
+
+@then('leading and trailing spaces should be removed')
+def step_then_remove_whitespace(context):
+    context.data = context.data.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+    logging.info("Whitespace issues cleaned.")
+
+# ================= End of Edge Case Validation =================
