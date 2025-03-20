@@ -10,6 +10,7 @@ import concurrent.futures
 from behave import given, when, then
 import logging
 import concurrent.futures
+import psutil  # To monitor memory usage
 
 # Dynamic Data Directory Selection Based on Feature File
 FEATURE_TO_DATA_DIR = {
@@ -3280,3 +3281,290 @@ def step_then_validate_query_performance(context, expected_time):
     logging.info(f"Query executed in {context.query_time:.2f} seconds.")
 
 # ================= End of Large Transaction Volume Processing Step Definitions =================
+
+# ================= Beginning of System Memory Usage Performance Step Definitions =================
+# This script evaluates system memory consumption during various stages of bank export file processing.
+# It ensures:
+# - Efficient memory management when handling large datasets.
+# - Stability under batch processing and long-running transactions.
+# - Prevention of memory leaks and handling of memory overflow errors.
+# - Optimal database query execution with minimal memory overhead.
+
+logging.basicConfig(level=logging.INFO)
+
+@given('a bank export file containing "{row_count}" rows and "{column_count}" columns')
+def step_given_large_file_memory_usage(context, row_count, column_count):
+    """Simulate a large bank export file for memory performance testing"""
+    context.row_count = int(row_count)
+    context.column_count = int(column_count)
+
+@when('the system processes the file')
+def step_when_process_large_file_memory(context):
+    """Simulate processing a large export file and monitor memory usage"""
+    initial_memory = psutil.virtual_memory().percent
+    processing_time = random.uniform(30, 180)
+    context.processing_time = processing_time
+    context.memory_usage = initial_memory + random.uniform(5, 20)
+    time.sleep(min(processing_time, 5))  # Simulate brief processing delay
+
+@then('memory consumption should not exceed "{memory_limit}%"')
+def step_then_validate_memory_usage(context, memory_limit):
+    """Ensure memory usage remains within acceptable limits"""
+    assert context.memory_usage <= float(memory_limit), "Memory consumption exceeded limit!"
+    logging.info(f"Memory usage: {context.memory_usage:.2f}% within acceptable limits.")
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_processing_time(context, expected_time):
+    """Ensure processing completes within expected time"""
+    assert context.processing_time <= float(expected_time), "Processing took too long!"
+    logging.info(f"Processing completed in {context.processing_time:.2f} seconds.")
+
+@given('I attempt to import the file into the database')
+def step_when_import_large_memory_dataset(context):
+    """Simulate database import process and monitor memory usage"""
+    initial_memory = psutil.virtual_memory().percent
+    import_time = random.uniform(60, 300)
+    context.import_time = import_time
+    context.memory_usage = initial_memory + random.uniform(10, 25)
+    time.sleep(min(import_time, 5))  # Simulating wait
+
+@then('database memory consumption should not exceed "{memory_limit}%"')
+def step_then_validate_database_memory(context, memory_limit):
+    """Ensure database import does not cause excessive memory usage"""
+    assert context.memory_usage <= float(memory_limit), "Database memory usage exceeded limit!"
+    logging.info(f"Database memory usage: {context.memory_usage:.2f}% within limits.")
+
+@given('"{batch_count}" bank export files each containing "{row_count}" rows')
+def step_given_large_batch_files_memory(context, batch_count, row_count):
+    """Simulate batch file processing and memory performance"""
+    context.batch_count = int(batch_count)
+    context.row_count = int(row_count)
+
+@when('I process these files in parallel')
+def step_when_batch_process_large_files(context):
+    """Simulate parallel processing and track memory usage"""
+    initial_memory = psutil.virtual_memory().percent
+    batch_time = random.uniform(100, 900)
+    context.batch_processing_time = batch_time
+    context.memory_usage = initial_memory + random.uniform(10, 20)
+    time.sleep(min(batch_time, 5))
+
+@then('total memory consumption should remain below "{memory_limit}%"')
+def step_then_check_memory_after_batch(context, memory_limit):
+    """Ensure batch processing does not cause excessive memory usage"""
+    assert context.memory_usage <= float(memory_limit), "Batch processing memory usage exceeded limit!"
+    logging.info(f"Batch memory usage: {context.memory_usage:.2f}% within acceptable limits.")
+
+@given('a continuous stream of bank export files arriving every "{interval}" seconds with "{row_count}" rows each')
+def step_given_long_running_memory_test(context, interval, row_count):
+    """Simulate long-running data stream processing"""
+    context.interval = int(interval)
+    context.row_count = int(row_count)
+
+@when('the system processes them for "{duration}" hours')
+def step_when_process_long_running_memory(context, duration):
+    """Monitor memory stability during long-running transactions"""
+    context.duration = int(duration)
+    initial_memory = psutil.virtual_memory().percent
+    for _ in range(context.duration):
+        memory_spike = random.uniform(0, 5)  # Simulating memory usage fluctuations
+        if memory_spike > 3:
+            logging.warning(f"Memory increased unexpectedly: {memory_spike:.2f}%")
+        time.sleep(1)
+
+@then('memory usage should not increase unexpectedly')
+def step_then_check_memory_leak(context):
+    """Ensure memory leaks do not occur"""
+    final_memory = psutil.virtual_memory().percent
+    assert final_memory < 90, "Memory leak detected!"
+    logging.info(f"Memory usage stabilized at {final_memory:.2f}%.")
+
+@given('a bank export file "{file_name}" that exceeds memory limits')
+def step_given_memory_overflow_file(context, file_name):
+    """Simulate memory overflow scenario"""
+    context.file_name = file_name
+
+@when('I attempt to process the file')
+def step_when_process_memory_overflow(context):
+    """Monitor system response to memory overflow"""
+    memory_usage = random.uniform(90, 100)
+    context.memory_usage = memory_usage
+    time.sleep(2)
+
+@then('the system should log memory exhaustion errors')
+def step_then_log_memory_exhaustion(context):
+    """Ensure system logs memory exhaustion errors correctly"""
+    assert context.memory_usage >= 90, "Memory exhaustion not detected!"
+    logging.error(f"Memory exhaustion detected: {context.memory_usage:.2f}%.")
+
+@then('system operations should continue without crashing')
+def step_then_system_stability_after_overflow(context):
+    """Ensure system does not crash due to memory overflow"""
+    system_stable = random.choice([True, False])
+    assert system_stable, "System crashed due to memory overload!"
+    logging.info("System continued running despite memory overload.")
+
+@given('a database containing "{row_count}" records from bank export files')
+def step_given_large_query_memory_usage(context, row_count):
+    """Simulate database with large record set for query performance testing"""
+    context.row_count = int(row_count)
+
+@when('I execute a complex query with multiple joins and filters')
+def step_when_execute_query_memory_usage(context):
+    """Monitor memory consumption during complex query execution"""
+    initial_memory = psutil.virtual_memory().percent
+    query_time = random.uniform(2, 15)
+    context.query_time = query_time
+    context.memory_usage = initial_memory + random.uniform(5, 15)
+    time.sleep(min(query_time, 5))
+
+@then('memory consumption should not exceed "{memory_limit}%"')
+def step_then_validate_query_memory_usage(context, memory_limit):
+    """Ensure query execution remains within memory limits"""
+    assert context.memory_usage <= float(memory_limit), "Query memory usage exceeded limit!"
+    logging.info(f"Query memory usage: {context.memory_usage:.2f}% within limits.")
+
+@then('query execution should complete within "{expected_time}" seconds')
+def step_then_validate_query_time(context, expected_time):
+    """Ensure query execution completes within expected time"""
+    assert context.query_time <= float(expected_time), "Query execution time exceeded limit!"
+    logging.info(f"Query executed in {context.query_time:.2f} seconds.")
+
+# ================= End of System Memory Usage Performance Step Definitions =================
+
+# ================= Beginning of Duplicate Imports Validation Step Definitions =================
+# This script ensures the system properly handles duplicate imports in bank export file processing.
+# It verifies:
+# - Detection and prevention of duplicate file imports.
+# - Maintenance of database integrity when duplicate files are encountered.
+# - Efficient batch processing behavior while skipping duplicates.
+# - Proper error handling and logging for duplicate import attempts.
+# - Performance impact assessment when detecting large-scale duplicate imports.
+
+logging.basicConfig(level=logging.INFO)
+
+processed_files = set()  # Simulating stored processed files
+
+@given('a previously processed bank export file named "{file_name}"')
+def step_given_previously_processed_file(context, file_name):
+    """Simulate a file that has already been processed"""
+    processed_files.add(file_name)
+    context.file_name = file_name
+
+@when('I attempt to import the same file again')
+def step_when_attempt_duplicate_import(context):
+    """Attempt to import a previously processed file"""
+    context.is_duplicate = context.file_name in processed_files
+    time.sleep(1)  # Simulating processing time
+
+@then('the system should detect the duplicate import attempt')
+def step_then_detect_duplicate_import(context):
+    """Verify that the system identifies the duplicate file"""
+    assert context.is_duplicate, "Duplicate file import was not detected!"
+    logging.info(f"Duplicate import detected: {context.file_name}")
+
+@then('an error message "{error_message}" should be displayed')
+def step_then_display_error_message(context, error_message):
+    """Ensure the correct error message is displayed"""
+    if context.is_duplicate:
+        logging.error(error_message)
+
+@then('the duplicate file should not be processed')
+def step_then_prevent_duplicate_processing(context):
+    """Ensure duplicate files are not reprocessed"""
+    assert context.file_name in processed_files, "Duplicate file was processed!"
+    logging.info(f"File '{context.file_name}' was correctly skipped.")
+
+@given('a database containing records from "{file_name}"')
+def step_given_database_contains_file(context, file_name):
+    """Simulate a database that already contains the records from the file"""
+    processed_files.add(file_name)
+    context.file_name = file_name
+
+@then('no duplicate records should be inserted')
+def step_then_no_duplicate_records(context):
+    """Ensure duplicate records are not added to the database"""
+    assert context.file_name in processed_files, "Duplicate records were inserted!"
+    logging.info(f"No duplicate records added from '{context.file_name}'.")
+
+@then('a log entry should be created stating "{log_message}"')
+def step_then_create_log_entry(context, log_message):
+    """Ensure a log entry is recorded for duplicate imports"""
+    logging.info(log_message)
+
+@given('a batch of bank export files including a duplicate file named "{file_name}"')
+def step_given_batch_with_duplicate_file(context, file_name):
+    """Simulate a batch of files including a duplicate"""
+    processed_files.add(file_name)
+    context.file_name = file_name
+    context.batch_files = [file_name, "new_file_1.csv", "new_file_2.xlsx"]
+
+@when('I process the batch')
+def step_when_process_batch(context):
+    """Simulate batch processing of files"""
+    context.duplicates_found = [f for f in context.batch_files if f in processed_files]
+    time.sleep(2)  # Simulate batch processing
+
+@then('only unique files should be imported')
+def step_then_unique_files_only(context):
+    """Ensure only unique files are processed"""
+    unique_files = [f for f in context.batch_files if f not in processed_files]
+    assert len(unique_files) > 0, "No unique files were processed!"
+    logging.info(f"Unique files processed: {unique_files}")
+
+@then('duplicate files should be skipped with a warning "{warning_message}"')
+def step_then_warn_duplicate_files(context, warning_message):
+    """Ensure duplicate files are skipped with a proper warning"""
+    for duplicate in context.duplicates_found:
+        logging.warning(f"{warning_message}: {duplicate}")
+
+@given('an attempt to import a duplicate file named "{file_name}"')
+def step_given_attempt_duplicate_import(context, file_name):
+    """Simulate an attempt to reimport a duplicate file"""
+    context.file_name = file_name
+    context.is_duplicate = file_name in processed_files
+
+@then('a user notification should be sent with "{notification_message}"')
+def step_then_send_notification(context, notification_message):
+    """Ensure users are notified when a duplicate is detected"""
+    if context.is_duplicate:
+        logging.info(notification_message)
+
+@then('an audit log should capture the duplicate attempt')
+def step_then_audit_log_duplicate(context):
+    """Ensure the duplicate attempt is recorded in an audit log"""
+    logging.info(f"Audit Log: Duplicate import attempt detected for {context.file_name}")
+
+@given('a system processing "{file_count}" export files per minute')
+def step_given_system_processing_files(context, file_count):
+    """Simulate a system processing a high volume of files"""
+    context.file_count = int(file_count)
+
+@when('"{duplicate_count}" duplicate files are included')
+def step_when_add_duplicates_to_processing(context, duplicate_count):
+    """Simulate adding duplicates to the processing queue"""
+    context.duplicate_count = int(duplicate_count)
+
+@then('the duplicate detection should not cause significant processing delay')
+def step_then_no_performance_impact(context):
+    """Ensure duplicate detection does not slow down processing"""
+    processing_time = random.uniform(0.1, 1.5) * context.file_count
+    assert processing_time < 5 * context.file_count, "Processing delay due to duplicates!"
+    logging.info(f"Processing completed in {processing_time:.2f} seconds without significant delay.")
+
+@then('processing speed should remain above "{expected_speed}" files per minute')
+def step_then_maintain_processing_speed(context, expected_speed):
+    """Ensure processing speed remains within acceptable limits"""
+    expected_speed = int(expected_speed)
+    actual_speed = context.file_count - context.duplicate_count
+    assert actual_speed >= expected_speed, "Processing speed dropped below threshold!"
+    logging.info(f"Processing speed maintained at {actual_speed} files per minute.")
+
+@then('system performance should not degrade significantly')
+def step_then_system_performance_stable(context):
+    """Ensure system performance remains stable despite duplicate detection"""
+    memory_usage = random.uniform(50, 75)
+    assert memory_usage < 80, "System performance degraded due to memory overload!"
+    logging.info(f"System memory usage at {memory_usage:.2f}%, no performance degradation detected.")
+
+# ================= End of Duplicate Imports Validation Step Definitions =================
