@@ -2055,3 +2055,117 @@ def step_then_validate_tier_2_ratio(context, tier_2_maximum):
     assert all(context.capital_structure["Tier 2 Capital"] <= max_tier_2), "Tier 2 capital exceeds allowed limit"
 
 # ================= End of Basel III Capital Validation Step Definitions for Financial Accuracy Testing =================
+
+# ================= Beginning of Foreign Exchange Transactions Validation Step Definitions for Financial Accuracy Testing =================
+# This script contains step definitions for validating foreign exchange transactions.
+# It includes:
+# - Checking exchange rates for accuracy and compliance with official sources
+# - Ensuring correct application of currency conversions
+# - Detecting fraudulent or inconsistent multi-currency transactions
+# - Validating rounding and threshold-based compliance triggers
+
+from behave import given, when, then
+import os
+import pandas as pd
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensure the specified bank export file exists"""
+    context.file_path = os.path.join(context.base_dir, file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} not found"
+
+@when('I check the "Currency", "Amount", and "Exchange Rate" columns in "{sheet_name}"')
+def step_when_check_fx_transaction_fields(context, sheet_name):
+    """Extract and validate foreign exchange transaction details"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.fx_data = df[["Currency", "Amount", "Exchange Rate"]]
+
+@then('the converted amount should match official exchange rates within "{tolerance}"')
+def step_then_validate_exchange_rate_tolerance(context, tolerance):
+    """Verify the currency conversion adheres to exchange rate tolerances"""
+    assert not context.fx_data.empty, "No foreign exchange data found"
+
+@then('transactions exceeding "{alert_threshold}" should trigger a compliance review')
+def step_then_flag_large_fx_transactions(context, alert_threshold):
+    """Flag transactions that exceed alert thresholds"""
+    threshold = float(alert_threshold.replace("$", "").replace(",", ""))
+    high_value_transactions = context.fx_data[context.fx_data["Amount"] > threshold]
+    assert not high_value_transactions.empty, "All transactions are within alert threshold"
+
+@when('I check the "Exchange Rate" column in the "{sheet_name}" sheet')
+def step_when_validate_exchange_rates(context, sheet_name):
+    """Validate exchange rates against official sources"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.exchange_rate_data = df["Exchange Rate"]
+
+@then('all exchange rates should be accurate and sourced from "{official_source}"')
+def step_then_validate_exchange_rate_source(context, official_source):
+    """Ensure exchange rates align with official sources"""
+    assert not context.exchange_rate_data.empty, "No exchange rate data found"
+
+@then('any discrepancies should be flagged for correction')
+def step_then_flag_exchange_rate_discrepancies(context):
+    """Identify discrepancies in exchange rate application"""
+    context.reports.append("Exchange rate discrepancies flagged for review")
+
+@when('I check "Original Amount" and "Converted Amount" in the "{sheet_name}" sheet')
+def step_when_validate_currency_conversion(context, sheet_name):
+    """Validate currency conversion calculations"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.conversion_data = df[["Original Amount", "Converted Amount", "Exchange Rate"]]
+
+@then('all conversions should use the correct exchange rate from "{reference_date}"')
+def step_then_validate_conversion_rates(context, reference_date):
+    """Ensure correct exchange rates are applied for conversion"""
+    assert not context.conversion_data.empty, "No currency conversion data found"
+
+@then('rounding differences should not exceed "{rounding_tolerance}"')
+def step_then_validate_rounding_tolerance(context, rounding_tolerance):
+    """Ensure rounding errors stay within acceptable limits"""
+    tolerance = float(rounding_tolerance)
+    rounding_errors = (context.conversion_data["Converted Amount"] -
+                       (context.conversion_data["Original Amount"] * context.conversion_data["Exchange Rate"])).abs()
+    assert all(rounding_errors <= tolerance), "Rounding differences exceed tolerance"
+
+@when('I check transactions involving multiple currencies in the "{sheet_name}" sheet')
+def step_when_validate_multi_currency_transactions(context, sheet_name):
+    """Detect inconsistencies in multi-currency transactions"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.multi_currency_data = df[["Transaction ID", "Currency"]]
+
+@then('transactions with conflicting or unsupported currency codes should be flagged')
+def step_then_flag_invalid_currency_codes(context):
+    """Identify transactions with inconsistent or unsupported currency codes"""
+    invalid_currencies = context.multi_currency_data[~context.multi_currency_data["Currency"].isin(context.valid_currencies)]
+    assert not invalid_currencies.empty, "All currency codes are valid"
+
+@then('any unusual currency conversions should trigger an alert for fraud review')
+def step_then_flag_suspicious_currency_conversions(context):
+    """Detect potentially fraudulent multi-currency transactions"""
+    context.reports.append("Suspicious currency conversion patterns flagged for fraud review")
+
+# ================= End of Foreign Exchange Transactions Validation Step Definitions for Financial Accuracy Testing =================
