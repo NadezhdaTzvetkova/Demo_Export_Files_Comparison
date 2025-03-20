@@ -3,7 +3,26 @@ import glob
 import logging
 import pandas as pd
 from behave import given, when, then
+from datetime import datetime, timedelta
 
+# Dynamic Data Directory Selection Based on Feature File
+FEATURE_TO_DATA_DIR = {
+    "date_format_validation": "test_data/date_validation_test_data",
+}
+
+ISO_DATE_FORMAT = "%Y-%m-%d"
+TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Dynamically set the DATA_DIR based on feature name
+FEATURE_NAME = "decimal_precision"
+DATA_DIR = os.path.join("test_data", f"{FEATURE_NAME}_test_data")
+
+# Ensure DATA_DIR exists
+if not os.path.exists(DATA_DIR):
+    logging.warning(f"Warning: Data directory {DATA_DIR} does not exist!")
 
 # Determine the appropriate data directory based on the feature file name
 
@@ -339,3 +358,70 @@ def step_then_flag_future_transactions(context, future_threshold):
     assert not any(context.future_transactions), f"Found transactions postdated beyond {threshold} days"
 
 # ================= End of Date Format Validation =================
+
+# ================= Beginning of Decimal Precision Validation =================
+
+
+def load_bank_export(file_name, sheet_name=None):
+    """Loads CSV or Excel bank export file"""
+    file_path = os.path.join(DATA_DIR, file_name)
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Test file {file_name} not found in {DATA_DIR}")
+
+    if file_name.endswith('.csv'):
+        return pd.read_csv(file_path)
+    elif file_name.endswith('.xlsx'):
+        return pd.read_excel(file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    logging.info(f"Processing file: {file_name}")
+
+
+given('a bank export file "{file_name}" with multi-currency transactions')(step_given_bank_export_file)
+
+
+@when('I check the "Amount" column in the "{sheet_name}" sheet')
+def step_when_check_amount_column(context, sheet_name):
+    context.df = load_bank_export(context.file_name, sheet_name)
+    if "Amount" not in context.df.columns:
+        raise KeyError("Missing 'Amount' column in dataset")
+    logging.info(f"Loaded dataset from {context.file_name}, checking 'Amount' column")
+
+
+@then('all monetary values should have exactly "{expected_precision}" decimal places')
+def step_then_validate_decimal_precision(context, expected_precision):
+    expected_precision = int(expected_precision)
+
+    context.df["Decimal_Precision"] = context.df["Amount"].astype(str).str.split(".").str[-1].str.len()
+    incorrect_values = context.df[context.df["Decimal_Precision"] != expected_precision]
+
+    assert incorrect_values.empty, f"{len(incorrect_values)} transactions have incorrect decimal precision!"
+    logging.info("All monetary values meet expected decimal precision.")
+
+
+@then('values should not contain more than "{expected_precision}" decimal places')
+def step_then_check_max_precision(context, expected_precision):
+    expected_precision = int(expected_precision)
+
+    max_precision = context.df["Decimal_Precision"].max()
+    assert max_precision <= expected_precision, f"Max precision found: {max_precision}, expected: {expected_precision}"
+    logging.info("All values conform to max decimal precision limit.")
+
+
+@then('rounding inconsistencies should be flagged')
+def step_then_flag_rounding_issues(context):
+    context.df["Rounded_Amount"] = context.df["Amount"].round(2)
+    rounding_issues = context.df[context.df["Amount"] != context.df["Rounded_Amount"]]
+
+    if not rounding_issues.empty:
+        logging.warning(f"{len(rounding_issues)} transactions show rounding inconsistencies.")
+        logging.info(rounding_issues.to_string())
+    else:
+        logging.info("No rounding inconsistencies found.")
+
+# ================= End of Decimal Precision Validation =================
