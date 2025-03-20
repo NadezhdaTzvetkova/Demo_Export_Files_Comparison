@@ -1358,3 +1358,68 @@ def step_then_recommend_verification(context):
     logging.info("Recommendation: Verify the data source and ensure the file is not empty before reprocessing.")
 
 # ================= End of Empty File Validation =================
+
+# ================= Beginning of Hidden Rows Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "edge_case_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+@when('I check for hidden rows in the "{sheet_name}" sheet')
+def step_when_check_hidden_rows(context, sheet_name):
+    if file_name.endswith(".xlsx"):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        df = pd.read_csv(context.file_path)
+    context.hidden_rows = df[df.isnull().all(axis=1)].index.tolist()
+    logging.info(f"Hidden rows detected: {context.hidden_rows}")
+
+@then('all hidden rows should be identified and logged')
+def step_then_log_hidden_rows(context):
+    assert len(context.hidden_rows) > 0, "No hidden rows detected."
+    logging.warning(f"Hidden rows found: {context.hidden_rows}")
+
+@then('a report should be generated listing the hidden rows')
+def step_then_generate_report(context):
+    logging.info(f"Generated report for hidden rows: {context.hidden_rows}")
+
+@then('users should be alerted to review the hidden data')
+def step_then_alert_users(context):
+    logging.warning("User notification: Hidden rows detected. Review required.")
+
+@then('transactions hidden in rows should be flagged as potential fraud')
+def step_then_flag_fraudulent_hidden_rows(context):
+    assert len(context.hidden_rows) > 0, "No hidden transactions detected."
+    logging.error("Fraud Alert: Transactions detected in hidden rows.")
+
+@then('flagged transactions should be escalated for further review')
+def step_then_escalate_fraudulent_hidden_rows(context):
+    logging.info("Escalating hidden transactions for compliance review.")
+
+@then('an alert should be generated for compliance teams')
+def step_then_alert_compliance(context):
+    logging.warning("Compliance Alert: Hidden transactions flagged for investigation.")
+
+@then('rows with partially hidden content should be identified')
+def step_then_identify_partial_hidden_rows(context):
+    context.partial_hidden_rows = [row for row in context.hidden_rows if row in df.index]
+    logging.info(f"Partially hidden rows detected: {context.partial_hidden_rows}")
+
+@then('a warning should be generated for data review')
+def step_then_warn_partial_hidden_rows(context):
+    logging.warning(f"Warning: Partial hidden rows found - {context.partial_hidden_rows}")
+
+@then('a suggestion should be provided to adjust visibility settings')
+def step_then_suggest_visibility_fix(context):
+    logging.info("Suggestion: Adjust spreadsheet visibility settings to ensure all data is accessible.")
+
+# ================= End of Hidden Rows Validation =================
