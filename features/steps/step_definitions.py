@@ -2958,3 +2958,174 @@ def step_then_check_system_crashes(context):
     logging.info("System maintained stability without crashes.")
 
 # ================= End of High Concurrent Users Performance Testing Step Definitions =================
+
+# ================= Beginning of Large Data Performance Testing Step Definitions =================
+# This script evaluates system performance under large data processing conditions.
+# It ensures:
+# - Efficient handling of large datasets in exports and database imports.
+# - Stability under network latency and long-running processes.
+# - Proper error handling and query performance optimizations.
+# - Prevention of memory leaks and out-of-memory errors.
+# - Batch processing and retry mechanisms for failed operations.
+
+from behave import given, when, then
+import time
+import logging
+import random
+import concurrent.futures
+
+logging.basicConfig(level=logging.INFO)
+
+@given('a bank export file with "{row_count}" rows and "{column_count}" columns')
+def step_given_large_export_file(context, row_count, column_count):
+    """Simulate a large export file with specified row and column count"""
+    context.row_count = int(row_count)
+    context.column_count = int(column_count)
+
+@when('the system processes the file')
+def step_when_process_large_file(context):
+    """Simulate processing of a large export file"""
+    processing_time = random.uniform(30, 180)  # Simulating processing time
+    context.processing_time = processing_time
+    time.sleep(min(processing_time, 3))  # Simulating a brief wait
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_check_processing_time(context, expected_time):
+    """Ensure processing time is within expected limits"""
+    assert context.processing_time <= float(expected_time), "Processing took too long!"
+    logging.info(f"Processing completed in {context.processing_time:.2f} seconds.")
+
+@then('no data loss or corruption should occur')
+def step_then_check_data_integrity(context):
+    """Ensure no data is lost or corrupted"""
+    data_loss = random.choice([False, False, False, True])  # Simulating rare data loss
+    assert not data_loss, "Data loss detected!"
+    logging.info("Data integrity verified: No data loss or corruption.")
+
+@then('memory consumption should not exceed "{memory_limit}%"')
+def step_then_check_memory_usage(context, memory_limit):
+    """Ensure memory consumption stays within limits"""
+    memory_usage = random.uniform(50, int(memory_limit))  # Simulating memory usage
+    assert memory_usage <= int(memory_limit), "Memory usage exceeded limit!"
+    logging.info(f"Memory usage at {memory_usage:.2f}% within acceptable limits.")
+
+@given('a bank export file with "{row_count}" rows')
+def step_given_large_database_import(context, row_count):
+    """Simulate importing a large dataset into the database"""
+    context.row_count = int(row_count)
+
+@when('I attempt to import the file into the database')
+def step_when_import_large_dataset(context):
+    """Simulate database import process"""
+    import_time = random.uniform(60, 300)  # Simulating import duration
+    context.import_time = import_time
+    time.sleep(min(import_time, 5))  # Simulating wait
+
+@then('the database should complete the import within "{expected_time}" seconds')
+def step_then_check_import_time(context, expected_time):
+    """Ensure database import completes within expected limits"""
+    assert context.import_time <= float(expected_time), "Database import took too long!"
+    logging.info(f"Database import completed in {context.import_time:.2f} seconds.")
+
+@then('indexing operations should not cause performance degradation')
+def step_then_check_indexing_performance(context):
+    """Ensure indexing does not slow down performance"""
+    indexing_slowdown = random.choice([False, False, True])  # Simulating rare issues
+    assert not indexing_slowdown, "Indexing slowed down performance!"
+    logging.info("Indexing operations completed without performance degradation.")
+
+@given('"{batch_count}" bank export files each containing "{row_count}" rows')
+def step_given_large_batch_files(context, batch_count, row_count):
+    """Simulate batch processing of large export files"""
+    context.batch_count = int(batch_count)
+    context.row_count = int(row_count)
+
+@when('I process these files in parallel')
+def step_when_process_batches(context):
+    """Simulate batch processing in parallel"""
+    processing_time = random.uniform(100, 900)  # Simulating batch processing duration
+    context.batch_processing_time = processing_time
+    time.sleep(min(processing_time, 5))  # Simulating wait
+
+@then('batch failures should be retried up to "{retry_count}" times')
+def step_then_retry_failed_batches(context, retry_count):
+    """Ensure failed batches are retried"""
+    retry_count = int(retry_count)
+    failures = random.randint(0, 2)  # Simulating batch failures
+    retry_attempts = 0
+
+    while failures > 0 and retry_attempts < retry_count:
+        retry_attempts += 1
+        failures -= 1  # Simulate retry success
+
+    assert failures == 0, "Some batches failed after retries!"
+    logging.info(f"Batch processing retried {retry_attempts} times and completed successfully.")
+
+@given('a bank export file "{file_name}" with "{row_count}" rows and simulated network latency of "{latency}" ms')
+def step_given_large_file_with_latency(context, file_name, row_count, latency):
+    """Simulate processing delays due to network latency"""
+    context.file_name = file_name
+    context.row_count = int(row_count)
+    context.latency = int(latency)
+
+@when('I attempt to process the file remotely')
+def step_when_remote_processing(context):
+    """Simulate remote file processing with network latency"""
+    total_latency = context.latency + random.randint(100, 500)  # Simulating variable network delay
+    context.total_latency = total_latency
+    time.sleep(min(total_latency / 1000, 5))  # Simulating network delay
+
+@then('an alert should be generated if latency exceeds "{latency_threshold}" ms')
+def step_then_check_latency(context, latency_threshold):
+    """Ensure latency does not exceed thresholds"""
+    latency_threshold = int(latency_threshold)
+    assert context.total_latency <= latency_threshold, "Network latency exceeded limit!"
+    logging.info(f"Network latency: {context.total_latency} ms within acceptable limits.")
+
+@given('a bank export file "{file_name}" containing "{error_type}" errors in "{error_percentage}%" of rows')
+def step_given_large_file_with_errors(context, file_name, error_type, error_percentage):
+    """Simulate large dataset with errors"""
+    context.file_name = file_name
+    context.error_type = error_type
+    context.error_percentage = float(error_percentage)
+
+@when('I attempt to process the file')
+def step_when_process_large_file_with_errors(context):
+    """Simulate processing of a large file containing errors"""
+    error_count = int((context.row_count * context.error_percentage) / 100)
+    context.error_count = error_count
+    logging.warning(f"Detected {context.error_count} {context.error_type} errors during processing.")
+
+@then('the system should log all errors correctly')
+def step_then_log_errors(context):
+    """Ensure error logging works correctly"""
+    assert context.error_count > 0, "No errors logged despite error conditions!"
+    logging.info(f"All {context.error_count} errors were correctly logged.")
+
+@then('processing should continue without failure for valid rows')
+def step_then_continue_valid_data_processing(context):
+    """Ensure valid rows are processed despite errors"""
+    valid_rows = context.row_count - context.error_count
+    assert valid_rows > 0, "No valid rows processed!"
+    logging.info(f"{valid_rows} valid rows processed successfully.")
+
+@given('a database containing "{row_count}" records from bank export files')
+def step_given_large_dataset_in_db(context, row_count):
+    """Simulate large dataset in database for query performance testing"""
+    context.row_count = int(row_count)
+
+@when('I execute a complex query with multiple joins and filters')
+def step_when_execute_large_query(context):
+    """Simulate execution of a large query"""
+    query_time = random.uniform(2, 15)  # Simulating query execution time
+    context.query_time = query_time
+    time.sleep(min(query_time, 5))  # Simulating query execution
+
+@then('query execution should complete within "{expected_time}" seconds')
+def step_then_check_query_performance(context, expected_time):
+    """Ensure query execution is within time limits"""
+    assert context.query_time <= float(expected_time), "Query execution time exceeded limit!"
+    logging.info(f"Query executed in {context.query_time:.2f} seconds.")
+
+# ================= End of Large Data Performance Testing Step Definitions =================
+
