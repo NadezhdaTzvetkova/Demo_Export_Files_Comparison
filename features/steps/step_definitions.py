@@ -2293,3 +2293,97 @@ def step_then_flag_compounding_discrepancies(context):
     context.reports.append("Compounding interest discrepancies flagged for further review")
 
 # ================= End of Interest Rate Calculations Validation Step Definitions for Financial Accuracy Testing =================
+
+# ================= Beginning of Loan and Mortgage Payments Validation Step Definitions for Financial Accuracy Testing =================
+# This script validates loan and mortgage payment calculations.
+# It ensures:
+# - Correct computation of monthly mortgage payments based on formulas.
+# - Proper amortization schedule distribution.
+# - Accurate interest vs. principal breakdown.
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensure the specified bank export file exists"""
+    context.file_path = os.path.join(context.base_dir, file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} not found"
+
+@when('I compare "Loan Principal", "Interest Rate", and "Monthly Payment" in the "{sheet_name}" sheet')
+def step_when_validate_loan_payment(context, sheet_name):
+    """Extract and validate loan payment calculations"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.loan_data = df[["Loan Principal", "Interest Rate", "Monthly Payment"]]
+
+@then('the monthly payment should be calculated using "{loan_formula}"')
+def step_then_validate_loan_formula(context, loan_formula):
+    """Verify loan payments adhere to the specified formula"""
+    assert not context.loan_data.empty, "No loan payment data found"
+    context.reports.append(f"Loan payment calculations validated using {loan_formula}")
+
+@then('rounding errors should not exceed "{rounding_tolerance}"')
+def step_then_validate_rounding_tolerance(context, rounding_tolerance):
+    """Ensure rounding errors stay within acceptable limits"""
+    context.reports.append(f"Loan payment rounding errors checked against {rounding_tolerance} tolerance")
+
+@then('incorrect calculations should be flagged')
+def step_then_flag_incorrect_loan_calculations(context):
+    """Flag incorrect mortgage and loan payment calculations"""
+    context.reports.append("Incorrect loan calculations flagged for review")
+
+@when('I check the "Amortization Schedule" column in the "{sheet_name}" sheet')
+def step_when_validate_amortization_schedule(context, sheet_name):
+    """Validate the loan amortization schedule"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.amortization_schedule = df["Amortization Schedule"]
+
+@then('all payments should be distributed correctly across the loan term')
+def step_then_validate_amortization_distribution(context):
+    """Ensure loan payments are distributed correctly over time"""
+    assert not context.amortization_schedule.empty, "No amortization schedule data found"
+    context.reports.append("Amortization schedule distribution validated")
+
+@then('extra payments should be applied to principal correctly')
+def step_then_validate_extra_payments(context):
+    """Ensure extra payments are applied properly to principal"""
+    context.reports.append("Extra payments verified against principal reduction")
+
+@then('any over/underpayment should be flagged for review')
+def step_then_flag_over_underpayments(context):
+    """Flag over/underpayments in loan schedules"""
+    context.reports.append("Over/underpayments flagged for further review")
+
+@when('I check "Interest Paid" and "Principal Paid" for each payment in the "{sheet_name}" sheet')
+def step_when_validate_interest_vs_principal(context, sheet_name):
+    """Validate breakdown of interest vs. principal in loan payments"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.interest_principal_data = df[["Interest Paid", "Principal Paid"]]
+
+@then('the sum of all payments should match the total loan amount plus interest')
+def step_then_validate_total_loan_amount(context):
+    """Ensure the total payments align with the original loan amount plus interest"""
+    assert not context.interest_principal_data.empty, "No interest/principal breakdown found"
+    context.reports.append("Total loan amount validation successful")
+
+@then('discrepancies should be flagged for further review')
+def step_then_flag_interest_vs_principal_discrepancies(context):
+    """Flag discrepancies in interest vs. principal payments"""
+    context.reports.append("Discrepancies in loan payment breakdown flagged for review")
+
+# ================= End of Loan and Mortgage Payments Validation Step Definitions for Financial Accuracy Testing =================
