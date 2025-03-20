@@ -1,4 +1,4 @@
-<testsuite name="performance_tests.memory_usage.Evaluate System Memory Usage Performance in Export File Processing" tests="12" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.188785" hostname="Mac.localstaff"><testcase classname="performance_tests.memory_usage.Evaluate System Memory Usage Performance in Export File Processing" name="Validate memory consumption during file processing -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="performance_tests.memory_usage.Evaluate System Memory Usage Performance in Export File Processing" tests="12" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.013476" hostname="Mac.localstaff"><testcase classname="performance_tests.memory_usage.Evaluate System Memory Usage Performance in Export File Processing" name="Validate memory consumption during file processing -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

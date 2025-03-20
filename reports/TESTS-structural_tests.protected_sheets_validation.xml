@@ -1,4 +1,4 @@
-<testsuite name="structural_tests.protected_sheets_validation.Validate Handling of Protected Sheets in Structural Testing" tests="11" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.231001" hostname="Mac.localstaff"><testcase classname="structural_tests.protected_sheets_validation.Validate Handling of Protected Sheets in Structural Testing" name="Ensure protected sheets are detected and flagged -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="structural_tests.protected_sheets_validation.Validate Handling of Protected Sheets in Structural Testing" tests="11" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.067431" hostname="Mac.localstaff"><testcase classname="structural_tests.protected_sheets_validation.Validate Handling of Protected Sheets in Structural Testing" name="Ensure protected sheets are detected and flagged -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

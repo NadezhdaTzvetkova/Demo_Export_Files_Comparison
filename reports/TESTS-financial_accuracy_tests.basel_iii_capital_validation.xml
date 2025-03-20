@@ -1,4 +1,4 @@
-<testsuite name="financial_accuracy_tests.basel_iii_capital_validation.Basel III Capital Validation" tests="14" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.151966" hostname="Mac.localstaff"><testcase classname="financial_accuracy_tests.basel_iii_capital_validation.Basel III Capital Validation" name="Validate Basel III capital adequacy reports -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="financial_accuracy_tests.basel_iii_capital_validation.Basel III Capital Validation" tests="14" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.970938" hostname="Mac.localstaff"><testcase classname="financial_accuracy_tests.basel_iii_capital_validation.Basel III Capital Validation" name="Validate Basel III capital adequacy reports -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

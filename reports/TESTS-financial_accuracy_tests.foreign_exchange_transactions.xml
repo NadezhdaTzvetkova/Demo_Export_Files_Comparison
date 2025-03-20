@@ -1,4 +1,4 @@
-<testsuite name="financial_accuracy_tests.foreign_exchange_transactions.Validate Foreign Exchange Transactions" tests="8" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.155381" hostname="Mac.localstaff"><testcase classname="financial_accuracy_tests.foreign_exchange_transactions.Validate Foreign Exchange Transactions" name="Validate exchange rates for foreign currency transactions -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="financial_accuracy_tests.foreign_exchange_transactions.Validate Foreign Exchange Transactions" tests="8" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.974287" hostname="Mac.localstaff"><testcase classname="financial_accuracy_tests.foreign_exchange_transactions.Validate Foreign Exchange Transactions" name="Validate exchange rates for foreign currency transactions -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

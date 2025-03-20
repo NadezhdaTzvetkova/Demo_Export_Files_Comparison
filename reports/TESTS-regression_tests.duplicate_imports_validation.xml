@@ -1,4 +1,4 @@
-<testsuite name="regression_tests.duplicate_imports_validation.Validate Duplicate Imports Handling in Export File Processing" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.191981" hostname="Mac.localstaff"><testcase classname="regression_tests.duplicate_imports_validation.Validate Duplicate Imports Handling in Export File Processing" name="Prevent duplicate file imports -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="regression_tests.duplicate_imports_validation.Validate Duplicate Imports Handling in Export File Processing" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.016556" hostname="Mac.localstaff"><testcase classname="regression_tests.duplicate_imports_validation.Validate Duplicate Imports Handling in Export File Processing" name="Prevent duplicate file imports -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

@@ -1,4 +1,4 @@
-<testsuite name="performance_tests.high_concurrent_users.Evaluate Performance of High Concurrent Users in Export Processing" tests="16" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.175932" hostname="Mac.localstaff"><testcase classname="performance_tests.high_concurrent_users.Evaluate Performance of High Concurrent Users in Export Processing" name="Validate system behavior under high concurrent user load -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="performance_tests.high_concurrent_users.Evaluate Performance of High Concurrent Users in Export Processing" tests="16" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.999154" hostname="Mac.localstaff"><testcase classname="performance_tests.high_concurrent_users.Evaluate Performance of High Concurrent Users in Export Processing" name="Validate system behavior under high concurrent user load -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

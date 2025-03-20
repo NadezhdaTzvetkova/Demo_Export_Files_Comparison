@@ -1,4 +1,4 @@
-<testsuite name="compliance_validation_tests.aml_suspicious_activity_validation.AML Suspicious Activity Validation" tests="20" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.027672" hostname="Mac.localstaff"><testcase classname="compliance_validation_tests.aml_suspicious_activity_validation.AML Suspicious Activity Validation" name="Detect suspicious AML transactions -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="compliance_validation_tests.aml_suspicious_activity_validation.AML Suspicious Activity Validation" tests="20" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.820222" hostname="Mac.localstaff"><testcase classname="compliance_validation_tests.aml_suspicious_activity_validation.AML Suspicious Activity Validation" name="Detect suspicious AML transactions -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

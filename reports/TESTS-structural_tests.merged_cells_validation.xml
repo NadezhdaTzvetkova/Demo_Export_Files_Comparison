@@ -1,4 +1,4 @@
-<testsuite name="structural_tests.merged_cells_validation.Validate Merged Cells in Structural Testing" tests="13" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.224178" hostname="Mac.localstaff"><testcase classname="structural_tests.merged_cells_validation.Validate Merged Cells in Structural Testing" name="Ensure merged cells do not affect data integrity -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="structural_tests.merged_cells_validation.Validate Merged Cells in Structural Testing" tests="13" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.058711" hostname="Mac.localstaff"><testcase classname="structural_tests.merged_cells_validation.Validate Merged Cells in Structural Testing" name="Ensure merged cells do not affect data integrity -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

@@ -1,4 +1,4 @@
-<testsuite name="structural_tests.column_format_validation.Validate Column Format Consistency in Structural Testing" tests="11" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.212567" hostname="Mac.localstaff"><testcase classname="structural_tests.column_format_validation.Validate Column Format Consistency in Structural Testing" name="Ensure column formats adhere to expected data types -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="structural_tests.column_format_validation.Validate Column Format Consistency in Structural Testing" tests="11" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.042525" hostname="Mac.localstaff"><testcase classname="structural_tests.column_format_validation.Validate Column Format Consistency in Structural Testing" name="Ensure column formats adhere to expected data types -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

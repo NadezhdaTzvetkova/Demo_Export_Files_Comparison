@@ -1,4 +1,4 @@
-<testsuite name="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" tests="18" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.060929" hostname="Mac.localstaff"><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Ensure file encoding is UTF-8 or ASCII -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" tests="18" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.861032" hostname="Mac.localstaff"><testcase classname="data_validation_tests.encoding_validation.Validate Encoding Consistency in Bank Export Files" name="Ensure file encoding is UTF-8 or ASCII -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

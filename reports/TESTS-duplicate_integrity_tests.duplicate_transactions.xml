@@ -1,4 +1,4 @@
-<testsuite name="duplicate_integrity_tests.duplicate_transactions.Detect Duplicate Transactions in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.104585" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.duplicate_transactions.Detect Duplicate Transactions in Export Files" name="Identify duplicate transaction records in the database -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="duplicate_integrity_tests.duplicate_transactions.Detect Duplicate Transactions in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.914052" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.duplicate_transactions.Detect Duplicate Transactions in Export Files" name="Identify duplicate transaction records in the database -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

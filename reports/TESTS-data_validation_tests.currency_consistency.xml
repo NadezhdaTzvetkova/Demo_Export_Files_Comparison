@@ -1,4 +1,4 @@
-<testsuite name="data_validation_tests.currency_consistency.Validate Currency Consistency and Negative Values in Exported Bank Files" tests="19" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.033908" hostname="Mac.localstaff"><testcase classname="data_validation_tests.currency_consistency.Validate Currency Consistency and Negative Values in Exported Bank Files" name="Ensure currency codes are correctly recorded -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="data_validation_tests.currency_consistency.Validate Currency Consistency and Negative Values in Exported Bank Files" tests="19" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.828375" hostname="Mac.localstaff"><testcase classname="data_validation_tests.currency_consistency.Validate Currency Consistency and Negative Values in Exported Bank Files" name="Ensure currency codes are correctly recorded -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

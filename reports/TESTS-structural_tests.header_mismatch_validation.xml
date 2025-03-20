@@ -1,4 +1,4 @@
-<testsuite name="structural_tests.header_mismatch_validation.Validate Header Mismatch in Structural Testing" tests="19" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.220179" hostname="Mac.localstaff"><testcase classname="structural_tests.header_mismatch_validation.Validate Header Mismatch in Structural Testing" name="Ensure headers match expected structure -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="structural_tests.header_mismatch_validation.Validate Header Mismatch in Structural Testing" tests="19" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.054206" hostname="Mac.localstaff"><testcase classname="structural_tests.header_mismatch_validation.Validate Header Mismatch in Structural Testing" name="Ensure headers match expected structure -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

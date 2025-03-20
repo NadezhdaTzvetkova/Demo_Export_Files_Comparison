@@ -1,4 +1,4 @@
-<testsuite name="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.112036" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Identify transactions without a linked account -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.922186" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.orphaned_transactions.Detect Orphaned Transactions in Export Files" name="Identify transactions without a linked account -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

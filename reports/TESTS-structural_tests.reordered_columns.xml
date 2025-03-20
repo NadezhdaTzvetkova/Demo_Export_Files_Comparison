@@ -1,4 +1,4 @@
-<testsuite name="structural_tests.reordered_columns.Validate Handling of Reordered Columns in Structural Testing" tests="24" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.236618" hostname="Mac.localstaff"><testcase classname="structural_tests.reordered_columns.Validate Handling of Reordered Columns in Structural Testing" name="Ensure reordered columns are detected and realigned -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="structural_tests.reordered_columns.Validate Handling of Reordered Columns in Structural Testing" tests="24" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.075696" hostname="Mac.localstaff"><testcase classname="structural_tests.reordered_columns.Validate Handling of Reordered Columns in Structural Testing" name="Ensure reordered columns are detected and realigned -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

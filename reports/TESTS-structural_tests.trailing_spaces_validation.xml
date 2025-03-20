@@ -1,4 +1,4 @@
-<testsuite name="structural_tests.trailing_spaces_validation.Validate Handling of Trailing and Leading Spaces in Structural Testing" tests="24" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.242988" hostname="Mac.localstaff"><testcase classname="structural_tests.trailing_spaces_validation.Validate Handling of Trailing and Leading Spaces in Structural Testing" name="Ensure trailing spaces are detected and flagged -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="structural_tests.trailing_spaces_validation.Validate Handling of Trailing and Leading Spaces in Structural Testing" tests="24" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.083146" hostname="Mac.localstaff"><testcase classname="structural_tests.trailing_spaces_validation.Validate Handling of Trailing and Leading Spaces in Structural Testing" name="Ensure trailing spaces are detected and flagged -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

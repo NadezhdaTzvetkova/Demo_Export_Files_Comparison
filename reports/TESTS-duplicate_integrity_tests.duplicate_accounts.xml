@@ -1,4 +1,4 @@
-<testsuite name="duplicate_integrity_tests.duplicate_accounts.Detect Duplicate Account Numbers in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.096383" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.duplicate_accounts.Detect Duplicate Account Numbers in Export Files" name="Identify duplicate account numbers in transaction records -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="duplicate_integrity_tests.duplicate_accounts.Detect Duplicate Account Numbers in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.904426" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.duplicate_accounts.Detect Duplicate Account Numbers in Export Files" name="Identify duplicate account numbers in transaction records -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

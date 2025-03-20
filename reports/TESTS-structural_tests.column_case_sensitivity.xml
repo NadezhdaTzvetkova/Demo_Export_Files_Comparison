@@ -1,4 +1,4 @@
-<testsuite name="structural_tests.column_case_sensitivity.Validate Column Case Sensitivity in Structural Testing" tests="12" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.209762" hostname="Mac.localstaff"><testcase classname="structural_tests.column_case_sensitivity.Validate Column Case Sensitivity in Structural Testing" name="Ensure column names are correctly recognized despite case variations -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="structural_tests.column_case_sensitivity.Validate Column Case Sensitivity in Structural Testing" tests="12" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.038944" hostname="Mac.localstaff"><testcase classname="structural_tests.column_case_sensitivity.Validate Column Case Sensitivity in Structural Testing" name="Ensure column names are correctly recognized despite case variations -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

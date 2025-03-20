@@ -1,4 +1,4 @@
-<testsuite name="data_validation_tests.date_format_validation.Validate Date Format, Chronology, and Timestamp Consistency in Exported Bank Files" tests="21" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.040950" hostname="Mac.localstaff"><testcase classname="data_validation_tests.date_format_validation.Validate Date Format, Chronology, and Timestamp Consistency in Exported Bank Files" name="Ensure all dates follow the standard banking format -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="data_validation_tests.date_format_validation.Validate Date Format, Chronology, and Timestamp Consistency in Exported Bank Files" tests="21" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.836272" hostname="Mac.localstaff"><testcase classname="data_validation_tests.date_format_validation.Validate Date Format, Chronology, and Timestamp Consistency in Exported Bank Files" name="Ensure all dates follow the standard banking format -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

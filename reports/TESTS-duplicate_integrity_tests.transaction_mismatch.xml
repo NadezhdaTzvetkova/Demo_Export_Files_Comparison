@@ -1,4 +1,4 @@
-<testsuite name="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.115633" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Identify transactions with mismatched details -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.925958" hostname="Mac.localstaff"><testcase classname="duplicate_integrity_tests.transaction_mismatch.Detect Transaction Mismatches in Export Files" name="Identify transactions with mismatched details -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

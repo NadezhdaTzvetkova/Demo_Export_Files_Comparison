@@ -1,4 +1,4 @@
-<testsuite name="data_validation_tests.special_characters_validation.Validate Special Characters in Export Files" tests="12" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.088279" hostname="Mac.localstaff"><testcase classname="data_validation_tests.special_characters_validation.Validate Special Characters in Export Files" name="Ensure fields do not contain invalid special characters -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="data_validation_tests.special_characters_validation.Validate Special Characters in Export Files" tests="12" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.894271" hostname="Mac.localstaff"><testcase classname="data_validation_tests.special_characters_validation.Validate Special Characters in Export Files" name="Ensure fields do not contain invalid special characters -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 

@@ -1,4 +1,4 @@
-<testsuite name="performance_tests.large_transaction_volumes.Evaluate Performance of Large Transaction Volume Processing in Export Files" tests="14" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T10:51:23.184847" hostname="Mac.localstaff"><testcase classname="performance_tests.large_transaction_volumes.Evaluate Performance of Large Transaction Volume Processing in Export Files" name="Validate system behavior under large transaction volumes -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="performance_tests.large_transaction_volumes.Evaluate Performance of Large Transaction Volume Processing in Export Files" tests="14" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.009353" hostname="Mac.localstaff"><testcase classname="performance_tests.large_transaction_volumes.Evaluate Performance of Large Transaction Volume Processing in Export Files" name="Validate system behavior under large transaction volumes -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 
