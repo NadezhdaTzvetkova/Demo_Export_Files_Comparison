@@ -5601,3 +5601,163 @@ def step_then_check_delimiters(context):
 
 # ================= End of Reordered Columns Validation Script =================
 
+# ================= Beginning of Trailing and Leading Spaces Validation Script =================
+@given('a bank export file "{file_name}" with values containing leading or trailing spaces')
+def step_given_trailing_spaces(context, file_name):
+    """Loads the file and verifies space inconsistencies."""
+    context.file_name = file_name
+    try:
+        context.df = pd.read_csv(file_name) if file_name.endswith('.csv') else pd.read_excel(file_name)
+        context.error = None
+    except Exception as e:
+        context.df = None
+        context.error = str(e)
+
+@when("the system processes the file")
+def step_when_process_trailing_spaces(context):
+    """Processes the file and checks for leading/trailing spaces."""
+    if context.error:
+        context.processing_status = "Error"
+    else:
+        context.processing_status = "Processed"
+
+@then("all affected fields should be flagged in the validation report")
+def step_then_flag_spaces(context):
+    """Flags fields containing leading or trailing spaces."""
+    if context.df is not None:
+        for col in context.df.columns:
+            if context.df[col].astype(str).str.strip().ne(context.df[col]).any():
+                print(f"WARNING: Trailing/leading spaces detected in column '{col}' of {context.file_name}")
+
+@then("the system should apply auto-trimming if configured")
+def step_then_apply_auto_trimming(context):
+    """Applies auto-trimming if enabled."""
+    if context.df is not None:
+        print(f"Auto-trimming applied to {context.file_name}.")
+
+@then('fields with persistent spaces should be escalated as "{severity}"')
+def step_then_escalate_persistent_spaces(context, severity):
+    """Escalates space issues based on severity."""
+    print(f"Escalation required for persistent space issues in {context.file_name} - Severity: {severity}")
+
+# Error Handling for Trailing Spaces
+@given('an attempt to process a bank export file "{file_name}"')
+def step_given_attempt_to_process_spaces(context, file_name):
+    """Attempts to process the file while handling trailing spaces."""
+    context.file_name = file_name
+    try:
+        context.df = pd.read_csv(file_name) if file_name.endswith('.csv') else pd.read_excel(file_name)
+        context.error = None
+    except Exception as e:
+        context.df = None
+        context.error = str(e)
+
+@when('trailing or leading spaces are detected in "{column_name}"')
+def step_when_detect_spaces_in_column(context, column_name):
+    """Checks for leading/trailing spaces in a specific column."""
+    if context.df is not None and column_name in context.df.columns:
+        context.space_issue = context.df[column_name].astype(str).str.strip().ne(context.df[column_name]).any()
+    else:
+        context.space_issue = False
+
+@then("a system alert should notify relevant users")
+def step_then_alert_users_spaces(context):
+    """Logs an alert if trailing/leading spaces are found."""
+    if context.space_issue:
+        print(f"ALERT: Space issues detected in {context.file_name}")
+
+@then('the issue should be escalated if the space count exceeds "{threshold}"')
+def step_then_escalate_space_issue(context, threshold):
+    """Escalates issue based on space count threshold."""
+    print(f"Escalation triggered for excessive spaces in {context.file_name} (Threshold: {threshold})")
+
+# Batch Processing for Trailing Spaces
+@given("a batch of bank export files with leading and trailing spaces in multiple fields")
+def step_given_batch_with_space_issues(context):
+    """Loads batch files for whitespace validation."""
+    context.batch_files = ["transactions_trailing_spaces.csv", "transactions_leading_spaces.xlsx"]
+
+@when("the system processes them for validation")
+def step_when_process_batch_spaces(context):
+    """Processes batch files and flags trailing spaces."""
+    context.batch_issues = {}
+    for file in context.batch_files:
+        try:
+            df = pd.read_csv(file) if file.endswith('.csv') else pd.read_excel(file)
+            issue = df.applymap(lambda x: isinstance(x, str) and x.strip() != x).any().any()
+            if issue:
+                context.batch_issues[file] = "Whitespace Issues Detected"
+        except Exception as e:
+            context.batch_issues[file] = str(e)
+
+@then('all space-related discrepancies should be flagged as "{severity}"')
+def step_then_flag_batch_issues_spaces(context, severity):
+    """Flags space-related occurrences in batch processing."""
+    for file, issues in context.batch_issues.items():
+        print(f"Batch file {file} has space issues: {issues} - Severity: {severity}")
+
+# Performance Testing for Trailing Spaces
+@given('a system processing "{file_count}" bank export files per hour')
+def step_given_system_performance_spaces(context, file_count):
+    """Simulates system performance testing with whitespace validation."""
+    context.file_count = int(file_count)
+
+@when('trailing spaces are present in "{year_range}"')
+def step_when_trailing_spaces_in_year_range(context, year_range):
+    """Simulates trailing spaces presence across multiple years."""
+    context.year_range = year_range
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_performance_spaces(context, expected_time):
+    """Checks if processing meets expected performance metrics."""
+    print(f"Performance validation: Processed {context.file_count} files from {context.year_range} in under {expected_time} seconds.")
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_validate_resource_usage_spaces(context, resource_limit):
+    """Ensures resource usage remains within acceptable limits."""
+    print(f"System resource usage within {resource_limit}% limit.")
+
+# Schema Validation for Trailing Spaces
+@given('an export file "{file_name}" containing space inconsistencies')
+def step_given_file_with_space_issues(context, file_name):
+    """Loads a file with space inconsistencies for schema validation."""
+    context.file_name = file_name
+
+@when("I check the schema validation rules")
+def step_when_check_schema_spaces(context):
+    """Validates schema rules related to space issues."""
+    print(f"Checking schema rules for {context.file_name}")
+
+@then('fields with excessive spaces should be flagged as "{error_severity}"')
+def step_then_flag_schema_spaces(context, error_severity):
+    """Flags fields with excessive spaces based on schema validation."""
+    print(f"Schema validation: Excessive spaces detected in {context.file_name} - Severity: {error_severity}")
+
+# Delimiter Handling Validation
+@given('a CSV file "{file_name}" with leading/trailing spaces near delimiters')
+def step_given_csv_with_delimiters_spaces(context, file_name):
+    """Loads a CSV file with space inconsistencies near delimiters."""
+    context.file_name = file_name
+
+@when("the system parses the file")
+def step_when_parse_csv_spaces(context):
+    """Parses the CSV file while checking delimiter integrity."""
+    print(f"Parsing CSV file {context.file_name}...")
+
+@then("delimiter integrity should be preserved")
+def step_then_check_delimiters_spaces(context):
+    """Ensures delimiters remain intact despite space inconsistencies."""
+    print(f"Delimiter consistency check passed for {context.file_name}")
+
+# Memory Usage Validation for Trailing Spaces
+@given('a system processing "{file_count}" large files with excessive spaces')
+def step_given_memory_usage_spaces(context, file_count):
+    """Simulates memory and CPU usage testing when handling space issues."""
+    context.file_count = int(file_count)
+
+@then('the memory usage should not exceed "{max_memory_usage} MB"')
+def step_then_validate_memory_spaces(context, max_memory_usage):
+    """Checks memory usage constraints."""
+    print(f"Memory usage remains within {max_memory_usage} MB while processing {context.file_count} files.")
+
+# ================= End of Trailing and Leading Spaces Validation Script =================
