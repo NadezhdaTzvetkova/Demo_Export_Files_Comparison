@@ -1003,3 +1003,54 @@ def step_then_mark_for_review(context):
     logging.info(f"Manual review required for {len(flagged_duplicates)} duplicate customer records.")
 
 # ================= End of Duplicate Customers Validation =================
+
+# ================= Beginning of Duplicate Transactions Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "duplicate_integrity_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+
+@when('I check the "Transaction ID" column in the "{sheet_name}" sheet')
+def step_when_check_duplicate_transactions(context, sheet_name):
+    if context.file_path.endswith('.csv'):
+        context.data = pd.read_csv(context.file_path)
+    else:
+        context.data = pd.read_excel(context.file_path, sheet_name=sheet_name)
+
+    assert "Transaction ID" in context.data.columns, "Column 'Transaction ID' not found in file."
+
+    context.duplicate_transactions = context.data["Transaction ID"].duplicated(keep=False)
+
+
+@then('duplicate transaction records should be flagged')
+def step_then_flag_duplicate_transactions(context):
+    flagged_duplicates = context.data[context.duplicate_transactions]
+    assert not flagged_duplicates.empty, "No duplicate transaction records detected."
+    logging.info(f"Flagged duplicate transaction records: {len(flagged_duplicates)} records.")
+
+
+@then('a report should be generated listing duplicate occurrences')
+def step_then_generate_report(context):
+    flagged_duplicates = context.data[context.duplicate_transactions]
+    report_path = os.path.join("reports", "duplicate_transactions_report.csv")
+    flagged_duplicates.to_csv(report_path, index=False)
+    logging.info(f"Duplicate transactions report generated at {report_path}.")
+
+
+@then('duplicate transactions should be marked for manual review')
+def step_then_mark_for_review(context):
+    flagged_duplicates = context.data[context.duplicate_transactions]
+    logging.info(f"Manual review required for {len(flagged_duplicates)} duplicate transaction records.")
+
+# ================= End of Duplicate Transactions Validation =================
