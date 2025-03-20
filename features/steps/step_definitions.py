@@ -13,6 +13,14 @@ FEATURE_TO_DATA_DIR = {
 ISO_DATE_FORMAT = "%Y-%m-%d"
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
+DELIMITER_MAPPING = {
+    "comma": ",",
+    "semicolon": ";",
+    "TAB": "\t",
+    "pipe": "|"
+}
+
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -425,3 +433,166 @@ def step_then_flag_rounding_issues(context):
         logging.info("No rounding inconsistencies found.")
 
 # ================= End of Decimal Precision Validation =================
+# Map human-readable delimiter names to actual characters
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensure the bank export file exists"""
+    context.file_path = os.path.join("test_data/csv_files", file_name)
+    assert os.path.exists(context.file_path), f"File not found: {context.file_path}"
+
+
+@when('I check the delimiter format in the file')
+def step_when_check_delimiter_format(context):
+    """Detect the delimiter used in the file"""
+    with open(context.file_path, "r", encoding="utf-8") as f:
+        first_line = f.readline()
+
+    detected_delimiters = [d for d in DELIMITER_MAPPING.values() if d in first_line]
+    context.detected_delimiters = detected_delimiters if detected_delimiters else [","]  # Default to comma
+
+
+@then('files containing multiple valid delimiters "{allowed_delimiters}" should be accepted')
+def step_then_validate_multiple_delimiters(context, allowed_delimiters):
+    """Check if the file's delimiter is in the list of allowed delimiters"""
+    allowed_list = [DELIMITER_MAPPING[d.strip()] for d in allowed_delimiters.split(",")]
+
+    for delimiter in allowed_list:
+        try:
+            df = pd.read_csv(context.file_path, delimiter=delimiter)
+            print(f"✅ Successfully parsed using delimiter: {delimiter}")
+            return  # Stop once successful
+        except Exception as e:
+            print(f"⚠️ Failed with delimiter: {delimiter} -> {e}")
+
+    assert False, f"❌ No valid delimiter found in {context.file_path}"
+
+# ================= Beginning of Delimiter Inconsistency Validation =================
+
+from behave import given, when, then
+import pandas as pd
+import os
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "delimiter_inconsistency_test_data"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+def load_file(file_name):
+    """Loads CSV or Excel files dynamically."""
+    file_path = get_data_path(file_name)
+    if file_name.endswith(".csv"):
+        return pd.read_csv(file_path, dtype=str, engine='python')
+    elif file_name.endswith(".xlsx"):
+        return pd.read_excel(file_path, dtype=str)
+    else:
+        raise ValueError("Unsupported file format")
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.df = load_file(file_name)
+    assert not context.df.empty, f"File {file_name} is empty or failed to load."
+
+@when('I check the delimiter format in the file')
+def step_when_check_delimiter(context):
+    file_path = get_data_path(context.file_name)
+    with open(file_path, 'r', encoding='utf-8') as f:
+        first_line = f.readline()
+    delimiters = [',', ';', '|', '\t']
+    context.detected_delimiters = [d for d in delimiters if d in first_line]
+    assert len(context.detected_delimiters) > 0, "No delimiter detected. File might be corrupted."
+
+@then('the delimiter should be consistent throughout the file')
+def step_then_check_consistency(context):
+    file_path = get_data_path(context.file_name)
+    with open(file_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    delimiter_counts = [line.count(context.detected_delimiters[0]) for line in lines]
+    assert all(count == delimiter_counts[0] for count in delimiter_counts), "Inconsistent delimiters detected."
+    logging.info(f"Delimiter '{context.detected_delimiters[0]}' is consistent across the file.")
+
+@then('mixed delimiters within the file should be flagged')
+def step_then_flag_mixed_delimiters(context):
+    if len(context.detected_delimiters) > 1:
+        logging.warning(f"Mixed delimiters detected in {context.file_name}: {context.detected_delimiters}")
+        assert False, "File contains mixed delimiters."
+
+@then('an error report should be generated listing inconsistent delimiters')
+def step_then_generate_error_report(context):
+    if len(context.detected_delimiters) > 1:
+        report_path = get_data_path("delimiter_error_report.txt")
+        with open(report_path, 'w') as f:
+            f.write(f"File: {context.file_name}\n")
+            f.write(f"Detected Delimiters: {context.detected_delimiters}\n")
+        logging.info(f"Error report generated: {report_path}")
+
+# ================= End of Delimiter Inconsistency Validation =================
+
+# ================= Beginning of Encoding Validation =================
+
+from behave import given, when, then
+import chardet
+import os
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "encoding_validation_test_data"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+def detect_encoding(file_path):
+    """Detects the encoding of the given file."""
+    with open(file_path, 'rb') as f:
+        raw_data = f.read(10000)  # Read a sample
+    result = chardet.detect(raw_data)
+    return result['encoding']
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist."
+
+@when('I check the file encoding')
+def step_when_check_encoding(context):
+    context.detected_encoding = detect_encoding(context.file_path)
+    logging.info(f"Detected encoding for {context.file_name}: {context.detected_encoding}")
+
+@then('the file encoding should be "{expected_encoding}"')
+def step_then_validate_encoding(context, expected_encoding):
+    assert context.detected_encoding.lower() == expected_encoding.lower(), f"Encoding mismatch: Expected {expected_encoding}, but detected {context.detected_encoding}"
+
+@then('non-standard encodings should be flagged')
+def step_then_flag_non_standard_encoding(context):
+    standard_encodings = ["utf-8", "ascii"]
+    if context.detected_encoding.lower() not in standard_encodings:
+        logging.warning(f"Non-standard encoding detected: {context.detected_encoding}")
+        assert False, f"File {context.file_name} uses non-standard encoding {context.detected_encoding}"
+
+@then('the system should suggest converting to a standard encoding')
+def step_then_suggest_conversion(context):
+    if context.detected_encoding.lower() not in ["utf-8", "ascii"]:
+        logging.info(f"Suggested conversion: Convert {context.file_name} to UTF-8 or ASCII")
+
+@then('a conversion report should list all affected files')
+def step_then_generate_encoding_report(context):
+    report_path = get_data_path("encoding_report.txt")
+    with open(report_path, 'w') as f:
+        f.write(f"File: {context.file_name}\n")
+        f.write(f"Detected Encoding: {context.detected_encoding}\n")
+    logging.info(f"Encoding report generated: {report_path}")
+
+# ================= End of Encoding Validation =================
+
+
