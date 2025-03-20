@@ -2,8 +2,12 @@ import os
 import pandas as pd
 from behave import given, when, then
 
-# Constants for file paths
-DATA_DIR = "test_data/csv_files"
+
+# Determine the appropriate data directory based on the feature file name
+def get_data_directory(feature_name):
+    base_dir = "test_data"
+    feature_specific_dir = feature_name.replace(".feature", "_test_data")
+    return os.path.join(base_dir, feature_specific_dir)
 
 
 # ================= AML Suspicious Activity Validation =================
@@ -11,7 +15,9 @@ DATA_DIR = "test_data/csv_files"
 @given('a bank export file "{file_name}"')
 def step_given_bank_export_file(context, file_name):
     """Ensure the bank export file exists"""
-    context.file_path = os.path.join(DATA_DIR, file_name)
+    feature_name = os.path.basename(context.feature.filename)
+    context.data_dir = get_data_directory(feature_name)
+    context.file_path = os.path.join(context.data_dir, file_name)
     assert os.path.exists(context.file_path), f"File not found: {context.file_path}"
 
 
