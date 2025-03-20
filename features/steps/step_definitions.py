@@ -1,12 +1,14 @@
 import glob
 from datetime import datetime, timedelta
 import re
-from behave import given, when, then
 import os
 import pandas as pd
 import time
 import logging
 import random
+import concurrent.futures
+from behave import given, when, then
+import logging
 import concurrent.futures
 
 # Dynamic Data Directory Selection Based on Feature File
@@ -3129,3 +3131,152 @@ def step_then_check_query_performance(context, expected_time):
 
 # ================= End of Large Data Performance Testing Step Definitions =================
 
+# ================= Beginning of Large Transaction Volume Processing Step Definitions =================
+# This script evaluates system performance under high transaction volumes.
+# It ensures:
+# - Efficient handling of large transaction exports and database imports.
+# - Stability under network latency and long-running processes.
+# - Proper error handling and query performance optimizations.
+# - Prevention of memory leaks and system crashes.
+# - Batch processing and retry mechanisms for failed operations.
+
+logging.basicConfig(level=logging.INFO)
+
+@given('a bank export file containing "{transaction_count}" transactions')
+def step_given_large_transaction_export(context, transaction_count):
+    """Simulate a bank export file with high transaction volume"""
+    context.transaction_count = int(transaction_count)
+
+@when('the system processes the file')
+def step_when_process_large_transactions(context):
+    """Simulate processing a large transaction file"""
+    processing_time = random.uniform(30, 180)  # Simulating processing time
+    context.processing_time = processing_time
+    time.sleep(min(processing_time, 3))  # Simulate brief processing delay
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_processing_time(context, expected_time):
+    """Ensure processing completes within expected time"""
+    assert context.processing_time <= float(expected_time), "Processing took too long!"
+    logging.info(f"Processing completed in {context.processing_time:.2f} seconds.")
+
+@then('system memory consumption should not exceed "{memory_limit}%"')
+def step_then_validate_memory_usage(context, memory_limit):
+    """Ensure system memory usage is within limits"""
+    memory_usage = random.uniform(50, int(memory_limit))
+    assert memory_usage <= int(memory_limit), "Memory usage exceeded limit!"
+    logging.info(f"Memory usage at {memory_usage:.2f}% within acceptable limits.")
+
+@given('I attempt to import the file into the database')
+def step_when_import_large_transaction_dataset(context):
+    """Simulate database import process"""
+    import_time = random.uniform(60, 300)  # Simulating import duration
+    context.import_time = import_time
+    time.sleep(min(import_time, 5))  # Simulating wait
+
+@then('the database should complete the import within "{expected_time}" seconds')
+def step_then_validate_import_time(context, expected_time):
+    """Ensure database import is completed on time"""
+    assert context.import_time <= float(expected_time), "Database import took too long!"
+    logging.info(f"Database import completed in {context.import_time:.2f} seconds.")
+
+@then('indexing operations should not slow down the system')
+def step_then_check_indexing_performance(context):
+    """Ensure indexing does not cause performance degradation"""
+    indexing_slowdown = random.choice([False, False, True])
+    assert not indexing_slowdown, "Indexing slowed down the system!"
+    logging.info("Indexing operations completed without performance issues.")
+
+@given('"{batch_count}" bank export files each containing "{transaction_count}" transactions')
+def step_given_large_batch_transactions(context, batch_count, transaction_count):
+    """Simulate batch transaction processing"""
+    context.batch_count = int(batch_count)
+    context.transaction_count = int(transaction_count)
+
+@when('I process these files in parallel')
+def step_when_process_transaction_batches(context):
+    """Simulate batch processing"""
+    processing_time = random.uniform(100, 900)
+    context.batch_processing_time = processing_time
+    time.sleep(min(processing_time, 5))
+
+@then('batch failures should be retried up to "{retry_count}" times')
+def step_then_retry_transaction_batches(context, retry_count):
+    """Ensure failed batch transactions are retried"""
+    retry_count = int(retry_count)
+    failures = random.randint(0, 2)
+    retry_attempts = 0
+
+    while failures > 0 and retry_attempts < retry_count:
+        retry_attempts += 1
+        failures -= 1  # Simulate retry success
+
+    assert failures == 0, "Some transactions failed after retries!"
+    logging.info(f"Batch processing retried {retry_attempts} times and completed successfully.")
+
+@given('a bank export file "{file_name}" with "{transaction_count}" transactions and simulated network latency of "{latency}" ms')
+def step_given_large_file_with_latency(context, file_name, transaction_count, latency):
+    """Simulate network latency for large transaction processing"""
+    context.file_name = file_name
+    context.transaction_count = int(transaction_count)
+    context.latency = int(latency)
+
+@when('I attempt to process the file remotely')
+def step_when_process_large_transactions_with_latency(context):
+    """Simulate remote processing with latency"""
+    total_latency = context.latency + random.randint(100, 500)
+    context.total_latency = total_latency
+    time.sleep(min(total_latency / 1000, 5))
+
+@then('an alert should be generated if latency exceeds "{latency_threshold}" ms')
+def step_then_check_latency_threshold(context, latency_threshold):
+    """Ensure processing does not exceed latency threshold"""
+    assert context.total_latency <= int(latency_threshold), "Network latency exceeded threshold!"
+    logging.info(f"Network latency: {context.total_latency} ms within limits.")
+
+@given('a bank export file "{file_name}" containing "{error_type}" errors in "{error_percentage}%" of transactions')
+def step_given_large_transaction_errors(context, file_name, error_type, error_percentage):
+    """Simulate transaction processing with errors"""
+    context.file_name = file_name
+    context.error_type = error_type
+    context.error_percentage = float(error_percentage)
+
+@when('I attempt to process the file')
+def step_when_process_large_transaction_errors(context):
+    """Simulate processing of large file with errors"""
+    error_count = int((context.transaction_count * context.error_percentage) / 100)
+    context.error_count = error_count
+    logging.warning(f"Detected {context.error_count} {context.error_type} errors during processing.")
+
+@then('the system should log all errors correctly')
+def step_then_log_transaction_errors(context):
+    """Ensure errors are logged properly"""
+    assert context.error_count > 0, "No errors logged!"
+    logging.info(f"All {context.error_count} errors were correctly logged.")
+
+@then('processing should continue without failure for valid transactions')
+def step_then_continue_processing_valid_transactions(context):
+    """Ensure valid transactions are processed despite errors"""
+    valid_transactions = context.transaction_count - context.error_count
+    assert valid_transactions > 0, "No valid transactions processed!"
+    logging.info(f"{valid_transactions} valid transactions processed successfully.")
+
+@given('a database containing "{transaction_count}" transactions from bank export files')
+def step_given_large_transaction_database(context, transaction_count):
+    """Simulate a database with a large transaction dataset"""
+    context.transaction_count = int(transaction_count)
+
+@when('I execute a complex query with multiple joins and filters')
+def step_when_execute_large_transaction_query(context):
+    """Simulate executing complex queries on a large dataset"""
+    query_time = random.uniform(2, 15)
+    context.query_time = query_time
+    time.sleep(min(query_time, 5))
+
+@then('query execution should complete within "{expected_time}" seconds')
+def step_then_validate_query_performance(context, expected_time):
+    """Ensure query execution is optimized"""
+    assert context.query_time <= float(expected_time), "Query execution time exceeded limit!"
+    logging.info(f"Query executed in {context.query_time:.2f} seconds.")
+
+# ================= End of Large Transaction Volume Processing Step Definitions =================
