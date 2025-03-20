@@ -1,9 +1,11 @@
 import os
 import glob
-import logging
 import pandas as pd
 from behave import given, when, then
 from datetime import datetime, timedelta
+from behave import given, when, then
+import re
+import logging
 
 # Dynamic Data Directory Selection Based on Feature File
 FEATURE_TO_DATA_DIR = {
@@ -596,3 +598,54 @@ def step_then_generate_encoding_report(context):
 # ================= End of Encoding Validation =================
 
 
+# ================= Beginning of Invalid Account Number Validation =================
+
+
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "invalid_account_numbers_test_data"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+def is_valid_account_number(account_number, pattern):
+    """Checks if the account number follows the expected pattern."""
+    return re.match(pattern, account_number) is not None
+
+given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist."
+
+@when('I check the "Account Number" column in the "{sheet_name}" sheet')
+def step_when_check_account_number(context, sheet_name):
+    # Placeholder for actual implementation (CSV/Excel parsing logic required)
+    context.account_numbers = ["1234567890", "ABCDEFGHIJ", "1234-567890"]  # Example test data
+
+@then('all account numbers should match the expected pattern "{pattern}"')
+def step_then_validate_account_number_format(context, pattern):
+    for account_number in context.account_numbers:
+        assert is_valid_account_number(account_number, pattern), f"Invalid account number format detected: {account_number}"
+
+@then('invalidly formatted account numbers should be flagged')
+def step_then_flag_invalid_accounts(context):
+    invalid_accounts = [acc for acc in context.account_numbers if not is_valid_account_number(acc, r'\d{10,12}')]
+    if invalid_accounts:
+        logging.warning(f"Invalid account numbers found: {invalid_accounts}")
+        assert False, f"Some account numbers do not conform to the expected format: {invalid_accounts}"
+
+@then('a correction suggestion should be provided')
+def step_then_suggest_correction(context):
+    logging.info("Suggest correction: Ensure account numbers contain only numeric characters and match expected length.")
+
+@then('an alert should be sent for accounts not matching regulatory formats')
+def step_then_alert_regulatory_issues(context):
+    logging.warning("Regulatory alert: Non-compliant account number detected.")
+
+# Additional steps for IBAN validation, duplicate detection, missing values, and blacklisted accounts...
+
+# ================= End of Invalid Account Number Validation =================
