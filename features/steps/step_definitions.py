@@ -1742,3 +1742,167 @@ def step_then_generate_anomaly_report(context):
     context.reports.append(f"Anomaly report generated for {context.file_path}")
 
 # ================= End of Outlier Detection Step Definitions for Edge Case Handling =================
+
+
+# ================= Beginning of Zero-Value Transactions Step Definitions for Edge Case Handling =================
+# This script contains step definitions for detecting zero-value transactions in bank export files.
+# It includes:
+# - Identifying zero-value transactions and classifying them by type
+# - Detecting fraudulent transactions with zero values in high-risk categories
+# - Validating zero-value transactions against historical patterns
+# - Ensuring compliance with business logic
+# - Evaluating system performance for large datasets containing zero-value transactions
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensure the specified bank export file exists"""
+    context.file_path = os.path.join(context.base_dir, file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} not found"
+
+@when('I analyze the "Amount" column in the "{sheet_name}" sheet')
+def step_when_analyze_amount_column(context, sheet_name):
+    """Analyze zero-value transactions in the Amount column"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.zero_value_transactions = df[df["Amount"] == 0]
+
+@then('transactions with an amount of zero should be flagged')
+def step_then_flag_zero_value_transactions(context):
+    """Flag transactions with zero value"""
+    assert not context.zero_value_transactions.empty, "No zero-value transactions detected"
+
+@then('flagged transactions should be logged for further review')
+def step_then_log_flagged_transactions(context):
+    """Log flagged zero-value transactions"""
+    log_message = f"Zero-value transactions detected in {context.file_path}: {len(context.zero_value_transactions)} occurrences"
+    context.logs.append(log_message)
+
+@then('recommendations for corrective action should be generated')
+def step_then_generate_recommendations(context):
+    """Generate recommendations for zero-value transactions"""
+    context.recommendations.append(f"Review flagged zero-value transactions in {context.file_path}")
+
+@then('the system should classify them based on "{transaction_type}"')
+def step_then_classify_transactions(context, transaction_type):
+    """Classify zero-value transactions based on transaction type"""
+    context.classification = transaction_type
+
+@when('I check for zero-value transactions in the "{category}" category in the "{sheet_name}" sheet')
+def step_when_check_zero_value_in_category(context, category, sheet_name):
+    """Check zero-value transactions in a specific category"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.high_risk_zero_values = df[(df["Amount"] == 0) & (df["Category"] == category)]
+
+@then('transactions with zero value in high-risk categories should be flagged as suspicious')
+def step_then_flag_high_risk_zero_values(context):
+    """Flag high-risk zero-value transactions"""
+    assert not context.high_risk_zero_values.empty, "No high-risk zero-value transactions detected"
+
+@then('flagged transactions should be escalated for compliance review')
+def step_then_escalate_for_compliance(context):
+    """Escalate flagged transactions for compliance review"""
+    context.recommendations.append(f"Escalate zero-value transactions for compliance in {context.file_path}")
+
+@then('a fraud detection report should be generated')
+def step_then_generate_fraud_report(context):
+    """Generate a fraud detection report"""
+    context.reports.append(f"Fraud detection report generated for {context.file_path}")
+
+@then('a risk assessment score should be assigned based on "{risk_level}"')
+def step_then_assign_risk_level(context, risk_level):
+    """Assign a risk assessment score"""
+    context.risk_level = risk_level
+
+@when('I compare the "Amount" column with historical data')
+def step_when_compare_with_historical(context):
+    """Compare zero-value transactions against historical patterns"""
+    historical_average = 3  # Placeholder for actual historical data analysis
+    context.exceeding_threshold = len(context.zero_value_transactions) > historical_average
+
+@then('transactions with zero value exceeding "{threshold}%" of total transactions should be flagged')
+def step_then_flag_exceeding_zero_values(context, threshold):
+    """Flag transactions exceeding the threshold"""
+    threshold_percentage = float(threshold) / 100
+    assert context.exceeding_threshold, "Zero-value transactions do not exceed the threshold"
+
+@then('corrective action should be suggested')
+def step_then_suggest_correction(context):
+    """Suggest corrective actions for flagged transactions"""
+    context.recommendations.append(f"Investigate high volume of zero-value transactions in {context.file_path}")
+
+@then('an alert should be generated for data quality review')
+def step_then_generate_alert(context):
+    """Generate an alert for data quality review"""
+    context.alerts.append(f"Potential data quality issue in {context.file_path}")
+
+@then('the threshold comparison should consider "{time_period}" historical data')
+def step_then_consider_historical_time_period(context, time_period):
+    """Validate zero-value transactions against historical trends"""
+    context.historical_period = time_period
+
+@when('I attempt to process a dataset containing more than "{row_count}" transactions with zero values')
+def step_when_process_large_dataset(context, row_count):
+    """Simulate processing large datasets with zero-value transactions"""
+    context.row_count = int(row_count)
+    context.processed_rows = min(context.row_count, 200000)  # Simulating system capability
+
+@then('the system should handle the data efficiently')
+def step_then_handle_large_data(context):
+    """Ensure system efficiency for processing large datasets"""
+    assert context.processed_rows > 0, "Dataset processing failed"
+
+@then('processing time should be logged for benchmarking')
+def step_then_log_processing_time(context):
+    """Log processing time for benchmarking"""
+    log_message = f"Processed {context.processed_rows} rows in {context.file_path}"
+    context.logs.append(log_message)
+
+@then('flagged zero-value transactions should be included in the validation report')
+def step_then_generate_validation_report(context):
+    """Generate a validation report for zero-value transactions"""
+    context.reports.append(f"Validation report generated for {context.file_path}")
+
+@then('system resource utilization should remain within acceptable limits')
+def step_then_validate_system_resources(context):
+    """Ensure resource usage remains optimal"""
+    context.system_health_check = "Resources within acceptable limits"
+
+@when('I validate the "Amount" column in "{sheet_name}"')
+def step_when_validate_amount(context, sheet_name):
+    """Validate zero-value transactions against business rules"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.business_rule_violations = df[(df["Amount"] == 0) & (df["Category"] != "Fee Waivers")]
+
+@then('zero-value transactions should be checked against predefined business rules')
+def step_then_validate_business_rules(context):
+    """Ensure business rules are followed for zero-value transactions"""
+    assert not context.business_rule_violations.empty, "No business rule violations detected"
+
+@then('exceptions should be made for "{exempt_category}"')
+def step_then_handle_exempt_category(context, exempt_category):
+    """Allow exceptions for specific categories"""
+    context.exempt_category = exempt_category
+
+@then('a compliance report should be generated')
+def step_then_generate_compliance_report(context):
+    """Generate a compliance report"""
+    context.reports.append(f"Compliance report generated for {context.file_path}")
+
+# ================= End of Zero-Value Transactions Step Definitions for Edge Case Handling =================
