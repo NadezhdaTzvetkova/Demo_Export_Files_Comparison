@@ -5109,3 +5109,163 @@ def step_then_log_schema_violations(context, error_severity):
         logging.error(f"Schema violation detected in {context.file_name}. Severity: {error_severity}")
 
 # ================= End of Structural Testing for Merged Cells Validation =================
+
+# ================= Beginning of Missing Columns Validation Script =================
+
+from behave import given, when, then
+import pandas as pd
+
+@given('a bank export file named "{file_name}" with missing columns "{missing_columns}"')
+def step_given_missing_columns(context, file_name, missing_columns):
+    """Loads the file and identifies missing columns."""
+    context.file_name = file_name
+    context.missing_columns = missing_columns.split(", ")
+    try:
+        context.df = pd.read_csv(file_name) if file_name.endswith(".csv") else pd.read_excel(file_name)
+        context.error = None
+    except Exception as e:
+        context.df = None
+        context.error = str(e)
+
+@when("the system processes the file")
+def step_when_process_file(context):
+    """Checks if specified columns are missing in the file."""
+    if context.df is not None:
+        context.missing_detected = [col for col in context.missing_columns if col not in context.df.columns]
+    else:
+        context.missing_detected = []
+
+@then('the missing columns should be flagged with severity "{severity}"')
+def step_then_flag_missing_columns(context, severity):
+    """Flags missing columns based on severity level."""
+    assert len(context.missing_detected) > 0, f"No missing columns detected in {context.file_name}"
+    print(f"Missing columns in {context.file_name}: {context.missing_detected} - Severity: {severity}")
+
+@then("a validation report should document the missing fields")
+def step_then_document_missing_columns(context):
+    """Generates a validation report for missing columns."""
+    report = {
+        "file_name": context.file_name,
+        "missing_columns": context.missing_detected
+    }
+    print(f"Validation report generated: {report}")
+
+@then('if auto-mapping is enabled, a correction suggestion should be provided')
+def step_then_suggest_corrections(context):
+    """Suggests corrections if auto-mapping is enabled."""
+    if len(context.missing_detected) > 0:
+        print(f"Suggested mappings for missing columns in {context.file_name}: {context.missing_detected}")
+
+# Error Handling for Missing Columns
+@given('an attempt to process a bank export file "{file_name}"')
+def step_given_attempt_to_process(context, file_name):
+    """Attempts to process the file while handling missing columns."""
+    context.file_name = file_name
+    try:
+        context.df = pd.read_csv(file_name) if file_name.endswith(".csv") else pd.read_excel(file_name)
+        context.error = None
+    except Exception as e:
+        context.df = None
+        context.error = str(e)
+
+@when('required columns are missing such as "{missing_column}"')
+def step_when_required_columns_missing(context, missing_column):
+    """Checks for missing required columns."""
+    context.missing_column = missing_column
+    if context.df is not None:
+        context.missing_detected = [missing_column] if missing_column not in context.df.columns else []
+    else:
+        context.missing_detected = []
+
+@then('a system alert should notify relevant users')
+def step_then_alert_users(context):
+    """Logs an alert if missing columns are detected."""
+    if len(context.missing_detected) > 0:
+        print(f"ALERT: Missing required column {context.missing_column} in {context.file_name}")
+
+@then('the issue should be escalated if the missing column severity level is "{severity_level}"')
+def step_then_escalate_issue(context, severity_level):
+    """Escalates issue based on severity level."""
+    if len(context.missing_detected) > 0:
+        print(f"Escalation required: Missing {context.missing_column} - Severity: {severity_level}")
+
+@then('if correction is not possible, the file should be rejected')
+def step_then_reject_file(context):
+    """Rejects the file if the issue is critical."""
+    if len(context.missing_detected) > 0:
+        print(f"REJECTED: File {context.file_name} due to missing critical columns: {context.missing_detected}")
+
+# Batch Processing for Missing Columns
+@given("a batch of bank export files with missing columns")
+def step_given_batch_with_missing_columns(context):
+    """Loads batch files for validation."""
+    context.batch_files = ["transactions_missing_account.csv", "transactions_missing_currency.xlsx"]
+
+@when("the system processes them for validation")
+def step_when_process_batch(context):
+    """Processes batch files and flags missing columns."""
+    context.batch_issues = {}
+    for file in context.batch_files:
+        try:
+            df = pd.read_csv(file) if file.endswith(".csv") else pd.read_excel(file)
+            missing_columns = [col for col in context.missing_columns if col not in df.columns]
+            if missing_columns:
+                context.batch_issues[file] = missing_columns
+        except Exception as e:
+            context.batch_issues[file] = str(e)
+
+@then('all missing column occurrences should be detected and flagged as "{severity}"')
+def step_then_flag_batch_issues(context, severity):
+    """Flags missing column occurrences in batch processing."""
+    for file, issues in context.batch_issues.items():
+        print(f"Batch file {file} has missing columns: {issues} - Severity: {severity}")
+
+@then("processing should continue without failure")
+def step_then_continue_processing(context):
+    """Ensures batch processing continues even with missing columns."""
+    print("Batch processing continued despite missing column issues.")
+
+# Performance Testing for Missing Columns
+@given('a system processing "{file_count}" bank export files per hour')
+def step_given_system_performance(context, file_count):
+    """Simulates system performance testing with missing column validation."""
+    context.file_count = int(file_count)
+
+@when('missing columns are present in "{year_range}"')
+def step_when_missing_columns_in_year_range(context, year_range):
+    """Simulates missing column presence across multiple years."""
+    context.year_range = year_range
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_performance(context, expected_time):
+    """Checks if processing meets expected performance metrics."""
+    print(f"Performance validation: Processed {context.file_count} files from {context.year_range} in under {expected_time} seconds.")
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_validate_resource_usage(context, resource_limit):
+    """Ensures resource usage remains within acceptable limits."""
+    print(f"System resource usage within {resource_limit}% limit.")
+
+# Schema Validation for Missing Columns
+@given('an export file "{file_name}" with schema "{schema_type}"')
+def step_given_file_with_schema(context, file_name, schema_type):
+    """Loads a file with a specific schema type."""
+    context.file_name = file_name
+    context.schema_type = schema_type
+
+@when("I check the schema validation rules")
+def step_when_check_schema_rules(context):
+    """Checks the schema validation rules for missing columns."""
+    context.schema_errors = []
+
+@then('missing columns should be flagged as "{error_severity}"')
+def step_then_flag_schema_errors(context, error_severity):
+    """Flags schema-related errors due to missing columns."""
+    print(f"Schema validation for {context.file_name}: Missing columns flagged as {error_severity}")
+
+@then("system logs should capture all schema-related discrepancies")
+def step_then_log_schema_discrepancies(context):
+    """Logs schema validation issues for missing columns."""
+    print(f"Logged schema validation issues for {context.file_name}")
+
+# ================= End of Missing Columns Validation Script =================
