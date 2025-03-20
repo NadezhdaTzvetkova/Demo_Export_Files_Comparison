@@ -6,6 +6,8 @@ from behave import given, when, then
 DATA_DIR = "test_data/csv_files"
 
 
+# ================= AML Suspicious Activity Validation =================
+
 @given('a bank export file "{file_name}"')
 def step_given_bank_export_file(context, file_name):
     """Ensure the bank export file exists"""
@@ -89,3 +91,5 @@ def step_then_validate_aml_runtime(context, expected_runtime):
     assert hasattr(context, "large_dataset_flagged"), "Large dataset anomalies not processed in time."
     assert context.large_dataset_flagged, "AML anomaly detection did not execute properly."
     print(f"AML compliance anomalies checked within {expected_runtime}.")
+
+# ================= End of AML Suspicious Activity Validation =================
