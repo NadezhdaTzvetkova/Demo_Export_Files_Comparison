@@ -742,3 +742,54 @@ def step_then_categorize_missing_values(context, priority):
 # Additional steps for handling missing currency codes, transaction IDs, reference data, and large datasets...
 
 # ================= End of Missing Values Validation =================
+
+# ================= Beginning of Negative Values Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "negative_values_test_data"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+@given('I have a bank export file "{file_name}" from the old system')
+def step_given_old_system_file(context, file_name):
+    context.old_file_name = file_name
+    context.old_file_path = get_data_path(file_name)
+    assert os.path.exists(context.old_file_path), f"File {file_name} does not exist in old system."
+
+
+@given('I have a bank export file "{file_name}" from the new system')
+def step_given_new_system_file(context, file_name):
+    context.new_file_name = file_name
+    context.new_file_path = get_data_path(file_name)
+    assert os.path.exists(context.new_file_path), f"File {file_name} does not exist in new system."
+
+
+@when('I compare the "{numeric_column}" column')
+def step_when_compare_numeric_column(context, numeric_column):
+    # Load old and new system data
+    old_data = pd.read_csv(context.old_file_path) if context.old_file_path.endswith('.csv') else pd.read_excel(
+        context.old_file_path)
+    new_data = pd.read_csv(context.new_file_path) if context.new_file_path.endswith('.csv') else pd.read_excel(
+        context.new_file_path)
+
+    # Ensure the column exists in both files
+    assert numeric_column in old_data.columns, f"Column {numeric_column} not found in old system file."
+    assert numeric_column in new_data.columns, f"Column {numeric_column} not found in new system file."
+
+    # Store the numeric column for validation
+    context.old_values = old_data[numeric_column]
+    context.new_values = new_data[numeric_column]
+
+
+@then('negative values should be processed correctly')
+def step_then_validate_negative_values(context):
+    old_negatives = context.old_values[context.old_values < 0]
+    new_negatives = context.new_values[context.new_values < 0]
+
+    # Assert negative values match between the two exports
+    assert old_negatives.equals(new_negatives), "Negative values mismatch between old and new system exports."
+    logging.info("Negative values processed correctly and match between systems.")
+
+# ================= End of Negative Values Validation =================
