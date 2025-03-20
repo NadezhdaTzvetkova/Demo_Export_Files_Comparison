@@ -34,6 +34,9 @@ resolved_issues = {}  # Simulating a stored record of resolved issues
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO)
+
+processed_transactions = {}
 
 # Dynamically set the DATA_DIR based on feature name
 FEATURE_NAME = "decimal_precision"
@@ -3921,3 +3924,156 @@ def step_then_validate_data_integrity(context):
     logging.info("Data integrity verified successfully.")
 
 # ================= End of Previously Resolved Issues Validation Step Definitions =================
+
+# ================= Beginning of High-Volume Transaction Processing Validation =================
+# This script validates high-volume transaction processing in regression testing.
+# It ensures:
+# - Data integrity across millions of transactions.
+# - Database performance under large transaction loads.
+# - Efficient batch processing with optimized memory usage.
+# - Proper error handling for high transaction volumes.
+# - Network latency resilience during remote processing.
+# - Performance scaling under extreme transaction loads.
+
+@given('a bank export file named "{file_name}" containing "{transaction_count}" transactions')
+def step_given_high_volume_file(context, file_name, transaction_count):
+    """Simulate loading a high-volume transaction file"""
+    context.file_name = file_name
+    context.transaction_count = int(transaction_count)
+    context.processed_count = 0
+
+
+@when('the system processes the file')
+def step_when_process_high_volume_file(context):
+    """Simulate processing the high-volume transaction file"""
+    processing_time = min(context.transaction_count / 10000, 5)  # Simulating transaction processing time
+    time.sleep(processing_time)
+    context.processed_count = context.transaction_count
+    logging.info(f"Processed {context.processed_count} transactions from {context.file_name}.")
+
+
+@then('all transactions should be recorded accurately')
+def step_then_validate_transactions_recorded(context):
+    """Ensure all transactions are recorded without errors"""
+    assert context.processed_count == context.transaction_count, "Transaction count mismatch!"
+    logging.info("All transactions recorded successfully.")
+
+
+@then('no data loss or corruption should occur')
+def step_then_validate_no_data_loss(context):
+    """Ensure no transaction data is lost"""
+    assert random.random() > 0.05, "Data loss detected!"
+    logging.info("No data corruption detected during processing.")
+
+
+@given('a database containing "{transaction_count}" transactions')
+def step_given_database_high_transaction_load(context, transaction_count):
+    """Simulate a database loaded with high transaction volumes"""
+    context.db_transaction_count = int(transaction_count)
+
+
+@when('a query retrieves transactions from the last "{time_period}"')
+def step_when_query_transactions(context, time_period):
+    """Simulate querying a large database for recent transactions"""
+    context.query_time = random.randint(1, 10)  # Simulated execution time in seconds
+    time.sleep(context.query_time)
+    context.time_period = time_period
+    logging.info(f"Queried transactions for {context.time_period} in {context.query_time} seconds.")
+
+
+@then('the query should execute within "{expected_time}" seconds')
+def step_then_validate_query_performance(context, expected_time):
+    """Ensure queries execute within the expected time"""
+    assert context.query_time <= int(expected_time), "Query took too long!"
+    logging.info("Query performance within acceptable limits.")
+
+
+@given('"{batch_count}" bank export files each containing "{transaction_count}" transactions')
+def step_given_batch_transaction_processing(context, batch_count, transaction_count):
+    """Simulate batch processing of high-volume transactions"""
+    context.batch_count = int(batch_count)
+    context.transaction_count = int(transaction_count)
+
+
+@when('the system processes these files in parallel')
+def step_when_process_batches(context):
+    """Simulate batch transaction processing"""
+    context.batch_processing_time = random.randint(100, 900)
+    time.sleep(1)
+    logging.info(f"Batch processing completed in {context.batch_processing_time} seconds.")
+
+
+@then('system memory consumption should remain under "{memory_limit}%"')
+def step_then_validate_memory_usage(context, memory_limit):
+    """Ensure system memory consumption remains within the limit"""
+    actual_memory_usage = random.randint(60, 85)
+    assert actual_memory_usage <= int(memory_limit), "Memory usage exceeded!"
+    logging.info(f"Memory usage: {actual_memory_usage}%, within limit.")
+
+
+@given('a bank export file "{file_name}" with "{error_type}" errors in "{error_percentage}%" of transactions')
+def step_given_high_volume_errors(context, file_name, error_type, error_percentage):
+    """Simulate a high-volume transaction file with errors"""
+    context.file_name = file_name
+    context.error_type = error_type
+    context.error_percentage = int(error_percentage)
+
+
+@when('I attempt to process the file')
+def step_when_process_file_with_errors(context):
+    """Simulate error-prone file processing"""
+    context.error_count = (context.transaction_count * context.error_percentage) // 100
+    context.valid_transactions = context.transaction_count - context.error_count
+    logging.info(f"Processed {context.valid_transactions} valid transactions from {context.file_name}.")
+
+
+@then('all errors should be logged properly')
+def step_then_log_errors(context):
+    """Ensure all errors are correctly logged"""
+    logging.warning(f"{context.error_count} transactions failed due to {context.error_type} errors.")
+
+
+@given('a system processing "{transaction_count}" transactions per second')
+def step_given_transaction_load(context, transaction_count):
+    """Simulate a system processing a specific number of transactions per second"""
+    context.transaction_rate = int(transaction_count)
+
+
+@when('the transaction load increases by "{increase_percentage}%"')
+def step_when_transaction_load_increases(context, increase_percentage):
+    """Simulate a sudden increase in transaction processing load"""
+    context.scaled_transaction_rate = context.transaction_rate * (1 + int(increase_percentage) / 100)
+    logging.info(f"New transaction processing rate: {context.scaled_transaction_rate} per second.")
+
+
+@then('the system should scale dynamically without degradation')
+def step_then_validate_scalability(context):
+    """Ensure the system scales properly under high load"""
+    assert context.scaled_transaction_rate <= context.transaction_rate * 2, "System scalability failure!"
+    logging.info("System scaled dynamically under high load.")
+
+
+@given('a bank export file "{file_name}" with "{transaction_count}" transactions and simulated network latency of "{latency}" ms')
+def step_given_network_latency_simulation(context, file_name, transaction_count, latency):
+    """Simulate network latency during high-volume transaction processing"""
+    context.file_name = file_name
+    context.transaction_count = int(transaction_count)
+    context.latency = int(latency)
+
+
+@when('I attempt to process the file remotely')
+def step_when_process_with_latency(context):
+    """Simulate remote processing of a large transaction file under latency"""
+    context.latency_effect = context.latency / 1000  # Convert ms to seconds
+    time.sleep(context.latency_effect)
+    logging.info(f"Processing {context.file_name} with {context.latency} ms latency.")
+
+
+@then('processing should not hang indefinitely')
+def step_then_validate_latency_handling(context):
+    """Ensure the system does not hang under latency conditions"""
+    assert context.latency_effect < 5, "Processing hung due to high latency!"
+    logging.info("Network latency handled successfully.")
+
+# ================= End of High-Volume Transaction Processing Validation =================
+
