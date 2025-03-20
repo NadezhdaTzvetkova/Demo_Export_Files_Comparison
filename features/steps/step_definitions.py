@@ -1,25 +1,21 @@
-import glob
-from datetime import datetime, timedelta
-import re
 import os
-import pandas as pd
+import re
+import glob
 import time
 import random
-import concurrent.futures
-from behave import given, when, then
-import concurrent.futures
-import psutil  # To monitor memory usage
 import logging
 import hashlib
+import psutil  # To monitor memory usage
+import pandas as pd
+import concurrent.futures
+from datetime import datetime, timedelta
 from behave import given, when, then
 from openpyxl import load_workbook
 
+# Configure logging (ensure only one configuration)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Dynamic Data Directory Selection Based on Feature File
-FEATURE_TO_DATA_DIR = {
-    "date_format_validation": "test_data/date_validation_test_data",
-}
-
+# Constants and dynamic settings
 ISO_DATE_FORMAT = "%Y-%m-%d"
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -29,6 +25,21 @@ DELIMITER_MAPPING = {
     "TAB": "\t",
     "pipe": "|"
 }
+
+# Expected column formats
+EXPECTED_FORMATS = {
+    "Numeric": ["TransactionID", "Amount"],
+    "Date": ["TransactionDate"],
+    "String": ["AccountHolderName"]
+}
+
+# Feature-specific data directories (dynamically assigned at runtime)
+FEATURE_TO_DATA_DIR = {
+    "date_format_validation": "test_data/date_validation_test_data",
+}
+
+resolved_issues = {}  # Simulated storage for resolved issues
+transaction_references = set()
 
 resolved_issues = {}  # Simulating a stored record of resolved issues
 
