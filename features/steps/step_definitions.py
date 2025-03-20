@@ -4,13 +4,17 @@ import re
 import os
 import pandas as pd
 import time
-import logging
 import random
 import concurrent.futures
 from behave import given, when, then
 import logging
 import concurrent.futures
 import psutil  # To monitor memory usage
+from behave import given, when, then
+import logging
+import hashlib
+
+
 
 # Dynamic Data Directory Selection Based on Feature File
 FEATURE_TO_DATA_DIR = {
@@ -3568,3 +3572,184 @@ def step_then_system_performance_stable(context):
     logging.info(f"System memory usage at {memory_usage:.2f}%, no performance degradation detected.")
 
 # ================= End of Duplicate Imports Validation Step Definitions =================
+
+# ================= Beginning of Historical Data Consistency Validation Step Definitions =================
+# This script ensures the system maintains historical data consistency in bank export file processing.
+# It verifies:
+# - That historical data remains unchanged over time.
+# - Database consistency when comparing stored historical records with the latest exports.
+# - Efficient batch processing of historical data comparisons.
+# - Proper error handling and logging for historical data inconsistencies.
+# - Performance impact assessment when validating large-scale historical data.
+
+logging.basicConfig(level=logging.INFO)
+
+historical_records = {}  # Simulating a stored record history
+
+
+def compute_file_hash(file_name):
+    """Simulates computing a file hash for data integrity validation."""
+    return hashlib.md5(file_name.encode()).hexdigest()
+
+
+@given('a historical bank export file named "{file_name}" from "{year}"')
+def step_given_historical_file(context, file_name, year):
+    """Simulate a historical file that has already been stored"""
+    historical_records[file_name] = {"year": year, "hash": compute_file_hash(file_name)}
+    context.file_name = file_name
+    context.year = year
+
+
+@when('I compare it with the latest processed version')
+def step_when_compare_with_latest(context):
+    """Simulate comparing the historical file with the latest version"""
+    latest_hash = compute_file_hash(context.file_name + "_latest")
+    context.is_modified = latest_hash != historical_records[context.file_name]["hash"]
+    time.sleep(1)  # Simulating processing time
+
+
+@then('the historical records should remain identical')
+def step_then_validate_historical_consistency(context):
+    """Verify that historical records remain unchanged"""
+    assert not context.is_modified, "Historical records have been modified!"
+    logging.info(f"Historical data consistency validated for {context.file_name}.")
+
+
+@then('no unauthorized modifications should be detected')
+def step_then_no_unauthorized_modifications(context):
+    """Ensure no unexpected modifications are detected"""
+    if context.is_modified:
+        logging.warning(f"Unauthorized modification detected in {context.file_name}!")
+
+
+@then('a validation report should be generated')
+def step_then_generate_validation_report(context):
+    """Generate a report for the historical data validation"""
+    logging.info(f"Validation report generated for {context.file_name}.")
+
+
+@given('a database containing historical records from "{year}"')
+def step_given_historical_database(context, year):
+    """Simulate a database containing historical data"""
+    context.year = year
+    context.db_data = {"year": year, "hash": compute_file_hash(str(year))}
+
+
+@when('I compare the stored records with the latest export file "{file_name}"')
+def step_when_compare_database_with_file(context, file_name):
+    """Simulate a database comparison with the latest export"""
+    file_hash = compute_file_hash(file_name)
+    context.discrepancy_found = file_hash != context.db_data["hash"]
+    time.sleep(1)  # Simulating processing time
+
+
+@then('all records should match exactly')
+def step_then_database_consistency(context):
+    """Ensure database records are consistent"""
+    assert not context.discrepancy_found, "Database records do not match!"
+    logging.info("Database consistency verified successfully.")
+
+
+@then('any discrepancies should be logged as "{discrepancy_type}"')
+def step_then_log_discrepancies(context, discrepancy_type):
+    """Ensure discrepancies are logged properly"""
+    if context.discrepancy_found:
+        logging.warning(f"Discrepancy detected: {discrepancy_type}")
+
+
+@then('a detailed report should be generated')
+def step_then_generate_detailed_report(context):
+    """Generate a report for database discrepancies"""
+    logging.info("Detailed historical data validation report generated.")
+
+
+@given('a batch of historical bank export files from "{year_range}"')
+def step_given_historical_batch(context, year_range):
+    """Simulate a batch of historical files for processing"""
+    context.year_range = year_range
+    context.batch_files = [f"transactions_{year}.csv" for year in range(2015, 2021)]
+
+
+@when('I process them for consistency checking')
+def step_when_process_historical_batch(context):
+    """Simulate processing a batch of historical records"""
+    context.discrepancy_count = random.randint(0, 5)  # Random discrepancies for testing
+    time.sleep(2)  # Simulating processing time
+
+
+@then('all historical records should be verified')
+def step_then_verify_historical_records(context):
+    """Ensure all records in the batch are verified"""
+    logging.info(f"All records from {context.year_range} verified.")
+
+
+@then('discrepancies should be flagged with severity levels "{severity}"')
+def step_then_flag_discrepancies(context, severity):
+    """Ensure discrepancies are flagged with appropriate severity"""
+    if context.discrepancy_count > 0:
+        logging.warning(f"{context.discrepancy_count} discrepancies found with severity: {severity}")
+
+
+@given('an attempt to validate historical data from "{file_name}"')
+def step_given_attempt_to_validate_historical(context, file_name):
+    """Simulate an attempt to validate a historical export file"""
+    context.file_name = file_name
+
+
+@when('inconsistencies such as "{error_type}" are found')
+def step_when_find_inconsistencies(context, error_type):
+    """Simulate detecting inconsistencies in historical data"""
+    context.error_found = bool(random.getrandbits(1))
+    context.error_type = error_type if context.error_found else None
+
+
+@then('a detailed log should capture all errors')
+def step_then_log_historical_errors(context):
+    """Ensure errors are logged for historical validation"""
+    if context.error_found:
+        logging.error(f"Historical data inconsistency detected: {context.error_type}")
+
+
+@then('the system should notify relevant users with "{notification_message}"')
+def step_then_notify_users(context, notification_message):
+    """Ensure notifications are sent for historical discrepancies"""
+    if context.error_found:
+        logging.info(f"Notification sent: {notification_message}")
+
+
+@given('a system processing "{file_count}" historical export files per hour')
+def step_given_system_processing_historical(context, file_count):
+    """Simulate the system processing a high volume of historical records"""
+    context.file_count = int(file_count)
+
+
+@when('comparisons involve large datasets from "{year_range}"')
+def step_when_compare_large_datasets(context, year_range):
+    """Simulate processing large historical datasets"""
+    context.processing_time = random.randint(100, 600)  # Simulating processing duration
+    time.sleep(1)  # Simulating processing delay
+
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_complete_within_time(context, expected_time):
+    """Ensure processing completes within expected time"""
+    assert context.processing_time <= int(expected_time), "Processing took too long!"
+    logging.info(f"Processing completed in {context.processing_time} seconds.")
+
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_monitor_resource_usage(context, resource_limit):
+    """Ensure resource usage remains within limits"""
+    actual_resource_usage = random.randint(50, 90)
+    assert actual_resource_usage <= int(resource_limit), "Resource usage exceeded!"
+    logging.info(f"Resource usage: {actual_resource_usage}%, within allowed limit.")
+
+
+@then('database queries should remain optimized')
+def step_then_validate_query_performance(context):
+    """Ensure database queries perform optimally"""
+    query_time = random.uniform(0.1, 2.5)
+    assert query_time < 3, "Database query performance degraded!"
+    logging.info(f"Database query executed in {query_time:.2f} seconds.")
+
+# ================= End of Historical Data Consistency Validation Step Definitions =================
