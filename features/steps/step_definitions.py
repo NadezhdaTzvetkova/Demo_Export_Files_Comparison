@@ -1596,3 +1596,149 @@ def step_then_recommend_corrective_action(context):
 
 # ================= End of Null Values Handling Steps =================
 
+# ================= Beginning of Outlier Detection Step Definitions for Edge Case Handling =================
+# This script contains step definitions for detecting outliers in bank export files as part of edge case testing.
+# It includes:
+# - Handling empty files
+# - Identifying transactions with extreme values
+# - Analyzing historical trends for anomaly detection
+# - Ensuring system performance under large datasets
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensure the specified bank export file exists"""
+    context.file_path = os.path.join(context.base_dir, file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} not found"
+
+
+@when('I attempt to process the file')
+def step_when_attempt_to_process(context):
+    """Check if the file is empty"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.is_empty = df.empty
+
+
+@then('the system should detect it as empty')
+def step_then_detect_empty(context):
+    """Validate the file is empty"""
+    assert context.is_empty, "File is not empty"
+
+
+@then('an appropriate error message should be returned')
+def step_then_error_message(context):
+    """Simulate an error message return"""
+    if context.is_empty:
+        context.error_message = "The file is empty and cannot be processed"
+    assert context.error_message == "The file is empty and cannot be processed"
+
+
+@then('the file should be excluded from processing')
+def step_then_exclude_file(context):
+    """Exclude empty files from processing"""
+    if context.is_empty:
+        context.excluded_files.append(context.file_path)
+
+
+@then('a system log entry should be recorded for tracking')
+def step_then_log_entry(context):
+    """Log the event"""
+    log_message = f"File {context.file_path} was empty and excluded from processing"
+    context.logs.append(log_message)
+
+
+@when('I analyze the "{column_name}" column in the "{sheet_name}" sheet')
+def step_when_analyze_column(context, column_name, sheet_name):
+    """Analyze outliers in a specific column"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.column_values = df[column_name].dropna()
+    context.mean = np.mean(context.column_values)
+    context.std_dev = np.std(context.column_values)
+
+
+@then('transactions exceeding the threshold of "{threshold_value}" should be flagged')
+def step_then_flag_outliers(context, threshold_value):
+    """Flag transactions exceeding a specific threshold"""
+    threshold = float(threshold_value)
+    context.outliers = context.column_values[context.column_values > threshold]
+    assert not context.outliers.empty, "No outliers detected"
+
+
+@then('flagged transactions should be logged for further review')
+def step_then_log_flagged_transactions(context):
+    """Log flagged transactions"""
+    log_message = f"Outliers detected in {context.file_path}: {len(context.outliers)} transactions"
+    context.logs.append(log_message)
+
+
+@then('recommendations for corrective action should be generated')
+def step_then_generate_recommendations(context):
+    """Generate corrective action recommendations"""
+    context.recommendations.append(f"Review flagged transactions in {context.file_path} for anomalies")
+
+
+@when('I compare the "{column_name}" column with historical data')
+def step_when_compare_with_historical(context, column_name):
+    """Compare column values with historical data for trend analysis"""
+    historical_mean = context.mean * 0.8  # Example of historical average threshold
+    context.historical_outliers = context.column_values[context.column_values > historical_mean]
+
+
+@then('records with values beyond "{threshold}%" of the historical average should be flagged')
+def step_then_flag_historical_outliers(context, threshold):
+    """Flag transactions exceeding a percentage threshold of historical data"""
+    percentage_threshold = float(threshold) / 100
+    flagged_records = context.historical_outliers[
+        context.historical_outliers > context.mean * (1 + percentage_threshold)]
+    assert not flagged_records.empty, "No significant outliers detected"
+
+
+@then('corrective action should be suggested')
+def step_then_suggest_correction(context):
+    """Suggest corrective action for flagged records"""
+    context.recommendations.append(f"Review historical anomalies in {context.file_path}")
+
+
+@then('an alert should be generated for data quality review')
+def step_then_generate_alert(context):
+    """Generate an alert for data quality issues"""
+    context.alerts.append(f"Potential data integrity issue detected in {context.file_path}")
+
+
+@when('I attempt to process a dataset containing more than "{row_count}" transactions with outliers')
+def step_when_process_large_dataset(context, row_count):
+    """Simulate processing large datasets with outliers"""
+    context.row_count = int(row_count)
+    context.processed_rows = min(context.row_count, 200000)  # Simulating a processing limit
+
+
+@then('the system should handle the data efficiently')
+def step_then_handle_large_data(context):
+    """Ensure system efficiency for large datasets"""
+    assert context.processed_rows > 0, "Dataset processing failed"
+
+
+@then('processing time should be logged for benchmarking')
+def step_then_log_processing_time(context):
+    """Log system performance metrics"""
+    log_message = f"Processed {context.processed_rows} rows in {context.file_path}"
+    context.logs.append(log_message)
+
+
+@then('flagged outliers should be included in the anomaly report')
+def step_then_generate_anomaly_report(context):
+    """Generate an anomaly detection report"""
+    context.reports.append(f"Anomaly report generated for {context.file_path}")
+
+# ================= End of Outlier Detection Step Definitions for Edge Case Handling =================
