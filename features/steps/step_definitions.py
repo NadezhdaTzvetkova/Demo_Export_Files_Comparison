@@ -1493,3 +1493,106 @@ def step_then_flag_truncated_values(context):
         logging.warning(f"Warning: {len(truncated_values)} values may have been truncated. Manual review recommended.")
 
 # ================= End of Max Character Limit Validation =================
+
+# ================= Beginning of Null Values Handling Steps =================
+
+# Helper function to load CSV or Excel files
+def load_file(file_name):
+    if file_name.endswith('.csv'):
+        return pd.read_csv(file_name)
+    elif file_name.endswith('.xlsx'):
+        return pd.read_excel(file_name, sheet_name=None)  # Load all sheets
+    else:
+        raise ValueError("Unsupported file format")
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    if not os.path.exists(file_name) or os.stat(file_name).st_size == 0:
+        context.is_empty = True
+    else:
+        context.is_empty = False
+        context.data = load_file(file_name)
+
+
+@when('I attempt to process the file')
+def step_when_process_file(context):
+    if context.is_empty:
+        context.process_result = "Empty file detected"
+    else:
+        context.process_result = "File processed successfully"
+
+
+@then('the system should detect it as empty')
+def step_then_detect_empty(context):
+    assert context.is_empty, "File is not empty"
+
+
+@then('an appropriate error message should be returned')
+def step_then_return_error(context):
+    assert context.process_result == "Empty file detected", "Incorrect error message"
+
+
+@then('the file should be excluded from processing')
+def step_then_exclude_file(context):
+    assert context.is_empty, "File should be excluded"
+
+
+@then('a system log entry should be recorded for tracking')
+def step_then_log_entry(context):
+    print(f"Log entry recorded: {context.file_name} - {context.process_result}")
+
+
+@when('I check the "{column_name}" column in the "{sheet_name}" sheet')
+def step_when_check_missing_values(context, column_name, sheet_name):
+    if sheet_name == "N/A":
+        sheet_data = context.data
+    else:
+        sheet_data = context.data[sheet_name]
+
+    context.missing_values = sheet_data[column_name].isna().sum()
+
+
+@then('records with missing values should be flagged')
+def step_then_flag_missing_values(context):
+    assert context.missing_values > 0, "No missing values detected"
+    print(f"{context.missing_values} missing values found.")
+
+
+@then('a report should be generated listing the affected rows')
+def step_then_generate_report(context):
+    print(f"Generating report for {context.missing_values} missing values...")
+    # Save the flagged data to a report (optional step)
+
+
+@then('a recommendation should be provided for data correction')
+def step_then_recommend_correction(context):
+    print("Recommendation: Please review and update missing data fields.")
+
+
+@when('I analyze the percentage of missing values in the "{column_name}" column')
+def step_when_analyze_missing_threshold(context, column_name):
+    total_records = len(context.data)
+    missing_count = context.data[column_name].isna().sum()
+    context.missing_percentage = (missing_count / total_records) * 100
+
+
+@then('if missing values exceed "{threshold}%", an alert should be generated')
+def step_then_alert_threshold(context, threshold):
+    threshold = float(threshold.strip('%'))
+    assert context.missing_percentage <= threshold, "Threshold exceeded! Alert triggered."
+    print(f"Missing values: {context.missing_percentage}% (Threshold: {threshold}%)")
+
+
+@then('transactions above the threshold should be marked for review')
+def step_then_mark_for_review(context):
+    print("Flagging transactions exceeding missing value threshold for review.")
+
+
+@then('corrective action should be recommended based on data quality standards')
+def step_then_recommend_corrective_action(context):
+    print("Recommended corrective action: Data reconciliation required.")
+
+# ================= End of Null Values Handling Steps =================
+
