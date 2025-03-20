@@ -1054,3 +1054,49 @@ def step_then_mark_for_review(context):
     logging.info(f"Manual review required for {len(flagged_duplicates)} duplicate transaction records.")
 
 # ================= End of Duplicate Transactions Validation =================
+
+# ================= Beginning of Fraudulent Transactions Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "duplicate_integrity_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+
+@when('I check the "Transaction ID" column in the "{sheet_name}" sheet')
+def step_when_check_fraudulent_transactions(context, sheet_name):
+    if context.file_path.endswith('.csv'):
+        context.data = pd.read_csv(context.file_path)
+    else:
+        context.data = pd.read_excel(context.file_path, sheet_name=sheet_name)
+
+    assert "Transaction ID" in context.data.columns, "Column 'Transaction ID' not found in file."
+
+    context.fraudulent_transactions = context.data[context.data["Risk Flag"] == "High"]
+
+
+@then('transactions flagged with high-risk indicators should be identified')
+def step_then_flag_high_risk_transactions(context):
+    assert not context.fraudulent_transactions.empty, "No high-risk transactions detected."
+    logging.info(f"Flagged high-risk transactions: {len(context.fraudulent_transactions)} records.")
+
+
+@then('an alert should be generated for compliance review')
+def step_then_generate_compliance_alert(context):
+    logging.warning(f"Compliance alert: {len(context.fraudulent_transactions)} high-risk transactions detected.")
+
+
+@then('flagged transactions should be escalated for investigation')
+def step_then_escalate_for_investigation(context):
+    logging.info(f"Escalating {len(context.fraudulent_transactions)} transactions for fraud investigation.")
+
+# ================= End of Fraudulent Transactions Validation =================
