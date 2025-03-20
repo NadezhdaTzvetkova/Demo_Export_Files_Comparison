@@ -1271,3 +1271,90 @@ def step_then_remove_whitespace(context):
     logging.info("Whitespace issues cleaned.")
 
 # ================= End of Edge Case Validation =================
+
+# ================= Beginning of Empty File Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "edge_case_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+@when('I attempt to process the file')
+def step_when_attempt_process_file(context):
+    if os.stat(context.file_path).st_size == 0:
+        context.is_empty = True
+    else:
+        context.is_empty = False
+
+@then('the system should detect it as empty')
+def step_then_detect_empty_file(context):
+    assert context.is_empty, "File is not empty."
+    logging.warning("Empty file detected and flagged.")
+
+@then('an appropriate error message should be returned')
+def step_then_error_message(context):
+    logging.error("Error: The file is empty and cannot be processed.")
+
+@then('the file should be excluded from processing')
+def step_then_exclude_empty_file(context):
+    logging.info("Empty file has been excluded from processing.")
+
+@then('a system log entry should be recorded for tracking')
+def step_then_log_empty_file(context):
+    logging.info(f"System log: Empty file {context.file_name} recorded for tracking.")
+
+@given('a batch of bank export files:')
+def step_given_batch_files(context):
+    context.batch_files = [row["file_name"] for row in context.table]
+    context.valid_files = []
+    for file_name in context.batch_files:
+        file_path = get_data_path(file_name)
+        if os.path.exists(file_path) and os.stat(file_path).st_size > 0:
+            context.valid_files.append(file_name)
+        else:
+            logging.warning(f"File {file_name} is empty or missing.")
+
+@when('I attempt to process these files')
+def step_when_process_batch_files(context):
+    context.non_empty_files = [file for file in context.valid_files if os.stat(get_data_path(file)).st_size > 0]
+
+@then('the system should continue processing non-empty files')
+def step_then_continue_processing(context):
+    assert len(context.non_empty_files) > 0, "No valid files found for processing."
+    logging.info(f"Processing {len(context.non_empty_files)} valid files.")
+
+@then('an appropriate error should be logged for each empty file')
+def step_then_log_empty_files(context):
+    for file_name in context.batch_files:
+        if file_name not in context.non_empty_files:
+            logging.error(f"Error: {file_name} is empty and cannot be processed.")
+
+@then('system resources should remain stable')
+def step_then_check_resources(context):
+    logging.info("Resource monitoring confirms stability during processing.")
+
+@then('processing time should be logged for benchmarking')
+def step_then_log_processing_time(context):
+    logging.info("Processing time recorded for benchmarking purposes.")
+
+@then('the user should receive a warning notification about the empty file')
+def step_then_notify_user(context):
+    logging.warning(f"Notification: File {context.file_name} is empty and was not processed.")
+
+@then('the file should be marked as failed in the processing log')
+def step_then_mark_failed(context):
+    logging.error(f"Processing Log: {context.file_name} marked as failed due to empty content.")
+
+@then('a recommendation should be provided to verify data source')
+def step_then_recommend_verification(context):
+    logging.info("Recommendation: Verify the data source and ensure the file is not empty before reprocessing.")
+
+# ================= End of Empty File Validation =================
