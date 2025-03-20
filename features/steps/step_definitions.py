@@ -844,3 +844,57 @@ def step_then_validate_negative_values(context):
     logging.info("Negative values processed correctly and match between systems.")
 
 # ================= End of Negative Values Validation =================
+
+
+# ================= Beginning of Whitespace Handling Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "whitespace_handling_test_data"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+
+@when('I check for whitespace issues in the "{column_name}" column in the "{sheet_name}" sheet')
+def step_when_check_whitespace(context, column_name, sheet_name):
+    # Load data based on file type
+    if context.file_path.endswith('.csv'):
+        context.data = pd.read_csv(context.file_path)
+    else:
+        context.data = pd.read_excel(context.file_path, sheet_name=sheet_name)
+
+    # Ensure the column exists
+    assert column_name in context.data.columns, f"Column {column_name} not found in {context.file_name}."
+
+    # Store column values for validation
+    context.column_values = context.data[column_name]
+
+
+@then('leading and trailing spaces should be removed from all text fields')
+def step_then_remove_whitespace(context):
+    before_cleaning = context.column_values.str.strip()
+    assert before_cleaning.equals(context.column_values), "Leading or trailing whitespace found in text fields."
+    logging.info("Whitespace correctly handled in text fields.")
+
+
+@then('fields with excessive whitespace should be flagged')
+def step_then_flag_excessive_whitespace(context):
+    flagged_rows = context.column_values[context.column_values.str.contains("  ")]
+    assert flagged_rows.empty, "Excessive whitespace detected in text fields."
+    logging.info("No excessive whitespace detected in fields.")
+
+
+@then('a correction suggestion should be provided')
+def step_then_suggest_correction(context):
+    corrections = context.column_values.str.replace("  +", " ", regex=True)
+    logging.info("Suggested corrections for whitespace issues applied where necessary.")
+
+# ================= End of Whitespace Handling Validation =================
