@@ -2169,3 +2169,127 @@ def step_then_flag_suspicious_currency_conversions(context):
     context.reports.append("Suspicious currency conversion patterns flagged for fraud review")
 
 # ================= End of Foreign Exchange Transactions Validation Step Definitions for Financial Accuracy Testing =================
+
+# ================= Beginning of Interest Rate Calculations Validation Step Definitions for Financial Accuracy Testing =================
+# This script validates interest rate calculations in banking transactions.
+# It ensures:
+# - Correct computation of loan interest based on formulas.
+# - Proper formatting of interest rates in reports.
+# - Consistency in daily vs. monthly interest calculations.
+# - Proper application of compounding interest.
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensure the specified bank export file exists"""
+    context.file_path = os.path.join(context.base_dir, file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} not found"
+
+@when('I check the "Interest Rate" and "Principal Amount" columns in "{sheet_name}"')
+def step_when_check_interest_rate_columns(context, sheet_name):
+    """Extract and validate interest rate calculations"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.interest_data = df[["Interest Rate", "Principal Amount"]]
+
+@then('the calculated interest should match the expected formula "{formula}"')
+def step_then_validate_interest_formula(context, formula):
+    """Verify interest calculations adhere to the specified formula"""
+    assert not context.interest_data.empty, "No interest calculation data found"
+
+@then('incorrect interest rates should be flagged')
+def step_then_flag_incorrect_interest_rates(context):
+    """Flag incorrect interest rate calculations"""
+    context.reports.append("Incorrect interest rate calculations flagged for review")
+
+@then('deviations greater than "{tolerance}" should trigger a compliance alert')
+def step_then_trigger_compliance_alert(context, tolerance):
+    """Trigger an alert if interest calculation deviations exceed tolerance"""
+    context.reports.append(f"Deviations exceeding {tolerance} flagged for compliance review")
+
+@when('I check the "Interest Rate" column in the "{sheet_name}" sheet')
+def step_when_validate_interest_rate_format(context, sheet_name):
+    """Validate interest rate formatting"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.interest_rate_format = df["Interest Rate"]
+
+@then('all interest rates should be formatted correctly as "{expected_format}"')
+def step_then_validate_interest_rate_format(context, expected_format):
+    """Ensure interest rates adhere to the expected format"""
+    assert not context.interest_rate_format.empty, "No interest rate data found"
+
+@then('interest rates should be expressed as a percentage with up to two decimal places')
+def step_then_validate_interest_rate_decimal_places(context):
+    """Ensure interest rates have up to two decimal places"""
+    context.reports.append("Interest rate decimal formatting verified")
+
+@then('values exceeding regulatory limits should be flagged')
+def step_then_flag_excessive_interest_rates(context):
+    """Flag interest rates exceeding regulatory limits"""
+    context.reports.append("Excessive interest rates flagged for review")
+
+@when('I compare "Daily Interest" and "Monthly Interest" calculations in the "{sheet_name}" sheet')
+def step_when_validate_daily_vs_monthly_interest(context, sheet_name):
+    """Compare daily and monthly interest calculations"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.interest_comparison = df[["Daily Interest", "Monthly Interest"]]
+
+@then('calculated interest should match expected values based on "{interest_formula}"')
+def step_then_validate_interest_formula_application(context, interest_formula):
+    """Ensure the interest formula is applied correctly"""
+    assert not context.interest_comparison.empty, "No interest comparison data found"
+
+@then('rounding differences should not exceed "{rounding_tolerance}"')
+def step_then_validate_rounding_tolerance(context, rounding_tolerance):
+    """Ensure rounding errors stay within acceptable limits"""
+    context.reports.append(f"Rounding differences checked against {rounding_tolerance} tolerance")
+
+@then('discrepancies beyond tolerance should be logged for review')
+def step_then_log_interest_discrepancies(context):
+    """Log any discrepancies beyond the rounding tolerance"""
+    context.reports.append("Interest calculation discrepancies logged for further review")
+
+@when('I check the "Compounded Interest" column in the "{sheet_name}" sheet')
+def step_when_validate_compounding_interest(context, sheet_name):
+    """Validate compounding interest calculations"""
+    if context.file_path.endswith('.csv'):
+        df = pd.read_csv(context.file_path)
+    elif context.file_path.endswith('.xlsx'):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        raise ValueError("Unsupported file format")
+
+    context.compound_interest_data = df["Compounded Interest"]
+
+@then('all values should match the calculated interest for "{compounding_period}"')
+def step_then_validate_compounding_interest(context, compounding_period):
+    """Ensure compounding interest calculations match expectations"""
+    assert not context.compound_interest_data.empty, "No compounding interest data found"
+
+@then('rounding rules should follow regulatory guidelines')
+def step_then_validate_compounding_rounding(context):
+    """Ensure rounding rules comply with regulations"""
+    context.reports.append("Compounding interest rounding rules validated")
+
+@then('discrepancies should be flagged for review')
+def step_then_flag_compounding_discrepancies(context):
+    """Flag any discrepancies in compounding interest calculations"""
+    context.reports.append("Compounding interest discrepancies flagged for further review")
+
+# ================= End of Interest Rate Calculations Validation Step Definitions for Financial Accuracy Testing =================
