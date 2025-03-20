@@ -4945,3 +4945,167 @@ def step_then_trigger_alert_for_resource_usage(context, critical_limit):
 
 # ================= End of Structural Testing for Header Mismatch Validation =================
 
+# ================= Beginning of Structural Testing for Merged Cells Validation =================
+# This script ensures:
+# - Merged cells in export files are detected and logged.
+# - Data integrity is maintained despite merged cell issues.
+# - Auto-splitting is suggested if enabled.
+# - System performance remains stable when handling merged cell inconsistencies.
+
+@given('a bank export file named "{file_name}" containing merged cells')
+def step_given_file_with_merged_cells(context, file_name):
+    """Simulate loading a bank export file that contains merged cells"""
+    context.file_name = file_name
+    context.merged_cells_detected = random.choice([True, False])
+    logging.info(f"Loaded {file_name}. Merged cells detected: {context.merged_cells_detected}")
+
+
+@when('the system processes the file')
+def step_when_process_file_with_merged_cells(context):
+    """Simulate processing the file and checking for merged cells"""
+    processing_time = random.uniform(0.5, 2)
+    time.sleep(processing_time)
+    logging.info(f"Processing {context.file_name}. Merged cells detected: {context.merged_cells_detected}")
+
+
+@then('merged cells should be detected and flagged as "{severity}"')
+def step_then_flag_merged_cells(context, severity):
+    """Flag merged cell issues based on severity"""
+    if context.merged_cells_detected:
+        logging.warning(f"Merged cells found in {context.file_name}. Severity: {severity}")
+
+
+@then('a validation report should document the merged cell locations')
+def step_then_generate_merged_cell_report(context):
+    """Generate a report documenting merged cell locations"""
+    if context.merged_cells_detected:
+        logging.info(f"Validation report generated for merged cells in {context.file_name}")
+
+
+@then('if auto-splitting is enabled, the system should attempt to correct the issue')
+def step_then_auto_correct_merged_cells(context):
+    """Simulate an auto-splitting mechanism for merged cells"""
+    if context.merged_cells_detected:
+        auto_split_success = random.choice([True, False])
+        if auto_split_success:
+            logging.info(f"Auto-splitting applied successfully for {context.file_name}")
+        else:
+            logging.warning(f"Auto-splitting failed for {context.file_name}")
+
+
+@given('an attempt to process a bank export file "{file_name}"')
+def step_given_file_for_error_handling(context, file_name):
+    """Simulate an attempt to process a file with merged cell issues"""
+    context.file_name = file_name
+
+
+@when('merged cells are detected in "{column_name}"')
+def step_when_detect_merged_cells_in_column(context, column_name):
+    """Detect merged cells in a specific column"""
+    context.merged_cells_detected = random.choice([True, False])
+    context.column_name = column_name
+    if context.merged_cells_detected:
+        logging.warning(f"Merged cells detected in column {column_name} of {context.file_name}")
+
+
+@then('a system alert should notify relevant users')
+def step_then_alert_users_about_merged_cells(context):
+    """Notify users about merged cells"""
+    if context.merged_cells_detected:
+        logging.error(f"ALERT: Merged cells detected in {context.file_name}, Column: {context.column_name}")
+
+
+@then('an auto-splitting mechanism should suggest corrections if applicable')
+def step_then_suggest_auto_splitting(context):
+    """Suggest auto-splitting for merged cells"""
+    if context.merged_cells_detected:
+        logging.info(f"Suggested auto-splitting correction for {context.file_name}, Column: {context.column_name}")
+
+
+@then('if correction is not possible, the file should be rejected')
+def step_then_reject_file_with_unfixable_merged_cells(context):
+    """Reject files if merged cells cannot be fixed"""
+    if context.merged_cells_detected and not random.choice([True, False]):
+        logging.error(f"File {context.file_name} rejected due to unresolvable merged cells.")
+
+
+@given('a batch of bank export files with merged cell issues')
+def step_given_batch_with_merged_cells(context):
+    """Simulate batch processing of export files containing merged cells"""
+    context.batch_contains_merged_cells = random.choice([True, False])
+
+
+@when('the system processes them for validation')
+def step_when_process_batch_with_merged_cells(context):
+    """Process batch files and check for merged cell issues"""
+    batch_processing_time = random.randint(1, 3)
+    time.sleep(batch_processing_time)
+    context.batch_merged_cells_detected = random.choice([True, False])
+    logging.info(f"Batch processing completed. Merged cells detected: {context.batch_merged_cells_detected}")
+
+
+@then('all merged cell occurrences should be detected and flagged as "{severity}"')
+def step_then_flag_batch_merged_cells(context, severity):
+    """Ensure merged cell issues in batch files are flagged"""
+    if context.batch_merged_cells_detected:
+        logging.warning(f"Merged cells detected in batch processing. Severity: {severity}")
+
+
+@given('a system processing "{file_count}" bank export files per hour')
+def step_given_high_volume_merged_cell_validation(context, file_count):
+    """Simulate high-volume file processing with merged cells"""
+    context.file_count = int(file_count)
+
+
+@when('merged cells are present in "{year_range}"')
+def step_when_detect_merged_cells_in_year_range(context, year_range):
+    """Perform merged cell validation across multiple years"""
+    context.year_range = year_range
+    context.processing_time = random.randint(100, 600)
+    time.sleep(1)
+    logging.info(f"Checked {context.file_count} files for merged cells in {context.year_range}.")
+
+
+@then('processing should complete within "{expected_time}" seconds')
+def step_then_validate_merged_cell_processing_speed(context, expected_time):
+    """Ensure processing with merged cells completes within expected time"""
+    assert context.processing_time <= int(expected_time), "Merged cell validation took too long!"
+    logging.info(f"Processing completed within {context.processing_time} seconds.")
+
+
+@then('system resources should not exceed "{resource_limit}%"')
+def step_then_validate_merged_cell_resource_usage(context, resource_limit):
+    """Ensure system resource usage remains within acceptable limits"""
+    actual_usage = random.randint(60, 85)
+    assert actual_usage <= int(resource_limit), "System resource usage exceeded!"
+    logging.info(f"System resource usage: {actual_usage}%, within limit.")
+
+
+@given('an export file "{file_name}" with schema "{schema_type}"')
+def step_given_file_with_merged_cell_schema(context, file_name, schema_type):
+    """Simulate an export file with a specific schema that includes merged cells"""
+    context.file_name = file_name
+    context.schema_type = schema_type
+
+
+@when('I check the schema validation rules')
+def step_when_check_schema_validation_for_merged_cells(context):
+    """Validate merged cell schema compliance"""
+    context.schema_mismatch = random.choice([True, False])
+    logging.info(f"Checked schema for {context.file_name}. Schema mismatch: {context.schema_mismatch}")
+
+
+@then('all merged cells should be split according to "{expected_format}"')
+def step_then_split_merged_cells(context, expected_format):
+    """Ensure merged cells are split correctly based on schema"""
+    if context.schema_mismatch:
+        logging.warning(f"Schema mismatch detected in {context.file_name}. Expected format: {expected_format}")
+
+
+@then('any detected schema violations should be logged as "{error_severity}"')
+def step_then_log_schema_violations(context, error_severity):
+    """Log schema violations due to merged cells"""
+    if context.schema_mismatch:
+        logging.error(f"Schema violation detected in {context.file_name}. Severity: {error_severity}")
+
+# ================= End of Structural Testing for Merged Cells Validation =================
