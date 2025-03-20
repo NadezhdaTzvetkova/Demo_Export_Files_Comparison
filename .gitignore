@@ -32,6 +32,10 @@ test_data/*
 # Ignore large files tracked by Git LFS (optional)
 *.lfs
 
+# Ignore temporary or auto-generated feature files
+*.feature.bak
+*.feature~
+
 # Ignore environment config files
 .env
 .envrcgdrive_credentials.json
