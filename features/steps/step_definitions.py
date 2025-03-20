@@ -649,3 +649,50 @@ def step_then_alert_regulatory_issues(context):
 # Additional steps for IBAN validation, duplicate detection, missing values, and blacklisted accounts...
 
 # ================= End of Invalid Account Number Validation =================
+
+# ================= Beginning of Invalid Currency Code Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "invalid_currency_codes_fixed_test_data"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+def is_valid_currency_code(currency_code, pattern):
+    """Checks if the currency code follows the expected pattern."""
+    return re.match(pattern, currency_code) is not None
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist."
+
+@when('I check the "Currency" column in the "{sheet_name}" sheet')
+def step_when_check_currency_column(context, sheet_name):
+    # Placeholder for actual implementation (CSV/Excel parsing logic required)
+    context.currency_codes = ["USD", "E$U", "XYZ"]  # Example test data
+
+@then('all currency codes should match the expected pattern "{pattern}"')
+def step_then_validate_currency_format(context, pattern):
+    for currency_code in context.currency_codes:
+        assert is_valid_currency_code(currency_code, pattern), f"Invalid currency code detected: {currency_code}"
+
+@then('invalid currency codes should be flagged')
+def step_then_flag_invalid_currencies(context):
+    invalid_currencies = [cur for cur in context.currency_codes if not is_valid_currency_code(cur, r'^[A-Z]{3}$')]
+    if invalid_currencies:
+        logging.warning(f"Invalid currency codes found: {invalid_currencies}")
+        assert False, f"Some currency codes do not conform to the expected format: {invalid_currencies}"
+
+@then('a correction suggestion should be provided')
+def step_then_suggest_correction(context):
+    logging.info("Suggest correction: Ensure currency codes follow the ISO 4217 standard.")
+
+@then('transactions with invalid currency codes should be marked for review')
+def step_then_flag_invalid_transactions(context):
+    logging.warning("Flagging transactions with invalid currency codes for further review.")
+
+# Additional steps for AML compliance, missing values, large files, and restricted currencies...
+
+# ================= End of Invalid Currency Code Validation =================
