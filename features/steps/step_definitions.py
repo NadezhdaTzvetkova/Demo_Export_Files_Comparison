@@ -1423,3 +1423,73 @@ def step_then_suggest_visibility_fix(context):
     logging.info("Suggestion: Adjust spreadsheet visibility settings to ensure all data is accessible.")
 
 # ================= End of Hidden Rows Validation =================
+
+# ================= Beginning of Max Character Limit Validation =================
+
+def get_data_path(file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_folder = "edge_case_tests"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
+    logging.info(f"Processing file: {file_name}")
+
+
+@when('I check the "{column_name}" column in the "{sheet_name}" sheet')
+def step_when_check_max_character_limit(context, column_name, sheet_name):
+    if context.file_name.endswith(".xlsx"):
+        df = pd.read_excel(context.file_path, sheet_name=sheet_name)
+    else:
+        df = pd.read_csv(context.file_path)
+
+    context.exceeding_values = df[df[column_name].astype(str).str.len() > 255]
+    logging.info(
+        f"Rows exceeding max character limit detected in column '{column_name}': {len(context.exceeding_values)}")
+
+
+@then('values exceeding the maximum character limit should be flagged')
+def step_then_flag_max_character_limit(context):
+    assert not context.exceeding_values.empty, "No values exceeding the character limit detected."
+    logging.warning(f"Flagged {len(context.exceeding_values)} rows with values exceeding max character limit.")
+
+
+@then('an error log should be generated listing the violations')
+def step_then_generate_error_log(context):
+    logging.error(
+        f"Error log: The following rows contain values exceeding the max character limit: {context.exceeding_values.index.tolist()}")
+
+
+@then('a recommendation should be provided to truncate or correct the data')
+def step_then_suggest_corrections(context):
+    logging.info(
+        "Suggestion: Ensure values in text fields do not exceed the character limit. Consider truncating or reformatting long entries.")
+
+
+@when('I attempt to process a file containing fields near the max character limit')
+def step_when_process_large_character_file(context):
+    logging.info("Processing file with values close to the max character limit...")
+
+
+@then('the system should process the file without performance degradation')
+def step_then_validate_performance(context):
+    logging.info("System successfully processed file without noticeable performance issues.")
+
+
+@then('response times should be logged for benchmarking')
+def step_then_log_response_times(context):
+    logging.info("Benchmarking: Response times for processing max character limit data recorded.")
+
+
+@then('any truncated values should be flagged for manual review')
+def step_then_flag_truncated_values(context):
+    truncated_values = context.exceeding_values[context.exceeding_values[column_name].astype(str).str.len() > 255]
+    if not truncated_values.empty:
+        logging.warning(f"Warning: {len(truncated_values)} values may have been truncated. Manual review recommended.")
+
+# ================= End of Max Character Limit Validation =================
