@@ -4,10 +4,10 @@ import random
 import pandas as pd
 from behave import given, when, then
 import time
+import contextlib
 
-# Simulating a random import time between 60 and 300 seconds
+# Simulating a random import time duration between 60 and 300 seconds
 import_time = random.uniform(60, 300)
-import_time = random.uniform(60, 300)  # Simulating import duration
 
 # Dynamic Data Directory Selection Based on Feature File
 FEATURE_TO_DATA_DIR = {
@@ -28,7 +28,6 @@ resolved_issues = {}  # Simulating a stored record of resolved issues
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logging.basicConfig(level=logging.INFO)
 
 processed_transactions = {}
 transaction_references = set()
@@ -50,24 +49,23 @@ if not os.path.exists(DATA_DIR):
 
 # Determine the appropriate data directory based on the feature file name
 
+import os
+import glob
+
+
 def get_test_data_path(feature_folder, file_name):
-    """Constructs the correct test data path based on the feature folder."""
+    """
+    Dynamically constructs the correct test data path and verifies the file exists.
+    Supports both .csv and .xlsx extensions.
+    """
     base_dir = "test_data"
     feature_data_folder = os.path.join(base_dir, feature_folder)
-    return os.path.join(feature_data_folder, file_name)
+    file_pattern = os.path.join(feature_data_folder, file_name + "*")  # Matches .csv, .xlsx, etc.
 
-    """Dynamically selects the appropriate test data folder based on the feature file name."""
-    test_folder = f"test_data/{feature_name.replace(' ', '_').lower()}_test_data"
-    file_path = os.path.join(test_folder, file_name)
-    matching_files = glob.glob(file_path + "*")  # Supports both .csv and .xlsx
-    assert matching_files, f"Test file {file_name} not found in {test_folder}"
-    return matching_files[0]  # Return first matching file
+    matching_files = glob.glob(file_pattern)
+    assert matching_files, f"Test file '{file_name}' not found in {feature_data_folder}"
 
-
-    """Constructs the correct test data path based on the feature folder."""
-    base_dir = "test_data"
-    feature_data_folder = os.path.join(base_dir, feature_folder)
-    return os.path.join(feature_data_folder, file_name)
+    return matching_files[0]  # Return the first matching file
 
 
 # Function to load the test data
