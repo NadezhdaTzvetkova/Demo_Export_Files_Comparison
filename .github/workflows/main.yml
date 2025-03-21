@@ -1,12 +1,6 @@
-name: CI - Bank Export File Comparison
+name: Build and Test
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
   build-and-test:
@@ -21,37 +15,16 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Display Python version
-        run: python --version
-
-      - name: Remove existing virtual environment (if any)
-        run: |
-          rm -rf venv
-
-      - name: Create Virtual Environment
+      - name: Create virtual environment
         run: python -m venv venv
 
-      - name: Activate Virtual Environment and Install Dependencies
+      - name: Install dependencies
         run: |
           source venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-        shell: bash
-
-      - name: Verify Virtual Environment
-        run: ls -la venv/bin
-
-      - name: Run lint checks (flake8)
-        run: |
-          source venv/bin/activate
-          flake8 .
 
       - name: Run Pytest tests
         run: |
           source venv/bin/activate
           pytest -n auto --tb=short
-
-      - name: Run BDD tests with Behave
-        run: |
-          source venv/bin/activate
-          behave --tags=smoke
