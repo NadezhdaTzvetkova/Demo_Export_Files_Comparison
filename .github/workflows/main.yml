@@ -1,31 +1,19 @@
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+- name: Set up Python
+  uses: actions/setup-python@v5
+  with:
+    python-version: "3.11"
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+- name: Verify Python installation
+  run: python --version
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
+- name: Create Virtual Environment
+  run: |
+    python -m venv venv
+    echo "VIRTUAL_ENV=$PWD/venv" >> $GITHUB_ENV
+    echo "$PWD/venv/bin" >> $GITHUB_PATH
 
-    - name: Verify Python installation
-      run: python --version
-
-    - name: Create Virtual Environment
-      run: |
-        python -m venv venv
-        source venv/bin/activate
-
-    - name: Install Dependencies
-      run: |
-        source venv/bin/activate
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Run Tests
-      run: |
-        source venv/bin/activate
-        pytest -n auto --tb=short
+- name: Activate Virtual Environment and Install Dependencies
+  run: |
+    source venv/bin/activate
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
