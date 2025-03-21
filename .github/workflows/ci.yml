@@ -1,53 +1,74 @@
-# ---------------------------------------------
-# CI Pipeline for Demo_Export_Files_Comparison
-# ---------------------------------------------
-# This workflow runs on every push and pull request to the main branch.
-# It sets up Python 3.11, installs dependencies, and runs Behave BDD tests.
-# ---------------------------------------------
-
-name: CI Pipeline
+name: CI Workflow for Demo_Export_Files_Comparison
 
 on:
   push:
-    branches: [main]  # Triggers when code is pushed to 'main'
+    branches:
+      - main
   pull_request:
-    branches: [main]  # Triggers for PRs targeting 'main'
+    branches:
+      - main
 
 jobs:
   test:
-    name: Run Behave BDD Tests
-    runs-on: ubuntu-latest  # GitHub-hosted Ubuntu environment
+    name: Run Tests on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]  # Test Matrix: test across multiple Python versions
 
     steps:
-      - name: ⬇️ Checkout Repository
+      - name: ✨ Checkout Repository
         uses: actions/checkout@v4
-        # Retrieves your code so the workflow can access it
 
-      - name: ⚙️ Set Up Python 3.11
+      - name: ⚡ Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-        # Ensures consistency with your local Python version (3.11.11)
+          python-version: ${{ matrix.python-version }}
 
-      - name: 💾 Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-        # Speeds up installs by caching Python packages between runs
-
-      - name: 📦 Install project dependencies
+      - name: 📝 Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-        # Installs everything listed in your requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install behave pytest pytest-xdist allure-behave coverage
 
-      - name: 🧪 Run Behave Tests
-        run: behave
-        # Executes your BDD tests located under /features
+      - name: 🔢 Run Behave Tests
+        run: |
+          behave --no-capture --format pretty
 
-      # Optional: future enhancement points below
-      # - name: 📊 Upload Allure Report
-      # - name: 🚀 Trigger deployment (after passing tests)
+      - name: ⚖️ Run Coverage Report (optional)
+        run: |
+          coverage run -m behave
+          coverage xml
+
+      - name: 💡 Upload Code Coverage to Codecov (optional)
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}  # Add this token in repo secrets
+          files: ./coverage.xml
+
+      - name: 📚 Generate Allure Report
+        run: |
+          mkdir -p allure-results
+          behave -f allure_behave.formatter:AllureFormatter -o allure-results ./features
+
+      - name: 🚀 Upload Allure Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-results
+
+      - name: 🚨 Notify on Failure (Slack via webhook - optional)
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: '#FF0000'
+          SLACK_MESSAGE: 'CI Build Failed for ${{ github.repository }} @ ${{ github.sha }}'
+
+      - name: 🚨 Notify on Success (Slack via webhook - optional)
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: '#00FF00'
+          SLACK_MESSAGE: 'CI Build Passed for ${{ github.repository }} @ ${{ github.sha }}'
