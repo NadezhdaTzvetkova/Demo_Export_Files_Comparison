@@ -1,22 +1,13 @@
-    import_time = random.uniform(60, 300)
-    import_time = random.uniform(60, 300)  # Simulating import duration
-from behave import given, when, then
-from datetime import datetime, timedelta
-from openpyxl import load_workbook
-import chardet
-import concurrent.futures
-import glob
-import hashlib
 import logging
 import os
-import pandas as pd
-import psutil  # To monitor memory usage
 import random
-import re
+import pandas as pd
+from behave import given, when, then
 import time
 
-
-
+# Simulating a random import time between 60 and 300 seconds
+import_time = random.uniform(60, 300)
+import_time = random.uniform(60, 300)  # Simulating import duration
 
 # Dynamic Data Directory Selection Based on Feature File
 FEATURE_TO_DATA_DIR = {
