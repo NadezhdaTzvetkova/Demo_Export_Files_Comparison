@@ -52,12 +52,12 @@ def step_then_check_consistency(_context):
         lines = f.readlines()
     delimiter_counts = [line.count(_context.detected_delimiters[0]) for line in lines]
     assert all(count == delimiter_counts[0] for count in delimiter_counts), "Inconsistent delimiters detected."
-    logging.info(f"Delimiter '{_context.detected_delimiters[0]}' is consistent across the file.")
+    logging.info("Delimiter '{_context.detected_delimiters[0]}' is consistent across the file.")
 
 @then("mixed delimiters within the file should be flagged")
 def step_then_flag_mixed_delimiters(_context):
     if len(_context.detected_delimiters) > 1:
-        logging.warning(f"Mixed delimiters detected in {_context.file_name}.")
+        logging.warning("Mixed delimiters detected in {_context.file_name}.")
         assert False, "File contains mixed delimiters."
 
 @when("I attempt to process a file containing fields near the max character limit")
