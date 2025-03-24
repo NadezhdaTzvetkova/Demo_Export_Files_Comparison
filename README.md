@@ -14,6 +14,7 @@ The goal of this project is to:
 - ✅ Secure **commit signing using GPG** for Git authentication.
 - ✅ Provide **detailed, actionable reports** through Allure.
 - ✅ Support **parallel test execution** for performance and scalability.
+- ✅ **Auto-publish Allure Reports** to GitHub Pages for easy access.
 
 ---
 
@@ -75,7 +76,7 @@ git lfs pull
 
 ---
 
-## 📥 Automatic Download of Large Test Files
+## 📅 Automatic Download of Large Test Files
 This project requires large test datasets, which are **stored in Google Drive** and automatically downloaded before test execution.
 
 ### **🔗 Setting Up Google Drive API**
@@ -165,13 +166,13 @@ pytest -n auto
 
 ---
 
-## ⚡ Continuous Integration & Allure Reporting
+## ⚡️ Continuous Integration & Allure Reporting
 Powered by **GitHub Actions**, the project supports full test automation.
 
 ### 🧪 CI Features
 - ✅ **Matrix Testing** across Python 3.9, 3.10, 3.11
 - 🌀 **Parallel Testing** via `pytest-xdist`
-- 📘️ **BDD with Behave** and traditional tests with **pytest**
+- 📜 **BDD with Behave** and traditional tests with **pytest**
 - 📊 **Code Coverage** tracking via `coverage.py` + Codecov
 - 📚 **Allure Reports** generated and uploaded as CI artifacts
 - 🔔 **Slack Notifications** for test results
@@ -183,15 +184,14 @@ The pipeline collects test results for both Behave and Pytest and publishes them
 #### ✅ Features:
 - Behave + Pytest combined reports
 - Downloadable from the **Actions tab**
-- Deployed to GitHub Pages (if enabled)
+- Auto-published to **GitHub Pages** for easy access
 
-#### 📥 View the Report:
+#### 📅 View the Report:
 1. Open the **Actions** tab
 2. Click the latest workflow run
 3. Download the `allure-html` artifact
 
-🔜 Future: Access reports via:
-https://NadezhdaTzvetkova.github.io/Demo_Export_Files_Comparison
+📅 Or view live: [Live Allure Report](https://NadezhdaTzvetkova.github.io/Demo_Export_Files_Comparison)
 
 ---
 
