@@ -169,7 +169,7 @@ pytest -n auto
 ## ⚡️ Continuous Integration & Allure Reporting
 Powered by **GitHub Actions**, the project supports full test automation.
 
-### 🧪 CI Features
+### 🦢 CI Features
 - ✅ **Matrix Testing** across Python 3.9, 3.10, 3.11
 - 🌀 **Parallel Testing** via `pytest-xdist`
 - 📜 **BDD with Behave** and traditional tests with **pytest**
@@ -186,12 +186,12 @@ The pipeline collects test results for both Behave and Pytest and publishes them
 - Downloadable from the **Actions tab**
 - Auto-published to **GitHub Pages** for easy access
 
-#### 📅 View the Report:
+#### 🗕️ View the Report:
 1. Open the **Actions** tab
 2. Click the latest workflow run
 3. Download the `allure-html` artifact
 
-📅 Or view live: [Live Allure Report](https://NadezhdaTzvetkova.github.io/Demo_Export_Files_Comparison)
+🗕️ Or view live: [Live Allure Report](https://nadezhdatzvetkova.github.io/Demo_Export_Files_Comparison)
 
 ---
 
