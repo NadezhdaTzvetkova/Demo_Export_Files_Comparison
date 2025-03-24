@@ -1,42 +1,58 @@
-# Ignore Python virtual environment
+# ▶️ Python Virtual Environments
 .venv/
+venv/
+env/
 
-# Ignore system files
+# 🐍 Compiled Python files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 🧠 IDEs and Editor Configs
+.idea/
+.vscode/
+*.swp
+
+# 💾 System files
 .DS_Store
 Thumbs.db
 
-# Ignore PyCharm project settings
-.idea/
+# 📦 Dependencies and builds
+*.egg-info/
+dist/
+build/
 
-# Ignore compiled Python files
-__pycache__/
-*.pyc
-*.pyo
-
-# Ignore logs and temp files
+# 📋 Logs and temp files
 logs/
 *.log
 *.tmp
 
-# Ignore sensitive credentials
+# ⚠️ Sensitive files
+.env
+.envrc
 gdrive_credentials.json
 scripts/credentials.json
 
-# Ignore test data that should not be committed
+# 🧪 Test data
 test_data/*
 !test_data/.gitkeep
 *.csv
 *.xlsx
 *.parquet
 
-# Ignore large files tracked by Git LFS (optional)
-*.lfs
-
-# Ignore temporary or auto-generated feature files
+# 🔁 Auto-generated/backup feature files
 *.feature.bak
 *.feature~
 
-# Ignore environment config files
-.env
-.envrcgdrive_credentials.json
-scripts/credentials.json
+# 🧪 Allure results and reports
+allure-results/
+allure-report/
+
+# 🧪 Code coverage and test cache
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# 🧊 Large files via Git LFS (optional)
+*.lfs

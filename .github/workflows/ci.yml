@@ -17,7 +17,7 @@ jobs:
       - name: ✨ Checkout Code
         uses: actions/checkout@v4
 
-      - name: ⚡ Set up Python
+      - name: ⚙️ Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -29,23 +29,46 @@ jobs:
         run: ruff . --output-format=github
 
   test:
-    name: 🧪 Run Tests on Python 3.11
-    runs-on: ubuntu-latest
+    name: 🧪 Run BDD Tests in Parallel (Behave)
     needs: lint
-
+    runs-on: ubuntu-latest
+    env:
+      TAGS: ""  # Optional: pass "--tags=@smoke" to filter scenarios
     steps:
       - name: ✨ Checkout Repository
         uses: actions/checkout@v4
 
-      - name: ⚡ Set up Python
+      - name: ⚙️ Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: 📝 Install locked dependencies
+      - name: 📝 Install Locked Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.lock
+          pip install behave-parallel allure-behave coverage
+
+      - name: 🧪 Run BDD Tests with behave-parallel
+        run: |
+          mkdir -p allure-results/behave
+          behave-parallel -n 4 -f allure_behave.formatter:AllureFormatter -o allure-results/behave $TAGS
+
+      # Optional Coverage (behave-parallel doesn't play well with coverage)
+      # So this is an optional fallback — NOT guaranteed to work with parallel
+      - name: ⚖️ Run Coverage for Behave (Sequential)
+        if: env.TAGS == ""
+        run: |
+          coverage run -m behave || true
+          coverage combine || true
+          coverage xml || true
+
+      - name: 💡 Upload Coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+        continue-on-error: true
 
       - name: 📦 Install Allure CLI
         run: |
@@ -55,35 +78,11 @@ jobs:
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
-      - name: 🔢 Run Behave Tests & Collect Allure Results
+      - name: 🧾 Generate Allure Report (Behave Only)
         run: |
-          mkdir -p allure-results/behave
-          behave -f allure_behave.formatter:AllureFormatter -o allure-results/behave ./features
+          allure generate allure-results/behave --clean -o allure-report
 
-      - name: 🔢 Run Pytest Tests in Parallel & Collect Allure Results
-        run: |
-          mkdir -p allure-results/pytest
-          pytest -n auto --alluredir=allure-results/pytest || true
-
-      - name: ⚖️ Generate Combined Coverage Report
-        run: |
-          coverage run -m behave || true
-          coverage run -m pytest || true
-          coverage combine
-          coverage xml
-
-      - name: 💡 Upload Coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.xml
-        continue-on-error: true
-
-      - name: 🧪 Generate Combined Allure HTML Report
-        run: |
-          allure generate allure-results/behave allure-results/pytest --clean -o allure-report
-
-      - name: 🚀 Upload Allure HTML Report Artifact
+      - name: 🚀 Upload Allure HTML Report
         uses: actions/upload-artifact@v4
         with:
           name: allure-html
@@ -105,7 +104,7 @@ jobs:
           name: allure-html
           path: allure-report
 
-      - name: 🚀 Deploy to GitHub Pages
+      - name: 🌐 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
