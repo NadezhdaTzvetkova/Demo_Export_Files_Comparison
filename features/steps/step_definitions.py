@@ -5,6 +5,7 @@ import pandas as pd
 from behave import given, when, then
 import time
 import contextlib
+import re
 
 # Simulating a random import time between 60 and 300 seconds
 import_time = random.uniform(60, 300)
@@ -275,6 +276,7 @@ def load_file(file_path, sheet_name):
 
 
 @given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
     """Ensure the bank export file exists"""
     data_dir = get_test_data_directory(context)
     context.file_path = os.path.join(data_dir, file_name)
@@ -396,9 +398,9 @@ def load_bank_export(file_name, sheet_name=None):
 
 
 @given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
     context.file_name = file_name
     logging.info(f"Processing file: {file_name}")
-
 
 given('a bank export file "{file_name}" with multi-currency transactions')(step_given_bank_export_file)
 
@@ -446,7 +448,11 @@ def step_then_flag_rounding_issues(context):
 # Map human-readable delimiter names to actual characters
 
 
+from behave import given
+import os
+
 @given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
     """Ensure the bank export file exists"""
     context.file_path = os.path.join("test_data/csv_files", file_name)
     assert os.path.exists(context.file_path), f"File not found: {context.file_path}"
@@ -499,6 +505,7 @@ def get_data_path(file_name):
         raise ValueError("Unsupported file format")
 
 @given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
     context.file_name = file_name
     context.df = load_file(file_name)
     assert not context.df.empty, f"File {file_name} is empty or failed to load."
@@ -541,25 +548,26 @@ def step_then_generate_error_report(context):
 # ================= Beginning of Encoding Validation =================
 
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
     """Dynamically determines the correct test data folder based on the feature file."""
     base_dir = "test_data"
     feature_folder = "encoding_validation_test_data"
     return os.path.join(base_dir, feature_folder, file_name)
 
+
 def detect_encoding(file_path):
     """Detects the encoding of the given file."""
     with open(file_path, 'rb') as f:
-        raw_data = f.read(10000)  # Read a sample
+        raw_data = f.read(10000)
     result = chardet.detect(raw_data)
-    return result['encoding']
+    encoding = result['encoding']
+    logging.info(f"Detected encoding for {file_path}: {encoding}")
+    return encoding
 
 @given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
     context.file_name = file_name
     context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist."
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist at path: {context.file_path}"
 
 @when('I check the file encoding')
 def step_when_check_encoding(context):
@@ -595,24 +603,49 @@ def step_then_generate_encoding_report(context):
 
 # ================= Beginning of Invalid Account Number Validation =================
 
+    def get_data_path(context, file_name):
+        """Dynamically determines the correct test data folder based on the feature file name."""
+        base_dir = "test_data"
+        # Extract the feature filename (e.g., "invalid_account_numbers.feature")
+        feature_file = os.path.basename(context.feature.filename)
+        # Remove extension to get the folder name (e.g., "invalid_account_numbers")
+        feature_folder = os.path.splitext(feature_file)[0] + "_test_data"
+        return os.path.join(base_dir, feature_folder, file_name)
 
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "invalid_account_numbers_test_data"
-    return os.path.join(base_dir, feature_folder, file_name)
 
 def is_valid_account_number(account_number, pattern):
     """Checks if the account number follows the expected pattern."""
     return re.match(pattern, account_number) is not None
 
-given('a bank export file "{file_name}"')
+
+def get_data_path(context, file_name):
+    """Dynamically determines the correct test data folder based on the feature file."""
+    base_dir = "test_data"
+    feature_file = os.path.basename(context.feature.filename)
+    feature_folder = os.path.splitext(feature_file)[0] + "_test_data"
+    return os.path.join(base_dir, feature_folder, file_name)
+
+
+def detect_encoding(file_path):
+    """Detects the encoding of the given file."""
+    with open(file_path, 'rb') as f:
+        raw_data = f.read(10000)  # Sample for encoding detection
+    result = chardet.detect(raw_data)
+    return result['encoding']
+
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
     context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist."
+    context.file_path = get_data_path(context, file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist at {context.file_path}"
+    if file_name.endswith(".csv"):
+        encoding = detect_encoding(context.file_path)
+        context.df = pd.read_csv(context.file_path, encoding=encoding)
+    elif file_name.endswith(".xlsx"):
+        context.df = pd.read_excel(context.file_path)
+    else:
+        raise ValueError(f"Unsupported file format for file: {file_name}")
+    assert not context.df.empty, f"Loaded file {file_name} is empty."
 
 @when('I check the "Account Number" column in the "{sheet_name}" sheet')
 def step_when_check_account_number(context, sheet_name):
@@ -650,14 +683,18 @@ def step_then_alert_regulatory_issues(context):
     feature_folder = ("invalid_currency_codes_test_data")
     return os.path.join(base_dir, feature_folder, file_name)
 
-def is_valid_currency_code(currency_code, pattern):
-    """Checks if the currency code follows the expected pattern."""
-    return re.match(pattern, currency_code) is not None
 
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist."
+
+
+
+def is_valid_currency_code(currency_code, pattern=r"^[A-Z]{3}$"):
+    """
+    Checks if the currency code follows the expected pattern.
+    Default pattern matches standard ISO 4217 currency codes (3 uppercase letters).
+    """
+    if not isinstance(currency_code, str):
+        return False
+    return re.fullmatch(pattern, currency_code.strip()) is not None
 
 @when('I check the "Currency" column in the "{sheet_name}" sheet')
 def step_when_check_currency_column(context, sheet_name):
@@ -676,7 +713,10 @@ def step_then_flag_invalid_currencies(context):
         logging.warning(f"Invalid currency codes found: {invalid_currencies}")
         assert False, f"Some currency codes do not conform to the expected format: {invalid_currencies}"
 
+
 @then('a correction suggestion should be provided')
+def step_then_suggest_correction(context):
+    """Logs a suggestion to use ISO 4217 standard currency codes."""
     logging.info("Suggest correction: Ensure currency codes follow the ISO 4217 standard.")
 
 @then('transactions with invalid currency codes should be marked for review')
@@ -693,7 +733,10 @@ def step_then_flag_invalid_transactions(context):
     feature_folder = "missing_values_test_data"
     return os.path.join(base_dir, feature_folder, file_name)
 
+
 @given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensures the bank export file exists and stores its path in context."""
     context.file_name = file_name
     context.file_path = get_data_path(file_name)
     assert os.path.exists(context.file_path), f"File {file_name} does not exist."
@@ -715,10 +758,17 @@ def step_then_flag_missing_values(context):
         logging.warning(f"Missing values detected in fields: {flagged_fields}")
         assert False, f"Some mandatory fields have missing values: {flagged_fields}"
 
-@then('the system should suggest potential corrections based on historical data')
-    logging.info("Suggest correction: Filling missing values using historical transaction data.")
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensures the bank export file exists and stores its path in context."""
+    context.file_name = file_name
+    context.file_path = get_data_path(file_name)
+    assert os.path.exists(context.file_path), f"File {file_name} does not exist."
+
 
 @then('an error report should be generated listing affected rows')
+def step_then_error_report_generated(context):
+    """Logs that an error report was generated for missing values."""
     logging.warning("Error report generated for missing values.")
 
 @then('records with missing values should be categorized based on "{priority}"')
@@ -4178,7 +4228,9 @@ def step_then_validate_batch_reference_uniqueness(context):
 
 @given('an attempt to process a bank export file "{file_name}"')
 def step_given_duplicate_handling(context, file_name):
-    """Simulate an attempt to process a file with duplicate transaction references"""
+    """
+    Simulate an attempt to process a file with duplicate transaction references.
+    """
     context.file_name = file_name
 
 
