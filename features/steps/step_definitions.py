@@ -6,6 +6,9 @@ from behave import given, when, then
 import time
 import contextlib
 import re
+"""Processes delayed files concurrently."""
+import concurrent.futures
+
 
 # Simulating a random import time between 60 and 300 seconds
 import_time = random.uniform(60, 300)
@@ -50,8 +53,18 @@ DATA_DIR = os.path.join("test_data", f"{FEATURE_NAME}_test_data")
 if not os.path.exists(DATA_DIR):
     logging.warning(f"Warning: Data directory {DATA_DIR} does not exist!")
 
-# Determine the appropriate data directory based on the feature file name
 
+    def load_file(file_name):
+        """Load CSV or Excel files with support for all sheets in .xlsx files."""
+        if file_name.endswith('.csv'):
+            return pd.read_csv(file_name)
+        elif file_name.endswith('.xlsx'):
+            return pd.read_excel(file_name, sheet_name=None)  # Load all sheets
+        else:
+            raise ValueError("Unsupported file format: {}".format(file_name))
+
+"Then in any step definition call: context.data = load_file(context.file_path)"
+# Determine the appropriate data directory based on the feature file name
 def get_test_data_path(feature_folder, file_name):
     """Constructs the correct test data path based on the feature folder."""
     base_dir = "test_data"
@@ -818,9 +831,11 @@ def step_when_compare_numeric_column(context, numeric_column):
     context.new_values = new_data[numeric_column]
 
 
-@then('negative values should be processed correctly')
+@then('negative values should be identified in the old system')
+def step_then_check_old_negative_values(context):
+    """Checks for negative values in the old system's data."""
     old_negatives = context.old_values[context.old_values < 0]
-    new_negatives = context.new_values[context.new_values < 0]
+    assert not old_negatives.empty, "No negative values found in the old system where expected."
 
     # Assert negative values match between the two exports
     assert old_negatives.equals(new_negatives), "Negative values mismatch between old and new system exports."
@@ -837,37 +852,47 @@ def step_when_compare_numeric_column(context, numeric_column):
 
 
 @given('I have a bank export file "{file_name}" from the old system')
+def step_given_old_bank_export_file(context, file_name):
+    """Loads a bank export file from the old system."""
     context.old_file_name = file_name
     context.old_file_path = get_data_path(file_name)
     assert os.path.exists(context.old_file_path), f"File {file_name} does not exist in old system."
 
 
 @given('I have a bank export file "{file_name}" from the new system')
+def step_given_new_file(context, file_name):
     context.new_file_name = file_name
     context.new_file_path = get_data_path(file_name)
     assert os.path.exists(context.new_file_path), f"File {file_name} does not exist in new system."
 
-
 @when('I compare the "{numeric_column}" column')
+def step_when_compare_numeric_column(context, numeric_column):
     # Load old and new system data
-    old_data = pd.read_csv(context.old_file_path) if context.old_file_path.endswith('.csv') else pd.read_excel(
-        context.old_file_path)
-    new_data = pd.read_csv(context.new_file_path) if context.new_file_path.endswith('.csv') else pd.read_excel(
-        context.new_file_path)
-
+    if context.old_file_path.endswith('.csv'):
+        old_data = pd.read_csv(context.old_file_path)
+    else:
+        old_data = pd.read_excel(context.old_file_path)
+    if context.new_file_path.endswith('.csv'):
+        new_data = pd.read_csv(context.new_file_path)
+    else:
+        new_data = pd.read_excel(context.new_file_path)
+    # Store the numeric column from both files in context
+    context.old_values = old_data[numeric_column]
+    context.new_values = new_data[numeric_column]
     # Ensure the column exists in both files
     assert numeric_column in old_data.columns, f"Column {numeric_column} not found in old system file."
     assert numeric_column in new_data.columns, f"Column {numeric_column} not found in new system file."
-
     # Store the numeric column for validation
     context.old_values = old_data[numeric_column]
     context.new_values = new_data[numeric_column]
 
 
 @then('negative values should be processed correctly')
+def step_then_check_negative_values(context):
     old_negatives = context.old_values[context.old_values < 0]
     new_negatives = context.new_values[context.new_values < 0]
-
+    # Basic assertion to ensure both sets of negative values are equal
+    assert old_negatives.equals(new_negatives), "Mismatch in negative values between old and new data."
     # Assert negative values match between the two exports
     assert old_negatives.equals(new_negatives), "Negative values mismatch between old and new system exports."
     logging.info("Negative values processed correctly and match between systems.")
@@ -884,11 +909,11 @@ def step_when_compare_numeric_column(context, numeric_column):
 
 
 @given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
     context.file_name = file_name
     context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
+    assert os.path.exists(context.file_path), "File {} does not exist in the expected location.".format(file_name)
+    logging.info("Processing file: {}".format(file_name))
 
 @when('I check for whitespace issues in the "{column_name}" column in the "{sheet_name}" sheet')
 def step_when_check_whitespace(context, column_name, sheet_name):
@@ -920,6 +945,7 @@ def step_then_flag_excessive_whitespace(context):
 
 
 @then('a correction suggestion should be provided')
+def step_then_suggest_correction(context):
     corrections = context.column_values.str.replace("  +", " ", regex=True)
     logging.info("Suggested corrections for whitespace issues applied where necessary.")
 
@@ -934,10 +960,11 @@ def step_then_flag_excessive_whitespace(context):
 
 
 @given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
     context.file_name = file_name
     context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
+    assert os.path.exists(context.file_path), "File {} does not exist in the expected location.".format(file_name)
+    logging.info("Processing file: {}".format(file_name))
 
 
 @when('I check the "Account Number" column in the "{sheet_name}" sheet')
@@ -979,19 +1006,6 @@ def step_then_escalate_high_frequency_duplicates(context):
 
 # ================= Beginning of Duplicate Customers Validation =================
 
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "duplicate_integrity_tests"
-    return os.path.join(base_dir, feature_folder, file_name)
-
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
-
 @when('I check the "Customer ID" column in the "{sheet_name}" sheet')
 def step_when_check_duplicate_customers(context, sheet_name):
     if context.file_path.endswith('.csv'):
@@ -1012,10 +1026,11 @@ def step_then_flag_duplicate_customers(context):
 
 
 @then('a report should be generated listing duplicate occurrences')
+def step_then_generate_duplicate_report(context):
     flagged_duplicates = context.data[context.duplicate_customers]
     report_path = os.path.join("reports", "duplicate_customers_report.csv")
     flagged_duplicates.to_csv(report_path, index=False)
-    logging.info(f"Duplicate customers report generated at {report_path}.")
+    logging.info("Duplicate customers report generated at {}.".format(report_path))
 
 
 @then('duplicate customers should be marked for manual review')
@@ -1031,14 +1046,6 @@ def step_then_mark_for_review(context):
     base_dir = "test_data"
     feature_folder = "duplicate_integrity_tests"
     return os.path.join(base_dir, feature_folder, file_name)
-
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
 
 @when('I check the "Transaction ID" column in the "{sheet_name}" sheet')
 def step_when_check_duplicate_transactions(context, sheet_name):
@@ -1060,32 +1067,25 @@ def step_then_flag_duplicate_transactions(context):
 
 
 @then('a report should be generated listing duplicate occurrences')
+def step_then_generate_duplicate_transactions_report(context):
     flagged_duplicates = context.data[context.duplicate_transactions]
-    report_path = os.path.join("reports", "duplicate_transactions_report.csv")
+    report_dir = "reports"
+    report_path = os.path.join(report_dir, "duplicate_transactions_report.csv")
+    # Ensure the reports directory exists
+    if not os.path.exists(report_dir):
+        os.makedirs(report_dir)
     flagged_duplicates.to_csv(report_path, index=False)
-    logging.info(f"Duplicate transactions report generated at {report_path}.")
-
+    logging.info("Duplicate transactions report generated at {}.".format(report_path))
 
 @then('duplicate transactions should be marked for manual review')
+def step_then_mark_duplicates_for_manual_review(context):
     flagged_duplicates = context.data[context.duplicate_transactions]
-    logging.info(f"Manual review required for {len(flagged_duplicates)} duplicate transaction records.")
+    count = len(flagged_duplicates)
+    logging.info("Manual review required for {} duplicate transaction records.".format(count))
 
 # ================= End of Duplicate Transactions Validation =================
 
 # ================= Beginning of Fraudulent Transactions Validation =================
-
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "duplicate_integrity_tests"
-    return os.path.join(base_dir, feature_folder, file_name)
-
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
 
 @when('I check the "Transaction ID" column in the "{sheet_name}" sheet')
 def step_when_check_fraudulent_transactions(context, sheet_name):
@@ -1093,9 +1093,7 @@ def step_when_check_fraudulent_transactions(context, sheet_name):
         context.data = pd.read_csv(context.file_path)
     else:
         context.data = pd.read_excel(context.file_path, sheet_name=sheet_name)
-
     assert "Transaction ID" in context.data.columns, "Column 'Transaction ID' not found in file."
-
     context.fraudulent_transactions = context.data[context.data["Risk Flag"] == "High"]
 
 
@@ -1118,19 +1116,6 @@ def step_then_escalate_for_investigation(context):
 
 
 # ================= Beginning of Orphaned Transactions Validation =================
-
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "duplicate_integrity_tests"
-    return os.path.join(base_dir, feature_folder, file_name)
-
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
 
 @when('I check the "Transaction ID" and "Account Number" columns in the "{sheet_name}" sheet')
 def step_when_check_orphaned_transactions(context, sheet_name):
@@ -1163,19 +1148,6 @@ def step_then_escalate_for_manual_verification(context):
 # ================= End of Orphaned Transactions Validation =================
 
 # ================= Beginning of Transaction Mismatch Validation =================
-
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "duplicate_integrity_tests"
-    return os.path.join(base_dir, feature_folder, file_name)
-
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
 
 @when('I compare the "Transaction ID", "Amount", and "Currency" columns in the "{sheet_name}" sheet')
 def step_when_compare_transaction_details(context, sheet_name):
@@ -1210,17 +1182,6 @@ def step_then_generate_mismatch_report(context):
 # ================= End of Transaction Mismatch Validation =================
 
 # ================= Beginning of Edge Case Validation =================
-
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "edge_case_tests"
-    return os.path.join(base_dir, feature_folder, file_name)
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
 
 @when('I attempt to process the file')
 def step_when_attempt_process_file(context):
@@ -1270,35 +1231,27 @@ def step_then_detect_corrupt_file(context):
     logging.warning("Corrupt file detected and flagged for review.")
 
 @when('I check for whitespace issues in the "{column_name}" column')
+def step_when_check_whitespace_issues(context, column_name):
     context.data[column_name] = context.data[column_name].astype(str)
     context.whitespace_issues = context.data[column_name].str.contains(r'^\s|\s$', na=False)
 
 @then('leading and trailing spaces should be removed')
+def step_then_strip_whitespace(context):
     context.data = context.data.applymap(lambda x: x.strip() if isinstance(x, str) else x)
     logging.info("Whitespace issues cleaned.")
 
 # ================= End of Edge Case Validation =================
 
 # ================= Beginning of Empty File Validation =================
-
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "edge_case_tests"
-    return os.path.join(base_dir, feature_folder, file_name)
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
 @when('I attempt to process the file')
+def step_when_attempt_to_process_file(context):
     if os.stat(context.file_path).st_size == 0:
         context.is_empty = True
     else:
         context.is_empty = False
 
 @then('the system should detect it as empty')
+def step_then_detect_empty_file(context):
     assert context.is_empty, "File is not empty."
     logging.warning("Empty file detected and flagged.")
 
@@ -1364,23 +1317,13 @@ def step_then_recommend_verification(context):
 
 # ================= Beginning of Hidden Rows Validation =================
 
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "edge_case_tests"
-    return os.path.join(base_dir, feature_folder, file_name)
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
 @when('I check for hidden rows in the "{sheet_name}" sheet')
 def step_when_check_hidden_rows(context, sheet_name):
-    if file_name.endswith(".xlsx"):
+    if context.file_path.endswith(".xlsx"):
         df = pd.read_excel(context.file_path, sheet_name=sheet_name)
     else:
         df = pd.read_csv(context.file_path)
+
     context.hidden_rows = df[df.isnull().all(axis=1)].index.tolist()
     logging.info(f"Hidden rows detected: {context.hidden_rows}")
 
@@ -1390,7 +1333,15 @@ def step_then_log_hidden_rows(context):
     logging.warning(f"Hidden rows found: {context.hidden_rows}")
 
 @then('a report should be generated listing the hidden rows')
+def step_then_generate_hidden_rows_report(context):
+    report_dir = "reports"
+    os.makedirs(report_dir, exist_ok=True)
+    report_path = os.path.join(report_dir, "hidden_rows_report.csv")
+    # Save row indices as a DataFrame
+    hidden_rows_df = pd.DataFrame({'Hidden Row Indices': context.hidden_rows})
+    hidden_rows_df.to_csv(report_path, index=False)
     logging.info(f"Generated report for hidden rows: {context.hidden_rows}")
+    logging.info(f"Report saved to: {report_path}")
 
 @then('users should be alerted to review the hidden data')
 def step_then_alert_users(context):
@@ -1425,19 +1376,6 @@ def step_then_suggest_visibility_fix(context):
 # ================= End of Hidden Rows Validation =================
 
 # ================= Beginning of Max Character Limit Validation =================
-
-    """Dynamically determines the correct test data folder based on the feature file."""
-    base_dir = "test_data"
-    feature_folder = "edge_case_tests"
-    return os.path.join(base_dir, feature_folder, file_name)
-
-
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    context.file_path = get_data_path(file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} does not exist in the expected location."
-    logging.info(f"Processing file: {file_name}")
-
 
 @when('I check the "{column_name}" column in the "{sheet_name}" sheet')
 def step_when_check_max_character_limit(context, column_name, sheet_name):
@@ -1503,15 +1441,6 @@ def step_then_flag_truncated_values(context):
         raise ValueError("Unsupported file format")
 
 
-@given('a bank export file "{file_name}"')
-    context.file_name = file_name
-    if not os.path.exists(file_name) or os.stat(file_name).st_size == 0:
-        context.is_empty = True
-    else:
-        context.is_empty = False
-        context.data = load_file(file_name)
-
-
 @when('I attempt to process the file')
 def step_when_process_file(context):
     if context.is_empty:
@@ -1541,22 +1470,32 @@ def step_then_log_entry(context):
 
 
 @when('I check the "{column_name}" column in the "{sheet_name}" sheet')
+def step_check_column_in_sheet(context, column_name, sheet_name):
     if sheet_name == "N/A":
         sheet_data = context.data
     else:
         sheet_data = context.data[sheet_name]
-
     context.missing_values = sheet_data[column_name].isna().sum()
 
-
 @then('records with missing values should be flagged')
+def step_then_flag_missing_values(context):
     assert context.missing_values > 0, "No missing values detected"
     print(f"{context.missing_values} missing values found.")
 
 
 @then('a report should be generated listing the affected rows')
+def step_then_generate_missing_values_report(context):
     print(f"Generating report for {context.missing_values} missing values...")
-    # Save the flagged data to a report (optional step)
+
+    # Optionally filter and save rows with missing values
+    if hasattr(context, "data"):
+        affected_rows = context.data[context.data.isnull().any(axis=1)]
+        report_path = os.path.join("reports", "missing_values_report.csv")
+        os.makedirs(os.path.dirname(report_path), exist_ok=True)
+        affected_rows.to_csv(report_path, index=False)
+        logging.info(f"Missing values report saved to {report_path}")
+    else:
+        logging.warning("No data found in context to generate report.")
 
 
 @then('a recommendation should be provided for data correction')
@@ -1579,7 +1518,14 @@ def step_then_alert_threshold(context, threshold):
 
 
 @then('transactions above the threshold should be marked for review')
-    print("Flagging transactions exceeding missing value threshold for review.")
+def step_then_flag_high_value_transactions(context):
+    if hasattr(context, "threshold") and hasattr(context, "data"):
+        flagged = context.data[context.data[context.column_name] > context.threshold]
+        context.flagged_transactions = flagged
+        print(f"{len(flagged)} transactions exceed the threshold of {context.threshold} and are flagged for review.")
+        logging.info(f"{len(flagged)} transactions flagged for review above threshold {context.threshold}.")
+    else:
+        logging.warning("Threshold or data not found in context.")
 
 
 @then('corrective action should be recommended based on data quality standards')
@@ -1596,11 +1542,6 @@ def step_then_recommend_corrective_action(context):
 # - Analyzing historical trends for anomaly detection
 # - Ensuring system performance under large datasets
 
-@given('a bank export file "{file_name}"')
-    """Ensure the specified bank export file exists"""
-    context.file_path = os.path.join(context.base_dir, file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} not found"
-
 
 @when('I attempt to process the file')
 def step_when_attempt_to_process(context):
@@ -1616,27 +1557,40 @@ def step_when_attempt_to_process(context):
 
 
 @then('the system should detect it as empty')
+def step_then_system_detects_empty_file(context):
     """Validate the file is empty"""
-    assert context.is_empty, "File is not empty"
+    assert getattr(context, "is_empty", False), "File is not empty"
+    logging.warning(f"Empty file detected: {context.file_path}")
 
 
 @then('an appropriate error message should be returned')
+def step_then_return_error_message(context):
     """Simulate an error message return"""
-    if context.is_empty:
+    if getattr(context, "is_empty", False):
         context.error_message = "The file is empty and cannot be processed"
-    assert context.error_message == "The file is empty and cannot be processed"
+    assert context.error_message == "The file is empty and cannot be processed", \
+        "Expected error message not returned."
 
 
 @then('the file should be excluded from processing')
+def step_then_exclude_file_from_processing(context):
     """Exclude empty files from processing"""
-    if context.is_empty:
+    if getattr(context, "is_empty", False):
+        if not hasattr(context, "excluded_files"):
+            context.excluded_files = []
         context.excluded_files.append(context.file_path)
-
+        logging.warning(f"Excluded empty file from processing: {context.file_path}")
+    else:
+        logging.info(f"File is not empty and will be processed: {context.file_path}")
 
 @then('a system log entry should be recorded for tracking')
+def step_then_log_entry_recorded(context):
     """Log the event"""
     log_message = f"File {context.file_path} was empty and excluded from processing"
+    if not hasattr(context, "logs"):
+        context.logs = []
     context.logs.append(log_message)
+    logging.info(log_message)
 
 
 @when('I analyze the "{column_name}" column in the "{sheet_name}" sheet')
@@ -1692,8 +1646,13 @@ def step_then_flag_historical_outliers(context, threshold):
 
 
 @then('corrective action should be suggested')
+def step_then_corrective_action_suggested(context):
     """Suggest corrective action for flagged records"""
-    context.recommendations.append(f"Review historical anomalies in {context.file_path}")
+    if not hasattr(context, "recommendations"):
+        context.recommendations = []
+    recommendation = f"Review historical anomalies in {context.file_path}"
+    context.recommendations.append(recommendation)
+    logging.info(recommendation)
 
 
 @then('an alert should be generated for data quality review')
@@ -1716,9 +1675,13 @@ def step_then_handle_large_data(context):
 
 
 @then('processing time should be logged for benchmarking')
+def step_then_processing_time_logged(context):
     """Log system performance metrics"""
+    if not hasattr(context, "logs"):
+        context.logs = []
     log_message = f"Processed {context.processed_rows} rows in {context.file_path}"
     context.logs.append(log_message)
+    logging.info(log_message)
 
 
 @then('flagged outliers should be included in the anomaly report')
@@ -1738,11 +1701,6 @@ def step_then_generate_anomaly_report(context):
 # - Ensuring compliance with business logic
 # - Evaluating system performance for large datasets containing zero-value transactions
 
-@given('a bank export file "{file_name}"')
-    """Ensure the specified bank export file exists"""
-    context.file_path = os.path.join(context.base_dir, file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} not found"
-
 @when('I analyze the "Amount" column in the "{sheet_name}" sheet')
 def step_when_analyze_amount_column(context, sheet_name):
     """Analyze zero-value transactions in the Amount column"""
@@ -1761,13 +1719,25 @@ def step_then_flag_zero_value_transactions(context):
     assert not context.zero_value_transactions.empty, "No zero-value transactions detected"
 
 @then('flagged transactions should be logged for further review')
+def step_then_log_flagged_transactions(context):
     """Log flagged zero-value transactions"""
-    log_message = f"Zero-value transactions detected in {context.file_path}: {len(context.zero_value_transactions)} occurrences"
+    if not hasattr(context, "logs"):
+        context.logs = []
+    log_message = (
+        f"Zero-value transactions detected in {context.file_path}: "
+        f"{len(context.zero_value_transactions)} occurrences"
+    )
     context.logs.append(log_message)
+    logging.warning(log_message)
 
 @then('recommendations for corrective action should be generated')
+def step_then_generate_recommendations(context):
     """Generate recommendations for zero-value transactions"""
-    context.recommendations.append(f"Review flagged zero-value transactions in {context.file_path}")
+    if not hasattr(context, "recommendations"):
+        context.recommendations = []
+    recommendation = f"Review flagged zero-value transactions in {context.file_path}"
+    context.recommendations.append(recommendation)
+    logging.info(recommendation)
 
 @then('the system should classify them based on "{transaction_type}"')
 def step_then_classify_transactions(context, transaction_type):
@@ -1807,9 +1777,13 @@ def step_then_assign_risk_level(context, risk_level):
     context.risk_level = risk_level
 
 @when('I compare the "Amount" column with historical data')
+def step_when_compare_with_historical_data(context):
     """Compare zero-value transactions against historical patterns"""
     historical_average = 3  # Placeholder for actual historical data analysis
+    if not hasattr(context, "zero_value_transactions"):
+        context.zero_value_transactions = []
     context.exceeding_threshold = len(context.zero_value_transactions) > historical_average
+
 
 @then('transactions with zero value exceeding "{threshold}%" of total transactions should be flagged')
 def step_then_flag_exceeding_zero_values(context, threshold):
@@ -1818,11 +1792,17 @@ def step_then_flag_exceeding_zero_values(context, threshold):
     assert context.exceeding_threshold, "Zero-value transactions do not exceed the threshold"
 
 @then('corrective action should be suggested')
+def step_then_corrective_action_suggested(context):
     """Suggest corrective actions for flagged transactions"""
-    context.recommendations.append(f"Investigate high volume of zero-value transactions in {context.file_path}")
-
+    recommendation = f"Investigate high volume of zero-value transactions in {context.file_path}"
+    if not hasattr(context, "recommendations"):
+        context.recommendations = []
+    context.recommendations.append(recommendation)
 @then('an alert should be generated for data quality review')
+def step_then_alert_for_data_quality(context):
     """Generate an alert for data quality review"""
+    if not hasattr(context, "alerts"):
+        context.alerts = []
     context.alerts.append(f"Potential data quality issue in {context.file_path}")
 
 @then('the threshold comparison should consider "{time_period}" historical data')
@@ -1831,17 +1811,20 @@ def step_then_consider_historical_time_period(context, time_period):
     context.historical_period = time_period
 
 @when('I attempt to process a dataset containing more than "{row_count}" transactions with zero values')
+def step_when_process_large_zero_value_dataset(context, row_count):
     """Simulate processing large datasets with zero-value transactions"""
     context.row_count = int(row_count)
     context.processed_rows = min(context.row_count, 200000)  # Simulating system capability
 
+
 @then('the system should handle the data efficiently')
+def step_then_system_handles_data_efficiently(context):
     """Ensure system efficiency for processing large datasets"""
     assert context.processed_rows > 0, "Dataset processing failed"
-
 @then('processing time should be logged for benchmarking')
+def step_then_log_processing_time(context):
     """Log processing time for benchmarking"""
-    log_message = f"Processed {context.processed_rows} rows in {context.file_path}"
+    log_message = "Processed {} rows in {}".format(context.processed_rows, context.file_path)
     context.logs.append(log_message)
 
 @then('flagged zero-value transactions should be included in the validation report')
@@ -1889,12 +1872,6 @@ def step_then_generate_compliance_report(context):
 # - Stress testing scenarios and risk-weighting calculations
 # - Liquidity and stability ratio compliance
 # - Large dataset performance testing for financial accuracy validation
-
-@given('a bank export file "{file_name}"')
-    """Ensure the specified bank export file exists"""
-    context.file_path = os.path.join(context.base_dir, file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} not found"
-
 @when('I check the "Tier 1 Capital", "Risk-Weighted Assets", and "Capital Ratio" fields in "{sheet_name}"')
 def step_when_check_basel_iii_fields(context, sheet_name):
     """Analyze Basel III capital adequacy report fields"""
@@ -2039,12 +2016,6 @@ def step_then_validate_tier_2_ratio(context, tier_2_maximum):
 # - Detecting fraudulent or inconsistent multi-currency transactions
 # - Validating rounding and threshold-based compliance triggers
 
-
-@given('a bank export file "{file_name}"')
-    """Ensure the specified bank export file exists"""
-    context.file_path = os.path.join(context.base_dir, file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} not found"
-
 @when('I check the "Currency", "Amount", and "Exchange Rate" columns in "{sheet_name}"')
 def step_when_check_fx_transaction_fields(context, sheet_name):
     """Extract and validate foreign exchange transaction details"""
@@ -2149,11 +2120,6 @@ def step_then_flag_suspicious_currency_conversions(context):
 # - Consistency in daily vs. monthly interest calculations.
 # - Proper application of compounding interest.
 
-@given('a bank export file "{file_name}"')
-    """Ensure the specified bank export file exists"""
-    context.file_path = os.path.join(context.base_dir, file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} not found"
-
 @when('I check the "Interest Rate" and "Principal Amount" columns in "{sheet_name}"')
 def step_when_check_interest_rate_columns(context, sheet_name):
     """Extract and validate interest rate calculations"""
@@ -2226,8 +2192,11 @@ def step_then_validate_interest_formula_application(context, interest_formula):
     assert not context.interest_comparison.empty, "No interest comparison data found"
 
 @then('rounding differences should not exceed "{rounding_tolerance}"')
+def step_then_rounding_differences_within_tolerance(context, rounding_tolerance):
     """Ensure rounding errors stay within acceptable limits"""
-    context.reports.append(f"Rounding differences checked against {rounding_tolerance} tolerance")
+    context.reports.append(
+        "Rounding differences checked against {} tolerance".format(rounding_tolerance)
+    )
 
 @then('discrepancies beyond tolerance should be logged for review')
 def step_then_log_interest_discrepancies(context):
@@ -2269,12 +2238,6 @@ def step_then_flag_compounding_discrepancies(context):
 # - Correct computation of monthly mortgage payments based on formulas.
 # - Proper amortization schedule distribution.
 # - Accurate interest vs. principal breakdown.
-
-@given('a bank export file "{file_name}"')
-    """Ensure the specified bank export file exists"""
-    context.file_path = os.path.join(context.base_dir, file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} not found"
-
 @when('I compare "Loan Principal", "Interest Rate", and "Monthly Payment" in the "{sheet_name}" sheet')
 def step_when_validate_loan_payment(context, sheet_name):
     """Extract and validate loan payment calculations"""
@@ -2294,8 +2257,10 @@ def step_then_validate_loan_formula(context, loan_formula):
     context.reports.append(f"Loan payment calculations validated using {loan_formula}")
 
 @then('rounding errors should not exceed "{rounding_tolerance}"')
+def step_then_rounding_errors_within_tolerance(context, rounding_tolerance):
     """Ensure rounding errors stay within acceptable limits"""
-    context.reports.append(f"Loan payment rounding errors checked against {rounding_tolerance} tolerance")
+    message = "Loan payment rounding errors checked against {} tolerance".format(rounding_tolerance)
+    context.reports.append(message)
 
 @then('incorrect calculations should be flagged')
 def step_then_flag_incorrect_loan_calculations(context):
@@ -2361,12 +2326,6 @@ def step_then_flag_interest_vs_principal_discrepancies(context):
 # - Correct application of expected tax withholding rates.
 # - Identification of anomalies in tax withholding.
 # - Compliance with financial regulations.
-
-@given('a bank export file "{file_name}"')
-    """Ensure the specified bank export file exists"""
-    context.file_path = os.path.join(context.base_dir, file_name)
-    assert os.path.exists(context.file_path), f"File {file_name} not found"
-
 
 @when('I check the "Tax Withheld" column in the "{sheet_name}" sheet')
 def step_when_validate_tax_withheld(context, sheet_name):
@@ -2727,7 +2686,7 @@ def step_given_delayed_file_queue(context, file_count):
 
 @when('I attempt to process them with "{worker_threads}" concurrent threads')
 def step_when_process_concurrent_delayed_files(context, worker_threads):
-    """Process delayed files concurrently"""
+
     context.worker_threads = int(worker_threads)
 
     def process_delayed_file():
@@ -2806,7 +2765,9 @@ def step_when_users_upload_files(context):
     context.upload_results = results
 
 @then('the system should maintain stable performance without degradation')
-    """Ensure the system remains stable under high concurrency"""
+def step_then_system_stable_under_concurrency(context):
+    """Ensure the system remains stable under high concurrency."""
+    import logging
     logging.info(f"System handled {context.user_count} concurrent users successfully.")
 
 @then('response times should remain within "{expected_response_time}" seconds')
@@ -2948,7 +2909,8 @@ def step_when_process_large_file(context):
     time.sleep(min(processing_time, 3))  # Simulating a brief wait
 
 @then('processing should complete within "{expected_time}" seconds')
-    """Ensure processing time is within expected limits"""
+def step_then_processing_within_expected_time(context, expected_time):
+    """Ensure processing time is within expected limits."""
     assert context.processing_time <= float(expected_time), "Processing took too long!"
     logging.info(f"Processing completed in {context.processing_time:.2f} seconds.")
 
@@ -2960,9 +2922,12 @@ def step_then_check_data_integrity(context):
     logging.info("Data integrity verified: No data loss or corruption.")
 
 @then('memory consumption should not exceed "{memory_limit}%"')
-    """Ensure memory consumption stays within limits"""
-    memory_usage = random.uniform(50, int(memory_limit))  # Simulating memory usage
-    assert memory_usage <= int(memory_limit), "Memory usage exceeded limit!"
+def step_then_memory_consumption_within_limit(context, memory_limit):
+    """Ensure memory consumption stays within limits."""
+    memory_limit = int(memory_limit)
+    memory_usage = random.uniform(50, memory_limit)  # Simulated memory usage
+
+    assert memory_usage <= memory_limit, "Memory usage exceeded limit!"
     logging.info(f"Memory usage at {memory_usage:.2f}% within acceptable limits.")
 
 @given('a bank export file with "{row_count}" rows')
@@ -3052,6 +3017,7 @@ def step_when_process_large_file_with_errors(context):
     logging.warning(f"Detected {context.error_count} {context.error_type} errors during processing.")
 
 @then('the system should log all errors correctly')
+def step_then_system_should_log_errors_correctly(context):
     """Ensure error logging works correctly"""
     assert context.error_count > 0, "No errors logged despite error conditions!"
     logging.info(f"All {context.error_count} errors were correctly logged.")
@@ -3132,11 +3098,11 @@ def step_then_validate_import_time(context, expected_time):
     logging.info(f"Database import completed in {context.import_time:.2f} seconds.")
 
 @then('indexing operations should not slow down the system')
+def step_then_indexing_should_not_slow_down_system(context):
     """Ensure indexing does not cause performance degradation"""
     indexing_slowdown = random.choice([False, False, True])
     assert not indexing_slowdown, "Indexing slowed down the system!"
     logging.info("Indexing operations completed without performance issues.")
-
 @given('"{batch_count}" bank export files each containing "{transaction_count}" transactions')
 def step_given_large_batch_transactions(context, batch_count, transaction_count):
     """Simulate batch transaction processing"""
@@ -3165,6 +3131,7 @@ def step_then_retry_transaction_batches(context, retry_count):
     logging.info(f"Batch processing retried {retry_attempts} times and completed successfully.")
 
 @given('a bank export file "{file_name}" with "{transaction_count}" transactions and simulated network latency of "{latency}" ms')
+def step_given_file_with_transactions_and_latency(context, file_name, transaction_count, latency):
     """Simulate network latency for large transaction processing"""
     context.file_name = file_name
     context.transaction_count = int(transaction_count)
@@ -3256,11 +3223,13 @@ def step_when_process_large_file_memory(context):
     time.sleep(min(processing_time, 5))  # Simulate brief processing delay
 
 @then('memory consumption should not exceed "{memory_limit}%"')
+def step_then_memory_should_not_exceed(context, memory_limit):
     """Ensure memory usage remains within acceptable limits"""
     assert context.memory_usage <= float(memory_limit), "Memory consumption exceeded limit!"
     logging.info(f"Memory usage: {context.memory_usage:.2f}% within acceptable limits.")
 
 @then('processing should complete within "{expected_time}" seconds')
+def step_then_processing_within_expected_time(context, expected_time):
     """Ensure processing completes within expected time"""
     assert context.processing_time <= float(expected_time), "Processing took too long!"
     logging.info(f"Processing completed in {context.processing_time:.2f} seconds.")
@@ -3564,6 +3533,7 @@ def step_then_no_unauthorized_modifications(context):
 
 
 @then('a validation report should be generated')
+def step_then_generate_validation_report(context):
     """Generate a report for the historical data validation"""
     logging.info(f"Validation report generated for {context.file_name}.")
 
