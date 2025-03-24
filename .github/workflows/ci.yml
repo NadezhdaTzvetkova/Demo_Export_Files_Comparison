@@ -42,11 +42,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 📝 Install dependencies (Python)
+      - name: 📝 Install locked dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt || true
-          pip install behave pytest pytest-xdist coverage allure-behave allure-python-commons
+          pip install -r requirements.lock
 
       - name: 📦 Install Allure CLI
         run: |
