@@ -19,4 +19,4 @@ clean:
 
 # Regenerate requirements.lock
 lock:
-	pip-compile --output-file=requirements.lock requirements.txt
+	pip-compile --output-file=requirements.lock requirements.txt requirements-vcs.in

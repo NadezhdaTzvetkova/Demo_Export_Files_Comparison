@@ -1,6 +1,5 @@
 # Core Testing & Automation
 behave==1.2.6
-behave-parallel @ https://github.com/rtomac/behave-parallel/archive/refs/tags/v1.2.5a1.dev2.zip # parallel fork of behave
 coverage>=7.0.0
 allure-behave>=2.13.0
 ruff>=0.3.0
@@ -53,3 +52,6 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pyparsing==3.2.1
 git-lfs==1.6
+
+# Include VCS requirements from another file
+-r requirements-vcs.in
