@@ -80,3 +80,23 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: '#00FF00'
           SLACK_MESSAGE: '✅ CI Passed for `${{ github.repository }}` @ `${{ github.sha }}`'
+
+  deploy-report:
+    if: github.ref == 'refs/heads/main' && needs.test.outputs.python-version == '3.11'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Download Allure Report Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-html
+          path: allure-html
+
+      - name: 🚀 Deploy Allure Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-html
