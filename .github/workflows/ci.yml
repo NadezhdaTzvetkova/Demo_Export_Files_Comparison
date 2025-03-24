@@ -9,9 +9,29 @@ on:
       - main
 
 jobs:
-  test:
-    name: Run Tests on Python 3.11
+  lint:
+    name: 🧹 Lint Code with Ruff
     runs-on: ubuntu-latest
+
+    steps:
+      - name: ✨ Checkout Code
+        uses: actions/checkout@v4
+
+      - name: ⚡ Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 📦 Install Ruff
+        run: pip install ruff
+
+      - name: ✅ Run Ruff Linter
+        run: ruff . --output-format=github
+
+  test:
+    name: 🧪 Run Tests on Python 3.11
+    runs-on: ubuntu-latest
+    needs: lint
 
     steps:
       - name: ✨ Checkout Repository

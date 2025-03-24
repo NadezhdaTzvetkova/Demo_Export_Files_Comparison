@@ -1,3 +1,5 @@
+[![Allure Report](https://img.shields.io/badge/Allure-Report-blue?logo=allure&logoColor=white)](https://nadezhdatzvetkova.github.io/Demo_Export_Files_Comparison/)
+
 # 🏦 Bank Export File Comparison Automation 📜
 
 This repository contains **BDD (Behavior-Driven Development) and traditional Pytest automation tests** for **comparing banking export files (CSV/Excel)** between an **old banking system** and a **newly migrated system**.
