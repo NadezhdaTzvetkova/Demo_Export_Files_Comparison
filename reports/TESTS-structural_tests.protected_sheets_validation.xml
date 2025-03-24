@@ -1,14 +1,14 @@
-<testsuite name="structural_tests.protected_sheets_validation.Validate Handling of Protected Sheets in Structural Testing" tests="11" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.067431" hostname="Mac.localstaff"><testcase classname="structural_tests.protected_sheets_validation.Validate Handling of Protected Sheets in Structural Testing" name="Ensure protected sheets are detected and flagged -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="structural_tests.protected_sheets_validation.Validate Handling of Protected Sheets in Structural Testing" tests="11" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-24T17:04:12.955291" hostname="Nadezhda-Nikolovas-Mac.local"><testcase classname="structural_tests.protected_sheets_validation.Validate Handling of Protected Sheets in Structural Testing" name="Ensure protected sheets are detected and flagged -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 
   @structural_tests @protected_sheets @data_integrity
   Scenario Outline: Ensure protected sheets are detected and flagged -- @1.1 
     Given a bank export file "transactions_protected.xlsx" with a protected sheet "Transactions Data" ... untested in 0.000s
-    When the system processes the file ... undefined in 0.000s
-    Then the protection level should be identified as "Read-Only" ... undefined in 0.000s
-    And a validation report should document the protection settings ... undefined in 0.000s
-    And if credentials are available, the sheet should be unlocked for processing ... undefined in 0.000s
+    When the system processes the file ... untested in 0.000s
+    Then the protection level should be identified as "Read-Only" ... untested in 0.000s
+    And a validation report should document the protection settings ... untested in 0.000s
+    And if credentials are available, the sheet should be unlocked for processing ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -20,10 +20,10 @@
   @structural_tests @protected_sheets @data_integrity
   Scenario Outline: Ensure protected sheets are detected and flagged -- @1.2 
     Given a bank export file "transactions_password.xlsx" with a protected sheet "Summary Sheet" ... untested in 0.000s
-    When the system processes the file ... undefined in 0.000s
-    Then the protection level should be identified as "Password-Protected" ... undefined in 0.000s
-    And a validation report should document the protection settings ... undefined in 0.000s
-    And if credentials are available, the sheet should be unlocked for processing ... undefined in 0.000s
+    When the system processes the file ... untested in 0.000s
+    Then the protection level should be identified as "Password-Protected" ... untested in 0.000s
+    And a validation report should document the protection settings ... untested in 0.000s
+    And if credentials are available, the sheet should be unlocked for processing ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -35,10 +35,10 @@
   @structural_tests @protected_sheets @data_integrity
   Scenario Outline: Ensure protected sheets are detected and flagged -- @1.3 
     Given a bank export file "transactions_locked_rows.xlsx" with a protected sheet "Account Balances" ... untested in 0.000s
-    When the system processes the file ... undefined in 0.000s
-    Then the protection level should be identified as "Partially Locked" ... undefined in 0.000s
-    And a validation report should document the protection settings ... undefined in 0.000s
-    And if credentials are available, the sheet should be unlocked for processing ... undefined in 0.000s
+    When the system processes the file ... untested in 0.000s
+    Then the protection level should be identified as "Partially Locked" ... untested in 0.000s
+    And a validation report should document the protection settings ... untested in 0.000s
+    And if credentials are available, the sheet should be unlocked for processing ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -49,11 +49,11 @@
 
   @structural_tests @protected_sheets @error_handling
   Scenario Outline: Validate error handling for protected sheets -- @1.1 
-    Given an attempt to process a bank export file "transactions_protected.xlsx" ... undefined in 0.000s
-    When a protected sheet "Transactions Data" is encountered ... undefined in 0.000s
-    Then a system alert should notify relevant users ... undefined in 0.000s
-    And the issue should be escalated if the protection level is "High" ... undefined in 0.000s
-    And an override attempt should be logged if credentials are provided ... undefined in 0.000s
+    Given an attempt to process a bank export file "transactions_protected.xlsx" ... untested in 0.000s
+    When a protected sheet "Transactions Data" is encountered ... untested in 0.000s
+    Then a system alert should notify relevant users ... untested in 0.000s
+    And the issue should be escalated if the protection level is "High" ... untested in 0.000s
+    And an override attempt should be logged if credentials are provided ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -64,11 +64,11 @@
 
   @structural_tests @protected_sheets @error_handling
   Scenario Outline: Validate error handling for protected sheets -- @1.2 
-    Given an attempt to process a bank export file "summary_protected.xlsx" ... undefined in 0.000s
-    When a protected sheet "Summary Report" is encountered ... undefined in 0.000s
-    Then a system alert should notify relevant users ... undefined in 0.000s
-    And the issue should be escalated if the protection level is "Medium" ... undefined in 0.000s
-    And an override attempt should be logged if credentials are provided ... undefined in 0.000s
+    Given an attempt to process a bank export file "summary_protected.xlsx" ... untested in 0.000s
+    When a protected sheet "Summary Report" is encountered ... untested in 0.000s
+    Then a system alert should notify relevant users ... untested in 0.000s
+    And the issue should be escalated if the protection level is "Medium" ... untested in 0.000s
+    And an override attempt should be logged if credentials are provided ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -79,11 +79,11 @@
 
   @structural_tests @protected_sheets @error_handling
   Scenario Outline: Validate error handling for protected sheets -- @1.3 
-    Given an attempt to process a bank export file "locked_accounts.xlsx" ... undefined in 0.000s
-    When a protected sheet "Account Balances" is encountered ... undefined in 0.000s
-    Then a system alert should notify relevant users ... undefined in 0.000s
-    And the issue should be escalated if the protection level is "Low" ... undefined in 0.000s
-    And an override attempt should be logged if credentials are provided ... undefined in 0.000s
+    Given an attempt to process a bank export file "locked_accounts.xlsx" ... untested in 0.000s
+    When a protected sheet "Account Balances" is encountered ... untested in 0.000s
+    Then a system alert should notify relevant users ... untested in 0.000s
+    And the issue should be escalated if the protection level is "Low" ... untested in 0.000s
+    And an override attempt should be logged if credentials are provided ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -94,11 +94,11 @@
 
   @structural_tests @protected_sheets @batch_processing
   Scenario Outline: Ensure batch processing handles protected sheets correctly -- @1.1 
-    Given a batch of bank export files with protected sheets ... undefined in 0.000s
-    When the system processes them for validation ... undefined in 0.000s
-    Then all protected sheets should be detected and flagged as "High" ... undefined in 0.000s
-    And processing should continue if read-only access is available ... undefined in 0.000s
-    And inaccessible files should be logged separately for further review ... undefined in 0.000s
+    Given a batch of bank export files with protected sheets ... untested in 0.000s
+    When the system processes them for validation ... untested in 0.000s
+    Then all protected sheets should be detected and flagged as "High" ... untested in 0.000s
+    And processing should continue if read-only access is available ... untested in 0.000s
+    And inaccessible files should be logged separately for further review ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -109,11 +109,11 @@
 
   @structural_tests @protected_sheets @batch_processing
   Scenario Outline: Ensure batch processing handles protected sheets correctly -- @1.2 
-    Given a batch of bank export files with protected sheets ... undefined in 0.000s
-    When the system processes them for validation ... undefined in 0.000s
-    Then all protected sheets should be detected and flagged as "Medium" ... undefined in 0.000s
-    And processing should continue if read-only access is available ... undefined in 0.000s
-    And inaccessible files should be logged separately for further review ... undefined in 0.000s
+    Given a batch of bank export files with protected sheets ... untested in 0.000s
+    When the system processes them for validation ... untested in 0.000s
+    Then all protected sheets should be detected and flagged as "Medium" ... untested in 0.000s
+    And processing should continue if read-only access is available ... untested in 0.000s
+    And inaccessible files should be logged separately for further review ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -124,11 +124,11 @@
 
   @structural_tests @protected_sheets @batch_processing
   Scenario Outline: Ensure batch processing handles protected sheets correctly -- @1.3 
-    Given a batch of bank export files with protected sheets ... undefined in 0.000s
-    When the system processes them for validation ... undefined in 0.000s
-    Then all protected sheets should be detected and flagged as "Low" ... undefined in 0.000s
-    And processing should continue if read-only access is available ... undefined in 0.000s
-    And inaccessible files should be logged separately for further review ... undefined in 0.000s
+    Given a batch of bank export files with protected sheets ... untested in 0.000s
+    When the system processes them for validation ... untested in 0.000s
+    Then all protected sheets should be detected and flagged as "Low" ... untested in 0.000s
+    And processing should continue if read-only access is available ... untested in 0.000s
+    And inaccessible files should be logged separately for further review ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -139,11 +139,11 @@
 
   @structural_tests @protected_sheets @performance_testing
   Scenario Outline: Evaluate performance impact of protected sheet validation -- @1.1 
-    Given a system processing "100" bank export files per hour ... undefined in 0.000s
-    When protected sheets are present in "2015 - 2020" ... undefined in 0.000s
-    Then processing should complete within "300" seconds ... undefined in 0.000s
-    And system resources should not exceed "70%" ... undefined in 0.000s
-    And data integrity should be maintained throughout the process ... undefined in 0.000s
+    Given a system processing "100" bank export files per hour ... untested in 0.000s
+    When protected sheets are present in "2015 - 2020" ... untested in 0.000s
+    Then processing should complete within "300" seconds ... untested in 0.000s
+    And system resources should not exceed "70%" ... untested in 0.000s
+    And data integrity should be maintained throughout the process ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -154,11 +154,11 @@
 
   @structural_tests @protected_sheets @performance_testing
   Scenario Outline: Evaluate performance impact of protected sheet validation -- @1.2 
-    Given a system processing "500" bank export files per hour ... undefined in 0.000s
-    When protected sheets are present in "2021 - 2023" ... undefined in 0.000s
-    Then processing should complete within "600" seconds ... undefined in 0.000s
-    And system resources should not exceed "80%" ... undefined in 0.000s
-    And data integrity should be maintained throughout the process ... undefined in 0.000s
+    Given a system processing "500" bank export files per hour ... untested in 0.000s
+    When protected sheets are present in "2021 - 2023" ... untested in 0.000s
+    Then processing should complete within "600" seconds ... untested in 0.000s
+    And system resources should not exceed "80%" ... untested in 0.000s
+    And data integrity should be maintained throughout the process ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------

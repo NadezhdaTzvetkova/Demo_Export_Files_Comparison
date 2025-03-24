@@ -1,4 +1,4 @@
-<testsuite name="data_validation_tests.delimiter_inconsistency.Validate Delimiter Inconsistency in Bank Export Files" tests="20" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:43.853495" hostname="Mac.localstaff"><testcase classname="data_validation_tests.delimiter_inconsistency.Validate Delimiter Inconsistency in Bank Export Files" name="Ensure delimiter consistency throughout the file -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="data_validation_tests.delimiter_inconsistency.Validate Delimiter Inconsistency in Bank Export Files" tests="20" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-24T17:04:14.158425" hostname="Nadezhda-Nikolovas-Mac.local"><testcase classname="data_validation_tests.delimiter_inconsistency.Validate Delimiter Inconsistency in Bank Export Files" name="Ensure delimiter consistency throughout the file -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 
@@ -6,9 +6,9 @@
   Scenario Outline: Ensure delimiter consistency throughout the file -- @1.1 
     Given a bank export file "bank_export_baseline_test.csv" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
-    Then the delimiter should be consistent throughout the file ... undefined in 0.000s
-    And mixed delimiters within the file should be flagged ... undefined in 0.000s
-    And an error report should be generated listing inconsistent delimiters ... undefined in 0.000s
+    Then the delimiter should be consistent throughout the file ... untested in 0.000s
+    And mixed delimiters within the file should be flagged ... untested in 0.000s
+    And an error report should be generated listing inconsistent delimiters ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -21,9 +21,9 @@
   Scenario Outline: Ensure delimiter consistency throughout the file -- @1.2 
     Given a bank export file "bank_export_baseline_test.xlsx" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
-    Then the delimiter should be consistent throughout the file ... undefined in 0.000s
-    And mixed delimiters within the file should be flagged ... undefined in 0.000s
-    And an error report should be generated listing inconsistent delimiters ... undefined in 0.000s
+    Then the delimiter should be consistent throughout the file ... untested in 0.000s
+    And mixed delimiters within the file should be flagged ... untested in 0.000s
+    And an error report should be generated listing inconsistent delimiters ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -36,9 +36,9 @@
   Scenario Outline: Detect files with inconsistent delimiters -- @1.1 
     Given a bank export file "bank_export_mixed_delimiters_test.csv" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
-    Then inconsistent delimiters such as mixed commas and semicolons should be detected ... undefined in 0.000s
-    And lines with incorrect delimiters should be logged separately ... undefined in 0.000s
-    And a suggestion should be provided to standardize delimiters ... undefined in 0.000s
+    Then inconsistent delimiters such as mixed commas and semicolons should be detected ... untested in 0.000s
+    And lines with incorrect delimiters should be logged separately ... untested in 0.000s
+    And a suggestion should be provided to standardize delimiters ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -51,9 +51,9 @@
   Scenario Outline: Detect files with inconsistent delimiters -- @1.2 
     Given a bank export file "bank_export_mixed_delimiters_test.xlsx" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
-    Then inconsistent delimiters such as mixed commas and semicolons should be detected ... undefined in 0.000s
-    And lines with incorrect delimiters should be logged separately ... undefined in 0.000s
-    And a suggestion should be provided to standardize delimiters ... undefined in 0.000s
+    Then inconsistent delimiters such as mixed commas and semicolons should be detected ... untested in 0.000s
+    And lines with incorrect delimiters should be logged separately ... untested in 0.000s
+    And a suggestion should be provided to standardize delimiters ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -66,10 +66,10 @@
   Scenario Outline: Ensure files use the expected delimiter -- @1.1 
     Given a bank export file "bank_export_comma_delimiter_test.csv" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
-    Then the file should use the expected delimiter "," ... undefined in 0.000s
-    And files with a different delimiter should be flagged ... undefined in 0.000s
-    And a conversion option should be suggested ... undefined in 0.000s
-    And system should auto-adjust parsing logic if configured ... undefined in 0.000s
+    Then the file should use the expected delimiter "," ... untested in 0.000s
+    And files with a different delimiter should be flagged ... untested in 0.000s
+    And a conversion option should be suggested ... untested in 0.000s
+    And system should auto-adjust parsing logic if configured ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -82,10 +82,10 @@
   Scenario Outline: Ensure files use the expected delimiter -- @1.2 
     Given a bank export file "bank_export_semicolon_delimiter_test.xlsx" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
-    Then the file should use the expected delimiter ";" ... undefined in 0.000s
-    And files with a different delimiter should be flagged ... undefined in 0.000s
-    And a conversion option should be suggested ... undefined in 0.000s
-    And system should auto-adjust parsing logic if configured ... undefined in 0.000s
+    Then the file should use the expected delimiter ";" ... untested in 0.000s
+    And files with a different delimiter should be flagged ... untested in 0.000s
+    And a conversion option should be suggested ... untested in 0.000s
+    And system should auto-adjust parsing logic if configured ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -99,7 +99,7 @@
     Given a bank export file "bank_export_flexible_delimiters.csv" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
     Then files containing multiple valid delimiters ""comma, semicolon, TAB"" should be accepted ... untested in 0.000s
-    And unexpected delimiters should be flagged ... undefined in 0.000s
+    And unexpected delimiters should be flagged ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -113,7 +113,7 @@
     Given a bank export file "bank_export_mixed_delimiters.xlsx" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
     Then files containing multiple valid delimiters ""comma, pipe, semicolon"" should be accepted ... untested in 0.000s
-    And unexpected delimiters should be flagged ... undefined in 0.000s
+    And unexpected delimiters should be flagged ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -125,10 +125,10 @@
   @delimiter_validation @delimiter_malformed @corrupted_data
   Scenario Outline: Detect malformed data caused by delimiter errors -- @1.1 
     Given a bank export file "bank_export_malformed_delimiter_test.csv" ... untested in 0.000s
-    When I parse the file content ... undefined in 0.000s
-    Then malformed data due to incorrect delimiters should be identified ... undefined in 0.000s
-    And such records should be flagged for manual review ... undefined in 0.000s
-    And a structured log should list affected rows with recommended fixes ... undefined in 0.000s
+    When I parse the file content ... untested in 0.000s
+    Then malformed data due to incorrect delimiters should be identified ... untested in 0.000s
+    And such records should be flagged for manual review ... untested in 0.000s
+    And a structured log should list affected rows with recommended fixes ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -140,10 +140,10 @@
   @delimiter_validation @delimiter_malformed @corrupted_data
   Scenario Outline: Detect malformed data caused by delimiter errors -- @1.2 
     Given a bank export file "bank_export_malformed_delimiter_test.xlsx" ... untested in 0.000s
-    When I parse the file content ... undefined in 0.000s
-    Then malformed data due to incorrect delimiters should be identified ... undefined in 0.000s
-    And such records should be flagged for manual review ... undefined in 0.000s
-    And a structured log should list affected rows with recommended fixes ... undefined in 0.000s
+    When I parse the file content ... untested in 0.000s
+    Then malformed data due to incorrect delimiters should be identified ... untested in 0.000s
+    And such records should be flagged for manual review ... untested in 0.000s
+    And a structured log should list affected rows with recommended fixes ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -155,10 +155,10 @@
   @delimiter_validation @incomplete_records @data_loss_prevention
   Scenario Outline: Detect truncated or split records due to delimiter issues -- @1.1 
     Given a bank export file "bank_export_truncated_records_test.csv" ... untested in 0.000s
-    When I parse the file ... undefined in 0.000s
-    Then rows with missing or extra delimiters should be flagged ... undefined in 0.000s
-    And records should be reviewed for data loss risks ... undefined in 0.000s
-    And an auto-repair mechanism should attempt to reconstruct affected rows ... undefined in 0.000s
+    When I parse the file ... untested in 0.000s
+    Then rows with missing or extra delimiters should be flagged ... untested in 0.000s
+    And records should be reviewed for data loss risks ... untested in 0.000s
+    And an auto-repair mechanism should attempt to reconstruct affected rows ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -170,10 +170,10 @@
   @delimiter_validation @incomplete_records @data_loss_prevention
   Scenario Outline: Detect truncated or split records due to delimiter issues -- @1.2 
     Given a bank export file "bank_export_extra_delimiters_test.xlsx" ... untested in 0.000s
-    When I parse the file ... undefined in 0.000s
-    Then rows with missing or extra delimiters should be flagged ... undefined in 0.000s
-    And records should be reviewed for data loss risks ... undefined in 0.000s
-    And an auto-repair mechanism should attempt to reconstruct affected rows ... undefined in 0.000s
+    When I parse the file ... untested in 0.000s
+    Then rows with missing or extra delimiters should be flagged ... untested in 0.000s
+    And records should be reviewed for data loss risks ... untested in 0.000s
+    And an auto-repair mechanism should attempt to reconstruct affected rows ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -186,9 +186,9 @@
   Scenario Outline: Ensure proper handling of delimiter escape sequences -- @1.1 
     Given a bank export file "bank_export_escape_character_test.csv" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
-    Then escape sequences such as "\" should be handled correctly ... undefined in 0.000s
-    And quoted values containing delimiters should be properly parsed ... undefined in 0.000s
-    And improperly escaped delimiters should be flagged for correction ... undefined in 0.000s
+    Then escape sequences such as "\" should be handled correctly ... untested in 0.000s
+    And quoted values containing delimiters should be properly parsed ... untested in 0.000s
+    And improperly escaped delimiters should be flagged for correction ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -201,9 +201,9 @@
   Scenario Outline: Ensure proper handling of delimiter escape sequences -- @1.2 
     Given a bank export file "bank_export_quoted_delimiters_test.xlsx" ... untested in 0.000s
     When I check the delimiter format in the file ... untested in 0.000s
-    Then escape sequences such as "\" should be handled correctly ... undefined in 0.000s
-    And quoted values containing delimiters should be properly parsed ... undefined in 0.000s
-    And improperly escaped delimiters should be flagged for correction ... undefined in 0.000s
+    Then escape sequences such as "\" should be handled correctly ... untested in 0.000s
+    And quoted values containing delimiters should be properly parsed ... untested in 0.000s
+    And improperly escaped delimiters should be flagged for correction ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -215,10 +215,10 @@
   @delimiter_validation @large_files @performance_testing
   Scenario Outline: Validate delimiter consistency in large files -- @1.1 
     Given a bank export file "bank_export_large_file_delimiter_test.csv" ... untested in 0.000s
-    When I check the delimiter format in a file with "100000" rows ... undefined in 0.000s
-    Then the delimiter should be consistent in all rows ... undefined in 0.000s
-    And inconsistent delimiters should be flagged for bulk correction ... undefined in 0.000s
-    And performance benchmarks should be recorded ... undefined in 0.000s
+    When I check the delimiter format in a file with "100000" rows ... untested in 0.000s
+    Then the delimiter should be consistent in all rows ... untested in 0.000s
+    And inconsistent delimiters should be flagged for bulk correction ... untested in 0.000s
+    And performance benchmarks should be recorded ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -230,10 +230,10 @@
   @delimiter_validation @large_files @performance_testing
   Scenario Outline: Validate delimiter consistency in large files -- @1.2 
     Given a bank export file "bank_export_large_file_delimiter_test.xlsx" ... untested in 0.000s
-    When I check the delimiter format in a file with "500000" rows ... undefined in 0.000s
-    Then the delimiter should be consistent in all rows ... undefined in 0.000s
-    And inconsistent delimiters should be flagged for bulk correction ... undefined in 0.000s
-    And performance benchmarks should be recorded ... undefined in 0.000s
+    When I check the delimiter format in a file with "500000" rows ... untested in 0.000s
+    Then the delimiter should be consistent in all rows ... untested in 0.000s
+    And inconsistent delimiters should be flagged for bulk correction ... untested in 0.000s
+    And performance benchmarks should be recorded ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -245,9 +245,9 @@
   @delimiter_validation @regulatory_compliance @financial_reports
   Scenario Outline: Ensure delimiter consistency in regulatory reports -- @1.1 
     Given a bank export file "bank_export_tax_report_2023.csv" ... untested in 0.000s
-    When I check delimiter formats in "Annual Tax Report" ... undefined in 0.000s
-    Then delimiters should follow "IRS Financial Guide" ... undefined in 0.000s
-    And files not adhering to regulatory delimiter rules should be flagged ... undefined in 0.000s
+    When I check delimiter formats in "Annual Tax Report" ... untested in 0.000s
+    Then delimiters should follow "IRS Financial Guide" ... untested in 0.000s
+    And files not adhering to regulatory delimiter rules should be flagged ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -259,9 +259,9 @@
   @delimiter_validation @regulatory_compliance @financial_reports
   Scenario Outline: Ensure delimiter consistency in regulatory reports -- @1.2 
     Given a bank export file "bank_export_basel_compliance.xlsx" ... untested in 0.000s
-    When I check delimiter formats in "Basel III Compliance" ... undefined in 0.000s
-    Then delimiters should follow "ISO 20022" ... undefined in 0.000s
-    And files not adhering to regulatory delimiter rules should be flagged ... undefined in 0.000s
+    When I check delimiter formats in "Basel III Compliance" ... untested in 0.000s
+    Then delimiters should follow "ISO 20022" ... untested in 0.000s
+    And files not adhering to regulatory delimiter rules should be flagged ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -273,9 +273,9 @@
   @delimiter_validation @corrupt_data_handling @edge_case
   Scenario Outline: Detect corrupt or unreadable delimiter patterns -- @1.1 
     Given a bank export file "transactions_corrupt_delimiters.csv" ... untested in 0.000s
-    When I check the file for parsing failures ... undefined in 0.000s
-    Then records with unexpected delimiter patterns should be flagged as "Encoding Error" ... undefined in 0.000s
-    And the system should suggest corrective action ... undefined in 0.000s
+    When I check the file for parsing failures ... untested in 0.000s
+    Then records with unexpected delimiter patterns should be flagged as "Encoding Error" ... untested in 0.000s
+    And the system should suggest corrective action ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -287,9 +287,9 @@
   @delimiter_validation @corrupt_data_handling @edge_case
   Scenario Outline: Detect corrupt or unreadable delimiter patterns -- @1.2 
     Given a bank export file "transactions_incorrect_separator.xlsx" ... untested in 0.000s
-    When I check the file for parsing failures ... undefined in 0.000s
-    Then records with unexpected delimiter patterns should be flagged as "Parsing Failure" ... undefined in 0.000s
-    And the system should suggest corrective action ... undefined in 0.000s
+    When I check the file for parsing failures ... untested in 0.000s
+    Then records with unexpected delimiter patterns should be flagged as "Parsing Failure" ... untested in 0.000s
+    And the system should suggest corrective action ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------

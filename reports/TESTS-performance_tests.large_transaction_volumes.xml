@@ -1,14 +1,14 @@
-<testsuite name="performance_tests.large_transaction_volumes.Evaluate Performance of Large Transaction Volume Processing in Export Files" tests="14" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-20T12:53:44.009353" hostname="Mac.localstaff"><testcase classname="performance_tests.large_transaction_volumes.Evaluate Performance of Large Transaction Volume Processing in Export Files" name="Validate system behavior under large transaction volumes -- @1.1 " status="untested" time="0"><system-out>
+<testsuite name="performance_tests.large_transaction_volumes.Evaluate Performance of Large Transaction Volume Processing in Export Files" tests="14" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-24T17:04:11.545629" hostname="Nadezhda-Nikolovas-Mac.local"><testcase classname="performance_tests.large_transaction_volumes.Evaluate Performance of Large Transaction Volume Processing in Export Files" name="Validate system behavior under large transaction volumes -- @1.1 " status="untested" time="0"><system-out>
 <![CDATA[
 @scenario.begin
 
   @performance_tests @large_transactions @stress_testing
   Scenario Outline: Validate system behavior under large transaction volumes -- @1.1 
-    Given a bank export file containing "1,000,000" transactions ... undefined in 0.000s
-    When the system processes the file ... undefined in 0.000s
-    Then processing should complete within "60" seconds ... undefined in 0.000s
-    And system memory consumption should not exceed "70%" ... undefined in 0.000s
-    And the system should not crash or hang ... undefined in 0.000s
+    Given a bank export file containing "1,000,000" transactions ... untested in 0.000s
+    When the system processes the file ... untested in 0.000s
+    Then processing should complete within "60" seconds ... untested in 0.000s
+    And system memory consumption should not exceed "70%" ... untested in 0.000s
+    And the system should not crash or hang ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -19,11 +19,11 @@
 
   @performance_tests @large_transactions @stress_testing
   Scenario Outline: Validate system behavior under large transaction volumes -- @1.2 
-    Given a bank export file containing "5,000,000" transactions ... undefined in 0.000s
-    When the system processes the file ... undefined in 0.000s
-    Then processing should complete within "180" seconds ... undefined in 0.000s
-    And system memory consumption should not exceed "85%" ... undefined in 0.000s
-    And the system should not crash or hang ... undefined in 0.000s
+    Given a bank export file containing "5,000,000" transactions ... untested in 0.000s
+    When the system processes the file ... untested in 0.000s
+    Then processing should complete within "180" seconds ... untested in 0.000s
+    And system memory consumption should not exceed "85%" ... untested in 0.000s
+    And the system should not crash or hang ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -34,11 +34,11 @@
 
   @performance_tests @large_transactions @database_performance
   Scenario Outline: Evaluate database performance under large transaction imports -- @1.1 
-    Given a bank export file containing "1,000,000" transactions ... undefined in 0.000s
-    When I attempt to import the file into the database ... undefined in 0.000s
-    Then the database should complete the import within "120" seconds ... undefined in 0.000s
-    And indexing operations should not slow down the system ... undefined in 0.000s
-    And no transaction failures should occur due to overload ... undefined in 0.000s
+    Given a bank export file containing "1,000,000" transactions ... untested in 0.000s
+    When I attempt to import the file into the database ... untested in 0.000s
+    Then the database should complete the import within "120" seconds ... untested in 0.000s
+    And indexing operations should not slow down the system ... untested in 0.000s
+    And no transaction failures should occur due to overload ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -49,11 +49,11 @@
 
   @performance_tests @large_transactions @database_performance
   Scenario Outline: Evaluate database performance under large transaction imports -- @1.2 
-    Given a bank export file containing "10,000,000" transactions ... undefined in 0.000s
-    When I attempt to import the file into the database ... undefined in 0.000s
-    Then the database should complete the import within "300" seconds ... undefined in 0.000s
-    And indexing operations should not slow down the system ... undefined in 0.000s
-    And no transaction failures should occur due to overload ... undefined in 0.000s
+    Given a bank export file containing "10,000,000" transactions ... untested in 0.000s
+    When I attempt to import the file into the database ... untested in 0.000s
+    Then the database should complete the import within "300" seconds ... untested in 0.000s
+    And indexing operations should not slow down the system ... untested in 0.000s
+    And no transaction failures should occur due to overload ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -64,11 +64,11 @@
 
   @performance_tests @large_transactions @batch_processing
   Scenario Outline: Evaluate system behavior with large batch transaction processing -- @1.1 
-    Given "10" bank export files each containing "1,000,000" transactions ... undefined in 0.000s
-    When I process these files in parallel ... undefined in 0.000s
-    Then all transactions should be processed within "300" seconds ... undefined in 0.000s
-    And no out-of-memory errors should occur ... undefined in 0.000s
-    And batch failures should be retried up to "3" times ... undefined in 0.000s
+    Given "10" bank export files each containing "1,000,000" transactions ... untested in 0.000s
+    When I process these files in parallel ... untested in 0.000s
+    Then all transactions should be processed within "300" seconds ... untested in 0.000s
+    And no out-of-memory errors should occur ... untested in 0.000s
+    And batch failures should be retried up to "3" times ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -79,11 +79,11 @@
 
   @performance_tests @large_transactions @batch_processing
   Scenario Outline: Evaluate system behavior with large batch transaction processing -- @1.2 
-    Given "50" bank export files each containing "500,000" transactions ... undefined in 0.000s
-    When I process these files in parallel ... undefined in 0.000s
-    Then all transactions should be processed within "900" seconds ... undefined in 0.000s
-    And no out-of-memory errors should occur ... undefined in 0.000s
-    And batch failures should be retried up to "5" times ... undefined in 0.000s
+    Given "50" bank export files each containing "500,000" transactions ... untested in 0.000s
+    When I process these files in parallel ... untested in 0.000s
+    Then all transactions should be processed within "900" seconds ... untested in 0.000s
+    And no out-of-memory errors should occur ... untested in 0.000s
+    And batch failures should be retried up to "5" times ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -94,11 +94,11 @@
 
   @performance_tests @large_transactions @network_latency
   Scenario Outline: Simulate network latency effects on large transaction volumes -- @1.1 
-    Given a bank export file "bank_export_large_transactions.csv" with "1,000,000" transactions and simulated network latency of "500" ms ... undefined in 0.000s
-    When I attempt to process the file remotely ... undefined in 0.000s
-    Then the system should retry within an acceptable time frame ... undefined in 0.000s
-    And an alert should be generated if latency exceeds "1000" ms ... undefined in 0.000s
-    And processing should not hang indefinitely ... undefined in 0.000s
+    Given a bank export file "bank_export_large_transactions.csv" with "1,000,000" transactions and simulated network latency of "500" ms ... untested in 0.000s
+    When I attempt to process the file remotely ... untested in 0.000s
+    Then the system should retry within an acceptable time frame ... untested in 0.000s
+    And an alert should be generated if latency exceeds "1000" ms ... untested in 0.000s
+    And processing should not hang indefinitely ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -109,11 +109,11 @@
 
   @performance_tests @large_transactions @network_latency
   Scenario Outline: Simulate network latency effects on large transaction volumes -- @1.2 
-    Given a bank export file "bank_export_large_transactions.xlsx" with "5,000,000" transactions and simulated network latency of "1000" ms ... undefined in 0.000s
-    When I attempt to process the file remotely ... undefined in 0.000s
-    Then the system should retry within an acceptable time frame ... undefined in 0.000s
-    And an alert should be generated if latency exceeds "2000" ms ... undefined in 0.000s
-    And processing should not hang indefinitely ... undefined in 0.000s
+    Given a bank export file "bank_export_large_transactions.xlsx" with "5,000,000" transactions and simulated network latency of "1000" ms ... untested in 0.000s
+    When I attempt to process the file remotely ... untested in 0.000s
+    Then the system should retry within an acceptable time frame ... untested in 0.000s
+    And an alert should be generated if latency exceeds "2000" ms ... untested in 0.000s
+    And processing should not hang indefinitely ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -124,10 +124,10 @@
 
   @performance_tests @large_transactions @long_running
   Scenario Outline: Test system stability for long-running high-volume transactions -- @1.1 
-    Given a continuous stream of bank export files arriving every "10" seconds with "1,000,000" transactions each ... undefined in 0.000s
-    When the system processes them for "6" hours ... undefined in 0.000s
-    Then it should maintain stable performance without crashes ... undefined in 0.000s
-    And processing speed should not degrade significantly over time ... undefined in 0.000s
+    Given a continuous stream of bank export files arriving every "10" seconds with "1,000,000" transactions each ... untested in 0.000s
+    When the system processes them for "6" hours ... untested in 0.000s
+    Then it should maintain stable performance without crashes ... untested in 0.000s
+    And processing speed should not degrade significantly over time ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -138,10 +138,10 @@
 
   @performance_tests @large_transactions @long_running
   Scenario Outline: Test system stability for long-running high-volume transactions -- @1.2 
-    Given a continuous stream of bank export files arriving every "30" seconds with "5,000,000" transactions each ... undefined in 0.000s
-    When the system processes them for "12" hours ... undefined in 0.000s
-    Then it should maintain stable performance without crashes ... undefined in 0.000s
-    And processing speed should not degrade significantly over time ... undefined in 0.000s
+    Given a continuous stream of bank export files arriving every "30" seconds with "5,000,000" transactions each ... untested in 0.000s
+    When the system processes them for "12" hours ... untested in 0.000s
+    Then it should maintain stable performance without crashes ... untested in 0.000s
+    And processing speed should not degrade significantly over time ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -152,11 +152,11 @@
 
   @performance_tests @large_transactions @error_handling
   Scenario Outline: Ensure proper error handling during high-volume transaction processing -- @1.1 
-    Given a bank export file "bank_export_large_transaction_errors.csv" containing "Missing Values" errors in "5%" of transactions ... undefined in 0.000s
-    When I attempt to process the file ... undefined in 0.000s
-    Then the system should log all errors correctly ... undefined in 0.000s
-    And processing should continue without failure for valid transactions ... undefined in 0.000s
-    And a summary report should be generated with error statistics ... undefined in 0.000s
+    Given a bank export file "bank_export_large_transaction_errors.csv" containing "Missing Values" errors in "5%" of transactions ... untested in 0.000s
+    When I attempt to process the file ... untested in 0.000s
+    Then the system should log all errors correctly ... untested in 0.000s
+    And processing should continue without failure for valid transactions ... untested in 0.000s
+    And a summary report should be generated with error statistics ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -167,11 +167,11 @@
 
   @performance_tests @large_transactions @error_handling
   Scenario Outline: Ensure proper error handling during high-volume transaction processing -- @1.2 
-    Given a bank export file "bank_export_large_transaction_errors.xlsx" containing "Invalid Formats" errors in "10%" of transactions ... undefined in 0.000s
-    When I attempt to process the file ... undefined in 0.000s
-    Then the system should log all errors correctly ... undefined in 0.000s
-    And processing should continue without failure for valid transactions ... undefined in 0.000s
-    And a summary report should be generated with error statistics ... undefined in 0.000s
+    Given a bank export file "bank_export_large_transaction_errors.xlsx" containing "Invalid Formats" errors in "10%" of transactions ... untested in 0.000s
+    When I attempt to process the file ... untested in 0.000s
+    Then the system should log all errors correctly ... untested in 0.000s
+    And processing should continue without failure for valid transactions ... untested in 0.000s
+    And a summary report should be generated with error statistics ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -182,11 +182,11 @@
 
   @performance_tests @large_transactions @query_performance
   Scenario Outline: Evaluate query performance on large transaction datasets -- @1.1 
-    Given a database containing "10,000,000" transactions from bank export files ... undefined in 0.000s
-    When I execute a complex query with multiple joins and filters ... undefined in 0.000s
-    Then query execution should complete within "5" seconds ... undefined in 0.000s
-    And indexes should be properly utilized ... undefined in 0.000s
-    And query results should match expected values ... undefined in 0.000s
+    Given a database containing "10,000,000" transactions from bank export files ... untested in 0.000s
+    When I execute a complex query with multiple joins and filters ... untested in 0.000s
+    Then query execution should complete within "5" seconds ... untested in 0.000s
+    And indexes should be properly utilized ... untested in 0.000s
+    And query results should match expected values ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
@@ -197,11 +197,11 @@
 
   @performance_tests @large_transactions @query_performance
   Scenario Outline: Evaluate query performance on large transaction datasets -- @1.2 
-    Given a database containing "50,000,000" transactions from bank export files ... undefined in 0.000s
-    When I execute a complex query with multiple joins and filters ... undefined in 0.000s
-    Then query execution should complete within "15" seconds ... undefined in 0.000s
-    And indexes should be properly utilized ... undefined in 0.000s
-    And query results should match expected values ... undefined in 0.000s
+    Given a database containing "50,000,000" transactions from bank export files ... untested in 0.000s
+    When I execute a complex query with multiple joins and filters ... untested in 0.000s
+    Then query execution should complete within "15" seconds ... untested in 0.000s
+    And indexes should be properly utilized ... untested in 0.000s
+    And query results should match expected values ... untested in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------

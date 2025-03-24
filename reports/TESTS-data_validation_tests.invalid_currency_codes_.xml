@@ -1,0 +1,275 @@
+<testsuite name="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" tests="18" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-03-24T17:04:14.633541" hostname="Nadezhda-Nikolovas-Mac.local"><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Ensure all currency codes follow ISO 4217 standard -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @format_check @data_integrity
+  Scenario Outline: Ensure all currency codes follow ISO 4217 standard -- @1.1 
+    Given a bank export file "bank_export_baseline_test.csv" ... untested in 0.000s
+    When I check the "Currency" column in the "N/A" sheet ... untested in 0.000s
+    Then all currency codes should match the expected pattern "^[A-Z]{3}$" ... untested in 0.000s
+    And invalid currency codes should be flagged ... untested in 0.000s
+    And a correction suggestion should be provided ... untested in 0.000s
+    And transactions with invalid currency codes should be marked for review ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Ensure all currency codes follow ISO 4217 standard -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @format_check @data_integrity
+  Scenario Outline: Ensure all currency codes follow ISO 4217 standard -- @1.2 
+    Given a bank export file "bank_export_baseline_test.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in the "Sheet1" sheet ... untested in 0.000s
+    Then all currency codes should match the expected pattern "^[A-Z]{3}$" ... untested in 0.000s
+    And invalid currency codes should be flagged ... untested in 0.000s
+    And a correction suggestion should be provided ... untested in 0.000s
+    And transactions with invalid currency codes should be marked for review ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Detect transactions involving sanctioned or restricted currency codes -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @aml_compliance @sanctions_check
+  Scenario Outline: Detect transactions involving sanctioned or restricted currency codes -- @1.1 
+    Given a bank export file "bank_export_sanctioned_currencies_test.csv" ... untested in 0.000s
+    When I check the "Currency" column in the "N/A" sheet ... untested in 0.000s
+    Then currency codes listed under sanctioned countries should be flagged ... untested in 0.000s
+    And flagged transactions should be logged for compliance review ... untested in 0.000s
+    And an alert should be sent to regulatory teams ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Detect transactions involving sanctioned or restricted currency codes -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @aml_compliance @sanctions_check
+  Scenario Outline: Detect transactions involving sanctioned or restricted currency codes -- @1.2 
+    Given a bank export file "bank_export_sanctioned_currencies_test.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in the "Sheet1" sheet ... untested in 0.000s
+    Then currency codes listed under sanctioned countries should be flagged ... untested in 0.000s
+    And flagged transactions should be logged for compliance review ... untested in 0.000s
+    And an alert should be sent to regulatory teams ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Detect currency codes with special characters, numbers, or unexpected symbols -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @invalid_characters @edge_case
+  Scenario Outline: Detect currency codes with special characters, numbers, or unexpected symbols -- @1.1 
+    Given a bank export file "bank_export_invalid_currency_chars.csv" ... untested in 0.000s
+    When I check the "Currency" column in the "N/A" sheet ... untested in 0.000s
+    Then currency codes containing non-alphabetic characters should be flagged ... untested in 0.000s
+    And an error report should be generated with affected transactions ... untested in 0.000s
+    And transactions linked to invalid currency codes should be flagged for further review ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Detect currency codes with special characters, numbers, or unexpected symbols -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @invalid_characters @edge_case
+  Scenario Outline: Detect currency codes with special characters, numbers, or unexpected symbols -- @1.2 
+    Given a bank export file "bank_export_invalid_currency_chars.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in the "Sheet1" sheet ... untested in 0.000s
+    Then currency codes containing non-alphabetic characters should be flagged ... untested in 0.000s
+    And an error report should be generated with affected transactions ... untested in 0.000s
+    And transactions linked to invalid currency codes should be flagged for further review ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Detect non-standard, deprecated, or obsolete currency codes -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @non_standard_codes @deprecated_currencies
+  Scenario Outline: Detect non-standard, deprecated, or obsolete currency codes -- @1.1 
+    Given a bank export file "bank_export_deprecated_currency_test.csv" ... untested in 0.000s
+    When I check the "Currency" column in the "N/A" sheet ... untested in 0.000s
+    Then deprecated or non-standard currency codes should be flagged ... untested in 0.000s
+    And a list of deprecated currency codes should be generated ... untested in 0.000s
+    And transactions involving non-standard currencies should be reviewed manually ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Detect non-standard, deprecated, or obsolete currency codes -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @non_standard_codes @deprecated_currencies
+  Scenario Outline: Detect non-standard, deprecated, or obsolete currency codes -- @1.2 
+    Given a bank export file "bank_export_deprecated_currency_test.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in the "Sheet1" sheet ... untested in 0.000s
+    Then deprecated or non-standard currency codes should be flagged ... untested in 0.000s
+    And a list of deprecated currency codes should be generated ... untested in 0.000s
+    And transactions involving non-standard currencies should be reviewed manually ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Ensure no missing or blank currency codes -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @missing_values @data_quality
+  Scenario Outline: Ensure no missing or blank currency codes -- @1.1 
+    Given a bank export file "bank_export_missing_currency_test.csv" ... untested in 0.000s
+    When I check the "Currency" column in the "N/A" sheet ... untested in 0.000s
+    Then no currency field should be empty or null ... untested in 0.000s
+    And missing currency codes should be flagged ... untested in 0.000s
+    And an auto-fill suggestion should be provided if possible ... untested in 0.000s
+    And transactions missing a currency code should be categorized separately for investigation ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Ensure no missing or blank currency codes -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @missing_values @data_quality
+  Scenario Outline: Ensure no missing or blank currency codes -- @1.2 
+    Given a bank export file "bank_export_missing_currency_test.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in the "Sheet1" sheet ... untested in 0.000s
+    Then no currency field should be empty or null ... untested in 0.000s
+    And missing currency codes should be flagged ... untested in 0.000s
+    And an auto-fill suggestion should be provided if possible ... untested in 0.000s
+    And transactions missing a currency code should be categorized separately for investigation ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Validate currency codes in large-scale financial transactions -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @large_files @performance_testing
+  Scenario Outline: Validate currency codes in large-scale financial transactions -- @1.1 
+    Given a bank export file "bank_export_large_file_currency_test.csv" ... untested in 0.000s
+    When I check the "Currency" column in a file with "100000" rows ... untested in 0.000s
+    Then all currency codes should maintain format consistency ... untested in 0.000s
+    And inconsistencies should be flagged for bulk correction ... untested in 0.000s
+    And system performance should be benchmarked for optimization ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Validate currency codes in large-scale financial transactions -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @large_files @performance_testing
+  Scenario Outline: Validate currency codes in large-scale financial transactions -- @1.2 
+    Given a bank export file "bank_export_large_file_currency_test.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in a file with "500000" rows ... untested in 0.000s
+    Then all currency codes should maintain format consistency ... untested in 0.000s
+    And inconsistencies should be flagged for bulk correction ... untested in 0.000s
+    And system performance should be benchmarked for optimization ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Detect restricted or high-risk currency codes -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @edge_case @restricted_currencies
+  Scenario Outline: Detect restricted or high-risk currency codes -- @1.1 
+    Given a bank export file "bank_export_restricted_currency_test.csv" ... untested in 0.000s
+    When I check the "Currency" column in the "N/A" sheet ... untested in 0.000s
+    Then currency codes associated with sanctioned or restricted countries should be flagged ... untested in 0.000s
+    And flagged transactions should be logged for compliance review ... untested in 0.000s
+    And an alert should be sent to regulatory teams ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Detect restricted or high-risk currency codes -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @edge_case @restricted_currencies
+  Scenario Outline: Detect restricted or high-risk currency codes -- @1.2 
+    Given a bank export file "bank_export_restricted_currency_test.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in the "Sheet1" sheet ... untested in 0.000s
+    Then currency codes associated with sanctioned or restricted countries should be flagged ... untested in 0.000s
+    And flagged transactions should be logged for compliance review ... untested in 0.000s
+    And an alert should be sent to regulatory teams ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Identify crypto-based or unauthorized digital currency transactions -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @crypto_currency @digital_assets
+  Scenario Outline: Identify crypto-based or unauthorized digital currency transactions -- @1.1 
+    Given a bank export file "bank_export_crypto_currency_test.csv" ... untested in 0.000s
+    When I check the "Currency" column in the "<sheet_name>" sheet ... untested in 0.000s
+    Then cryptocurrency symbols (e.g., BTC, ETH) should be flagged if not permitted ... untested in 0.000s
+    And unauthorized transactions should be escalated for fraud review ... untested in 0.000s
+    And an alert should be generated for regulatory compliance teams ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Identify crypto-based or unauthorized digital currency transactions -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @crypto_currency @digital_assets
+  Scenario Outline: Identify crypto-based or unauthorized digital currency transactions -- @1.2 
+    Given a bank export file "bank_export_crypto_currency_test.xlsx" ... untested in 0.000s
+    When I check the "Currency" column in the "<sheet_name>" sheet ... untested in 0.000s
+    Then cryptocurrency symbols (e.g., BTC, ETH) should be flagged if not permitted ... untested in 0.000s
+    And unauthorized transactions should be escalated for fraud review ... untested in 0.000s
+    And an alert should be generated for regulatory compliance teams ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Ensure currency codes align with correct exchange rates -- @1.1 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @exchange_rate_consistency @cross_currency_transactions
+  Scenario Outline: Ensure currency codes align with correct exchange rates -- @1.1 
+    Given a bank export file "bank_export_cross_currency_transactions.csv" ... untested in 0.000s
+    When I check the "Currency" and "Exchange Rate" columns in the "N/A" sheet ... untested in 0.000s
+    Then currency codes should be valid per ISO 4217 standards ... untested in 0.000s
+    And exchange rates should match the official daily conversion rates ... untested in 0.000s
+    And discrepancies should be flagged for review ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="data_validation_tests.invalid_currency_codes_.Validate Invalid Currency Codes in Bank Export Files" name="Ensure currency codes align with correct exchange rates -- @1.2 " status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @currency_validation @exchange_rate_consistency @cross_currency_transactions
+  Scenario Outline: Ensure currency codes align with correct exchange rates -- @1.2 
+    Given a bank export file "bank_export_cross_currency_transactions.xlsx" ... untested in 0.000s
+    When I check the "Currency" and "Exchange Rate" columns in the "Sheet1" sheet ... untested in 0.000s
+    Then currency codes should be valid per ISO 4217 standards ... untested in 0.000s
+    And exchange rates should match the official daily conversion rates ... untested in 0.000s
+    And discrepancies should be flagged for review ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>
