@@ -1,6 +1,6 @@
 # 🏦 Bank Export File Comparison Automation 📜
 
-This repository contains **BDD (Behavior-Driven Development) automation tests** for **comparing banking export files (CSV/Excel)** from an **old banking system** to a **newly migrated system**.
+This repository contains **BDD (Behavior-Driven Development) and traditional Pytest automation tests** for **comparing banking export files (CSV/Excel)** between an **old banking system** and a **newly migrated system**.
 
 ---
 
@@ -13,6 +13,7 @@ The goal of this project is to:
 - ✅ Automate the **download of large test datasets from Google Drive**.
 - ✅ Secure **commit signing using GPG** for Git authentication.
 - ✅ Provide **detailed, actionable reports** through Allure.
+- ✅ Support **parallel test execution** for performance and scalability.
 
 ---
 
