@@ -1,4 +1,4 @@
-# 🏦 Bank Export File Comparison Automation 📝
+# 🏦 Bank Export File Comparison Automation 📜
 
 This repository contains **BDD (Behavior-Driven Development) automation tests** for **comparing banking export files (CSV/Excel)** from an **old banking system** to a **newly migrated system**.
 
@@ -19,23 +19,25 @@ The goal of this project is to:
 ## 📂 Project Structure
 ```text
 Demo_Export_Files_Comparison/
-│── config/                        # Configuration files (e.g., file mappings)
-│── features/                     # BDD test scenarios
-│   │── data_validation_tests/    # Tests for data accuracy
-│   │── duplicate_and_integrity_tests/  # Tests for duplicates and mismatches
-│   │── edge_case_tests/          # Tests for missing values, extreme data
-│   │── performance_tests/        # Performance and load testing
-│   │── structural_tests/         # File structure and format checks
-│   │── regression_tests/         # Regression tests for previous fixes
-│── test_data/                    # Sample CSV & Excel files for testing
-│── scripts/                      # Python scripts for test execution
-│   │── download_large_files.py   # Downloads large test datasets
-│   │── run_tests.py              # Script to execute all tests
-│   │── install_dependencies.py   # Ensures dependencies are installed
-│── utils/                        # Utility functions
-│── behave.ini                    # Behave configuration file
-│── requirements.txt              # Python dependencies
-│── README.md                     # Project documentation
+│── .github/
+│   └── workflows/               # GitHub Actions CI workflow
+│── config/                     # Configuration files (e.g., file mappings)
+│── features/                   # BDD test scenarios
+│   ├── data_validation_tests/      # Tests for data accuracy
+│   ├── duplicate_and_integrity_tests/  # Duplicate/mismatch checks
+│   ├── edge_case_tests/            # Tests for edge and null cases
+│   ├── performance_tests/          # Performance and load testing
+│   ├── structural_tests/           # File structure and format checks
+│   └── regression_tests/           # Regression tests for previous bugs
+│── test_data/                  # Sample CSV & Excel files for testing
+│── scripts/                    # Python scripts for test execution
+│   ├── download_large_files.py     # Downloads large test datasets
+│   ├── run_tests.py                # Executes all tests
+│   └── install_dependencies.py     # Installs dependencies
+│── utils/                      # Utility/helper functions
+│── behave.ini                  # Behave configuration file
+│── requirements.txt            # Python dependencies
+│── README.md                   # Project documentation
 ```
 
 ---
@@ -140,7 +142,7 @@ pytest -n auto
 ---
 
 ## 📄 BDD Test Features
-| 📂 Folder                         | 📝 Test Coverage |
+| 📂 Folder                         | 📜 Test Coverage |
 |----------------------------------|------------------|
 | `data_validation_tests/`         | Data accuracy, formatting, encoding |
 | `duplicate_and_integrity_tests/` | Detects duplicate transactions, data mismatches |
@@ -168,8 +170,8 @@ Powered by **GitHub Actions**, the project supports full test automation.
 ### 🧪 CI Features
 - ✅ **Matrix Testing** across Python 3.9, 3.10, 3.11
 - 🌀 **Parallel Testing** via `pytest-xdist`
-- 📘 **BDD with Behave** and traditional tests with **pytest**
-- 📈 **Code Coverage** tracking via `coverage.py` + Codecov
+- 📘️ **BDD with Behave** and traditional tests with **pytest**
+- 📊 **Code Coverage** tracking via `coverage.py` + Codecov
 - 📚 **Allure Reports** generated and uploaded as CI artifacts
 - 🔔 **Slack Notifications** for test results
 - 🌐 **GitHub Pages Deployment** for public Allure report access
@@ -204,7 +206,7 @@ https://NadezhdaTzvetkova.github.io/Demo_Export_Files_Comparison
 ## 🔗 Useful Links
 📖 [Behave Docs](https://behave.readthedocs.io/en/latest/)  
 📖 [Pytest Docs](https://docs.pytest.org/)  
-📈 [Allure Docs](https://docs.qameta.io/allure/)  
+📊 [Allure Docs](https://docs.qameta.io/allure/)  
 📌 [Google Drive API Setup](https://console.cloud.google.com/apis/library/drive.googleapis.com)  
 
 ---
