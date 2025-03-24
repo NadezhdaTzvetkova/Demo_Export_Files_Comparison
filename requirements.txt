@@ -1,6 +1,6 @@
 # Core Testing & Automation
 behave==1.2.6
-behave-parallel>=0.1.7
+behave-parallel @ https://github.com/rtomac/behave-parallel/archive/refs/tags/v1.2.5a1.dev2.zip # parallel fork of behave
 coverage>=7.0.0
 allure-behave>=2.13.0
 ruff>=0.3.0
