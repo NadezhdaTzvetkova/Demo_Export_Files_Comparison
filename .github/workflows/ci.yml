@@ -28,13 +28,13 @@ jobs:
           pip install -r requirements.txt || true
           pip install behave pytest pytest-xdist coverage allure-behave allure-python-commons
 
-      - name: 📦 Install Allure CLI
-        run: |
-          sudo apt-get update && sudo apt-get install -y openjdk-11-jre
-          curl -o allure.tgz -L https://github.com/allure-framework/allure2/releases/latest/download/allure-2.27.0.tgz
-          tar -zxvf allure.tgz
-          sudo mv allure-2.27.0 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+- name: 📦 Install Allure CLI
+  run: |
+    sudo apt-get update && sudo apt-get install -y openjdk-11-jre
+    curl -sSL -o allure.tgz https://github.com/allure-framework/allure2/releases/latest/download/allure-2.27.0.tgz
+    tar -zxvf allure.tgz
+    sudo mv allure-2.27.0 /opt/allure
+    sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
       - name: 🔢 Run Behave Tests & Collect Allure Results
         run: |
