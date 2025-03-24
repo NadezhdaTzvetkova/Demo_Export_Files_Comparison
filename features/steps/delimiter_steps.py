@@ -10,14 +10,6 @@ DELIMITER_MAPPING = {
     "pipe": "|"
 }
 
-
-@given('a bank export file "{file_name}"')
-def step_given_bank_export_file(context, file_name):
-    """Ensure the bank export file exists"""
-    context.file_path = os.path.join("test_data/csv_files", file_name)
-    assert os.path.exists(context.file_path), f"File not found: {context.file_path}"
-
-
 @when('I check the delimiter format in the file')
 def step_when_check_delimiter_format(context):
     """Detect the delimiter used in the file"""
