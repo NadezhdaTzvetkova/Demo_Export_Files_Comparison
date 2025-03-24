@@ -186,6 +186,7 @@ def read_bank_export_file(feature_folder, file_name, sheet_name=None):
 
 
 @given('a bank export file "{file_name}"')
+def step_impl(context, file_name):
     """Ensures the bank export file exists and loads it into the context."""
     context.feature_folder = "data_validation_test_data"
     context.data = read_bank_export_file(context.feature_folder, file_name)
