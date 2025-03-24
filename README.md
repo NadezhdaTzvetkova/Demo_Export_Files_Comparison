@@ -12,29 +12,30 @@ The goal of this project is to:
 - ✅ Identify **performance bottlenecks** with large transaction volumes.
 - ✅ Automate the **download of large test datasets from Google Drive**.
 - ✅ Secure **commit signing using GPG** for Git authentication.
+- ✅ Provide **detailed, actionable reports** through Allure.
 
 ---
 
 ## 📂 Project Structure
-```
+```text
 Demo_Export_Files_Comparison/
 │── config/                        # Configuration files (e.g., file mappings)
-│── features/                       # BDD test scenarios
-│   │── data_validation_tests/      # Tests for data accuracy
+│── features/                     # BDD test scenarios
+│   │── data_validation_tests/    # Tests for data accuracy
 │   │── duplicate_and_integrity_tests/  # Tests for duplicates and mismatches
-│   │── edge_case_tests/            # Tests for missing values, extreme data
-│   │── performance_tests/          # Performance and load testing
-│   │── structural_tests/           # File structure and format checks
-│   │── regression_tests/           # Regression tests for previous fixes
-│── test_data/                      # Sample CSV & Excel files for testing
-│── scripts/                        # Python scripts for test execution
-│   │── download_large_files.py     # Downloads large test datasets
-│   │── run_tests.py                # Script to execute all tests
-│   │── install_dependencies.py     # Ensures dependencies are installed
-│── utils/                          # Utility functions
-│── behave.ini                      # Behave configuration file
-│── requirements.txt                 # Python dependencies
-│── README.md                        # Project documentation
+│   │── edge_case_tests/          # Tests for missing values, extreme data
+│   │── performance_tests/        # Performance and load testing
+│   │── structural_tests/         # File structure and format checks
+│   │── regression_tests/         # Regression tests for previous fixes
+│── test_data/                    # Sample CSV & Excel files for testing
+│── scripts/                      # Python scripts for test execution
+│   │── download_large_files.py   # Downloads large test datasets
+│   │── run_tests.py              # Script to execute all tests
+│   │── install_dependencies.py   # Ensures dependencies are installed
+│── utils/                        # Utility functions
+│── behave.ini                    # Behave configuration file
+│── requirements.txt              # Python dependencies
+│── README.md                     # Project documentation
 ```
 
 ---
@@ -119,55 +120,75 @@ git push origin main
 
 ## 🏃‍♂️ Running Tests
 
-### **6️⃣ Run All Tests Using Behave**
+### **6️⃣ Run All Behave Tests**
 ```sh
 behave
 ```
 
 ### **Run Specific Test Categories**
-- **Data Validation Tests**:
-  ```sh
-  behave --tags=data_validation
-  ```
-- **Performance Tests**:
-  ```sh
-  behave --tags=performance_tests
-  ```
-- **Regression Tests**:
-  ```sh
-  behave --tags=regression
-  ```
+```sh
+behave --tags=data_validation
+behave --tags=performance_tests
+behave --tags=regression
+```
+
+### **7️⃣ Run All Pytest Tests (Parallelized)**
+```sh
+pytest -n auto
+```
 
 ---
 
 ## 📄 BDD Test Features
-| 📂 Folder                           | 📝 Test Coverage |
-|-------------------------------------|----------------|
-| `data_validation_tests/`           | Data accuracy, formatting, encoding |
-| `duplicate_and_integrity_tests/`   | Detects duplicate transactions, data mismatches |
-| `edge_case_tests/`                 | Handles missing, extreme, and zero-value cases |
-| `performance_tests/`               | Measures processing speed & concurrency |
-| `structural_tests/`                | Verifies headers, column orders, and structures |
-| `regression_tests/`                | Ensures previous issues do not reoccur |
+| 📂 Folder                         | 📝 Test Coverage |
+|----------------------------------|------------------|
+| `data_validation_tests/`         | Data accuracy, formatting, encoding |
+| `duplicate_and_integrity_tests/` | Detects duplicate transactions, data mismatches |
+| `edge_case_tests/`               | Handles missing, extreme, and zero-value cases |
+| `performance_tests/`             | Measures processing speed & concurrency |
+| `structural_tests/`              | Verifies headers, column orders, and structures |
+| `regression_tests/`              | Ensures previous issues do not reoccur |
 
 ---
 
 ## 📊 Sample Test Data
-These test files are used to validate different scenarios:
-
-| **Test Scenario**   | **CSV File**                                      | **Excel File**                                     |
-|----------------------|------------------------------------------------|--------------------------------------------------|
-| Baseline Validation | `bank_export_baseline_test.csv`                 | `bank_export_baseline_test.xlsx`                 |
-| Negative Values     | `bank_export_negative_values_test.csv`           | `bank_export_negative_values_test.xlsx`          |
-| Missing Values      | `bank_export_missing_values_test.csv`            | `bank_export_missing_values_test.xlsx`           |
-| Extra Columns       | `bank_export_extra_columns_test.csv`             | `bank_export_extra_columns_test.xlsx`            |
-| Reordered Columns   | `bank_export_reordered_columns_test.csv`         | `bank_export_reordered_columns_test.xlsx`        |
+| **Test Scenario**   | **CSV File**                          | **Excel File**                         |
+|---------------------|----------------------------------------|----------------------------------------|
+| Baseline Validation | `bank_export_baseline_test.csv`       | `bank_export_baseline_test.xlsx`       |
+| Negative Values     | `bank_export_negative_values_test.csv`| `bank_export_negative_values_test.xlsx`|
+| Missing Values      | `bank_export_missing_values_test.csv` | `bank_export_missing_values_test.xlsx` |
+| Extra Columns       | `bank_export_extra_columns_test.csv`  | `bank_export_extra_columns_test.xlsx`  |
+| Reordered Columns   | `bank_export_reordered_columns_test.csv`| `bank_export_reordered_columns_test.xlsx`|
 
 ---
 
-## ⚡ Continuous Integration (CI/CD)
-- ✅ **GitHub Actions (Upcoming)**: Automatically run tests on each push.
-- ✅ **Test Reports**: Generate reports for each execution.
+## ⚡ Continuous Integration & Allure Reporting
+Powered by **GitHub Actions**, the project supports full test automation.
+
+### 🧪 CI Features
+- ✅ **Matrix Testing** across Python 3.9, 3.10, 3.11
+- 🌀 **Parallel Testing** via `pytest-xdist`
+- 📘 **BDD with Behave** and traditional tests with **pytest**
+- 📈 **Code Coverage** tracking via `coverage.py` + Codecov
+- 📚 **Allure Reports** generated and uploaded as CI artifacts
+- 🔔 **Slack Notifications** for test results
+- 🌐 **GitHub Pages Deployment** for public Allure report access
+
+### 📊 Allure Reports
+The pipeline collects test results for both Behave and Pytest and publishes them as beautiful, interactive HTML reports.
+
+#### ✅ Features:
+- Behave + Pytest combined reports
+- Downloadable from the **Actions tab**
+- Deployed to GitHub Pages (if enabled)
+
+#### 📥 View the Report:
+1. Open the **Actions** tab
+2. Click the latest workflow run
+3. Download the `allure-html` artifact
+
+🔜 Future: Access reports via:
+https://NadezhdaTzvetkova.github.io/Demo_Export_Files_Comparison
 
 ---
 
@@ -181,9 +202,10 @@ These test files are used to validate different scenarios:
 ---
 
 ## 🔗 Useful Links
-📖 **Behave Documentation**: [https://behave.readthedocs.io/en/latest/](https://behave.readthedocs.io/en/latest/)  
-📌 **Python Testing Best Practices**  
-🔧 **Google Drive API Setup**: [https://console.cloud.google.com/apis/library/drive.googleapis.com](https://console.cloud.google.com/apis/library/drive.googleapis.com)  
+📖 [Behave Docs](https://behave.readthedocs.io/en/latest/)  
+📖 [Pytest Docs](https://docs.pytest.org/)  
+📈 [Allure Docs](https://docs.qameta.io/allure/)  
+📌 [Google Drive API Setup](https://console.cloud.google.com/apis/library/drive.googleapis.com)  
 
 ---
 
