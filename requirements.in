@@ -9,9 +9,10 @@ chardet           # File encoding detection for CSV/Excel
 pyyaml            # Optional: For config parsing in Behave if needed
 
 # ==================== TESTING & BDD ====================
-behave            # BDD test framework
-behave-parallel   # Parallel execution of Behave tests
-allure-behave     # Allure reporting support for Behave
+pytest                 # Core test runner
+pytest-bdd             # BDD support with Gherkin syntax
+pytest-xdist           # For parallel test execution
+allure-pytest          # Allure reporting for Pytest
 
 # ==================== SYSTEM MONITORING & PERFORMANCE ====================
 psutil            # Memory, CPU, and process monitoring
