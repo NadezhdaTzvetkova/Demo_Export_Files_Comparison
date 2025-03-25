@@ -1,25 +1,30 @@
 # ==================== CORE DEPENDENCIES ====================
-pandas                # Powerful data analysis and manipulation
-numpy                 # Numerical operations and array management
+pandas==2.2.3           # Powerful data analysis and manipulation
+numpy==2.2.4            # Numerical operations and array management
 
 # ==================== FILE HANDLING ====================
-openpyxl              # Reading/writing Excel .xlsx files
-xlrd                  # Support for older Excel .xls files (if needed)
-chardet               # File encoding detection for CSV/Excel
-pyyaml                # Config parsing, used in test setup
+openpyxl==3.1.5         # Reading/writing Excel .xlsx files
+xlrd==2.0.1             # Support for older Excel .xls files (if needed)
+chardet==5.2.0          # File encoding detection for CSV/Excel
+pyyaml==6.0.2           # Config parsing, used in test setup
 
 # ==================== TESTING & BDD ====================
-pytest                # Core test runner
-pytest-bdd            # BDD support using Gherkin syntax
-pytest-xdist          # Enables parallel execution with pytest
-allure-pytest         # Allure reporting for pytest
+pytest==8.3.5           # Core test runner
+pytest-bdd==8.1.0       # BDD support using Gherkin syntax
+pytest-xdist==3.6.1     # Enables parallel execution with pytest
+allure-pytest==2.13.5   # Allure reporting for pytest
 
 # ==================== SYSTEM MONITORING & PERFORMANCE ====================
-psutil                # Monitor memory, CPU, and system performance
-rich                  # Pretty logging and colorful CLI output
+psutil==7.0.0           # Monitor memory, CPU, and system performance
+rich==13.9.4            # Pretty logging and colorful CLI output
 
 # ==================== UTILITIES & DEV TOOLS ====================
-pip-tools             # Dependency locking tool (used with pip-compile)
+pip-tools==7.4.1        # Dependency locking tool (used with pip-compile)
 
 # ==================== OPTIONAL (If needed for reports/visualizations) ====================
-matplotlib            # Plotting support (if used for validation visuals)
+matplotlib==3.10.1      # Plotting support (if used for validation visuals)
+
+flake8==6.0.0           # Linting tool for Python code
+black==23.1.0           # Code formatting tool
+ruff==0.0.129           # Fast linting tool
+mypy==1.15.0            # Static type checking for Python

@@ -1,5 +1,6 @@
 import os
 
+
 def get_feature_files_directory():
     """Automatically detect the project's feature files directory."""
     script_dir = os.path.dirname(os.path.abspath(__file__))

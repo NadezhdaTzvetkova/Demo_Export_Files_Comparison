@@ -1,12 +1,11 @@
 import os
-import pandas as pd
 import numpy as np
 from openpyxl import Workbook
-from openpyxl.worksheet.protection import SheetProtection
 
 # ✅ Ensure save directory exists
 SAVE_DIR = "test_data/generated_files"
 os.makedirs(SAVE_DIR, exist_ok=True)
+
 
 # ✅ Function to create an Excel file with sheet protection
 def create_protected_excel(file_name, sheet_name, protection_type, password=None):
@@ -45,7 +44,10 @@ def create_protected_excel(file_name, sheet_name, protection_type, password=None
     # Save the Excel file
     file_path = os.path.join(SAVE_DIR, file_name)
     wb.save(file_path)
-    print(f"✅ File {file_name} generated successfully with {protection_type} protection.")
+    print(
+        f"✅ File {file_name} generated successfully with {protection_type} protection."
+    )
+
 
 # ✅ Generate protected sheet test files
 protected_sheets_files = {
@@ -55,7 +57,12 @@ protected_sheets_files = {
 }
 
 for file_name, (sheet_name, protection_type) in protected_sheets_files.items():
-    create_protected_excel(file_name, sheet_name, protection_type, password="secure123" if "password" in file_name else None)
+    create_protected_excel(
+        file_name,
+        sheet_name,
+        protection_type,
+        password="secure123" if "password" in file_name else None,
+    )
 
 # ✅ Error handling test cases for protected sheets
 error_handling_files = {
@@ -65,7 +72,12 @@ error_handling_files = {
 }
 
 for file_name, (sheet_name, protection_type) in error_handling_files.items():
-    create_protected_excel(file_name, sheet_name, protection_type, password="secure123" if "password" in file_name else None)
+    create_protected_excel(
+        file_name,
+        sheet_name,
+        protection_type,
+        password="secure123" if "password" in file_name else None,
+    )
 
 # ✅ Batch processing test cases
 batch_processing_files = ["batch_high.xlsx", "batch_medium.xlsx", "batch_low.xlsx"]
@@ -73,8 +85,11 @@ batch_processing_files = ["batch_high.xlsx", "batch_medium.xlsx", "batch_low.xls
 for file_name in batch_processing_files:
     create_protected_excel(file_name, "Transactions", "Read-Only")
 
+
 # ✅ Performance testing (simulate larger datasets)
-def create_large_protected_excel(file_name, sheet_name, row_count, protection_type, password=None):
+def create_large_protected_excel(
+    file_name, sheet_name, row_count, protection_type, password=None
+):
     """Generate a large Excel file to test performance under protected sheet conditions."""
     wb = Workbook()
     ws = wb.active
@@ -105,11 +120,22 @@ def create_large_protected_excel(file_name, sheet_name, row_count, protection_ty
     # Save the file
     file_path = os.path.join(SAVE_DIR, file_name)
     wb.save(file_path)
-    print(f"✅ Large file {file_name} generated successfully with {protection_type} protection.")
+    print(
+        f"✅ Large file {file_name} generated successfully with {protection_type} protection."
+    )
+
 
 # ✅ Create performance test files
-create_large_protected_excel("performance_2015_2020.xlsx", "Transactions", 100, "Read-Only")
-create_large_protected_excel("performance_2021_2023.xlsx", "Summary Sheet", 500, "Password-Protected", password="secure123")
+create_large_protected_excel(
+    "performance_2015_2020.xlsx", "Transactions", 100, "Read-Only"
+)
+create_large_protected_excel(
+    "performance_2021_2023.xlsx",
+    "Summary Sheet",
+    500,
+    "Password-Protected",
+    password="secure123",
+)
 
 # ✅ Security validation test cases
 security_validation_files = {
@@ -119,6 +145,11 @@ security_validation_files = {
 }
 
 for file_name, (sheet_name, protection_type) in security_validation_files.items():
-    create_protected_excel(file_name, sheet_name, protection_type, password="secure123" if "password" in file_name else None)
+    create_protected_excel(
+        file_name,
+        sheet_name,
+        protection_type,
+        password="secure123" if "password" in file_name else None,
+    )
 
 print("\n🎉 All protected sheet validation test files generated successfully!")

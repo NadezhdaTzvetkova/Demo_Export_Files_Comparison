@@ -7,16 +7,42 @@ authors = [
 ]
 requires-python = ">=3.11,<3.12"
 
-[tool.ruff]
-line-length = 100
-target-version = "py311"
-exclude = ["venv", ".venv", "tests/data"]
+# ==================== DEVELOPMENT TOOLS ====================
+[tool.black]
+# Configuration for Black (code formatter)
+line-length = 88  # Black's default line length
+skip-string-normalization = true  # Optional: Disable string normalization
 
+[tool.ruff]
+# Configuration for Ruff (fast linting tool)
+line-length = 100
+target-version = "py311"  # Set to Python 3.11
+exclude = ["venv", ".venv", "tests/data"]  # Exclude venv and data directories
+select = ["E", "F", "W"]  # Enable error, fatal, and warning checks
+ignore = ["E501"]  # Ignore line too long errors (Ruff's default is 88, but we set 100 here)
+fix = true  # Automatically fix issues where possible
+
+[tool.mypy]
+# Configuration for Mypy (type checker)
+files = "src"  # Path to the directory to check
+disallow_untyped_calls = true  # Disallow calls to functions without type annotations
+disallow_untyped_defs = true  # Disallow function definitions without type annotations
+ignore_missing_imports = true  # Ignore missing imports during type checking
+
+# Exclude venv and .pyi files from type checking
+exclude = [
+    '^venv/',        # Exclude the 'venv' directory
+    '\\.pyi$',       # Exclude all '.pyi' files
+]
+
+# ==================== TESTING ====================
 [tool.pytest.ini_options]
+# Configuration for Pytest (test runner)
 minversion = "6.0"
-addopts = "-ra -q"
-testpaths = ["tests"]
+addopts = "-ra -q"  # Default options: show extra summary info and be quiet on success
+testpaths = ["tests"]  # Folder for the tests
 
 [build-system]
+# Build system configuration
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"

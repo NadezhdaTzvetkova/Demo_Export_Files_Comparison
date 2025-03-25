@@ -33,8 +33,7 @@ def find_duplicates(root_dir):
 
 if __name__ == "__main__":
     root_dir = (
-        "/Users/Nadezhda.Nikolova/PycharmProjects/"
-        "Demo_Export_Files_Comparison"
+        "/Users/Nadezhda.Nikolova/PycharmProjects/" "Demo_Export_Files_Comparison"
     )  # Set this to your project root directory
 
     duplicates = find_duplicates(root_dir)

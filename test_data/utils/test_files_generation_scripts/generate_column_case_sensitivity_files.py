@@ -1,10 +1,8 @@
 import pandas as pd
-import numpy as np
 
 # Install dependencies if missing
 try:
-    import pyarrow
-    import openpyxl
+    pass
 except ImportError:
     print("❌ Missing required libraries. Install them using:")
     print("   pip install pyarrow openpyxl pandas")
@@ -39,8 +37,19 @@ def generate_test_file(file_name, case_format):
         "mixed_case": ["Transaction_ID", "AMount", "Currency", "TimeStamp", "StatUS"],
         "Title Case": ["Transaction Id", "Amount", "Currency", "Timestamp", "Status"],
         "Lowercase": ["transaction_id", "amount", "currency", "timestamp", "status"],
-        "missing_column": ["Transaction_ID", "Amount", "Currency", "Timestamp"],  # Missing 'Status'
-        "unrecognized_column": ["Transaction_ID", "Amount", "Currency", "Timestamp", "Unknown_Column"],
+        "missing_column": [
+            "Transaction_ID",
+            "Amount",
+            "Currency",
+            "Timestamp",
+        ],  # Missing 'Status'
+        "unrecognized_column": [
+            "Transaction_ID",
+            "Amount",
+            "Currency",
+            "Timestamp",
+            "Unknown_Column",
+        ],
     }
 
     # Create sample transaction data
@@ -48,7 +57,9 @@ def generate_test_file(file_name, case_format):
         "transaction_id": range(1, 101),  # 100 transactions
         "amount": [round(x * 1.5, 2) for x in range(1, 101)],
         "currency": ["USD", "EUR", "GBP", "USD", "EUR"] * 20,
-        "timestamp": pd.date_range(start="2022-01-01", periods=100, freq="h"),  # ✅ Fixed warning
+        "timestamp": pd.date_range(
+            start="2022-01-01", periods=100, freq="h"
+        ),  # ✅ Fixed warning
         "status": ["Completed", "Pending", "Failed", "Completed", "Pending"] * 20,
     }
 
@@ -60,7 +71,7 @@ def generate_test_file(file_name, case_format):
     df = pd.DataFrame(data)
 
     # ✅ Fix for column length mismatch
-    df = df.iloc[:, :len(columns)]  # Ensure correct column count
+    df = df.iloc[:, : len(columns)]  # Ensure correct column count
     df.columns = columns  # Assign column names safely
 
     # Save CSV files
@@ -82,7 +93,9 @@ def generate_test_file(file_name, case_format):
                 subset.to_excel(writer, index=False, sheet_name=sheet_name)
                 sheet_count += 1
 
-        print(f"✅ File {file_name} generated successfully with {sheet_count - 1} sheets.")
+        print(
+            f"✅ File {file_name} generated successfully with {sheet_count - 1} sheets."
+        )
 
     # Save Parquet files for performance testing
     elif file_name.endswith(".parquet"):

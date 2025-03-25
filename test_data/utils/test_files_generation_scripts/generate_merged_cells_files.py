@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 import numpy as np
 from openpyxl import Workbook
 from openpyxl.styles import Alignment
@@ -7,6 +6,7 @@ from openpyxl.styles import Alignment
 # ✅ Ensure save directory exists
 SAVE_DIR = "test_data/generated_files"
 os.makedirs(SAVE_DIR, exist_ok=True)
+
 
 # ✅ Function to create an Excel file with merged cells
 def create_excel_with_merged_cells(file_name, merge_positions):
@@ -43,6 +43,7 @@ def create_excel_with_merged_cells(file_name, merge_positions):
     wb.save(file_path)
     print(f"✅ File {file_name} generated successfully with merged cells.")
 
+
 # ✅ Generate merged cell test files
 merged_cell_files = {
     "transactions_merged_cells.xlsx": ["B2:C2"],  # Merge Amount and Transaction Date
@@ -67,6 +68,7 @@ batch_processing_files = ["batch_high.xlsx", "batch_medium.xlsx", "batch_low.xls
 
 for file_name in batch_processing_files:
     create_excel_with_merged_cells(file_name, ["B2:C2"])  # Example merge
+
 
 # ✅ Performance testing (simulate larger datasets)
 def create_large_excel(file_name, row_count, merge_positions):
@@ -97,6 +99,7 @@ def create_large_excel(file_name, row_count, merge_positions):
     file_path = os.path.join(SAVE_DIR, file_name)
     wb.save(file_path)
     print(f"✅ Large file {file_name} generated successfully.")
+
 
 # ✅ Create performance test files
 create_large_excel("performance_2015_2020.xlsx", 100, ["B2:C2"])

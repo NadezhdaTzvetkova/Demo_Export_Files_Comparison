@@ -3,8 +3,7 @@ import numpy as np
 
 # Install dependencies if missing
 try:
-    import pyarrow
-    import openpyxl
+    pass
 except ImportError:
     print("❌ Missing required libraries. Install them using:")
     print("   pip install pyarrow openpyxl pandas")
@@ -32,22 +31,34 @@ def generate_transaction_data(file_name, transaction_count, issue_type=None):
     transaction_references = np.arange(1, transaction_count + 1, dtype=int)
 
     if issue_type == "duplicate":
-        transaction_references[:10_000] = transaction_references[:10_000]  # Duplicates in first 10K rows
+        transaction_references[:10_000] = transaction_references[
+            :10_000
+        ]  # Duplicates in first 10K rows
 
     if issue_type == "missing":
-        transaction_references = transaction_references.astype(float)  # ✅ Convert to float before NaN
+        transaction_references = transaction_references.astype(
+            float
+        )  # ✅ Convert to float before NaN
         transaction_references[:10_000] = np.nan  # ✅ No more error
 
     np.random.shuffle(transaction_references)  # Shuffle to avoid sequential patterns
 
     # Create transaction data
-    data = pd.DataFrame({
-        "Transaction_ID": transaction_references,
-        "Amount": np.random.uniform(10, 5000, transaction_count).round(2),
-        "Currency": np.random.choice(["USD", "EUR", "GBP"], transaction_count),
-        "Timestamp": pd.date_range(start="2015-01-01", periods=transaction_count, freq="min"),
-        "Status": np.random.choice(["Completed", "Pending", "Failed"], transaction_count, p=[0.9, 0.08, 0.02]),
-    })
+    data = pd.DataFrame(
+        {
+            "Transaction_ID": transaction_references,
+            "Amount": np.random.uniform(10, 5000, transaction_count).round(2),
+            "Currency": np.random.choice(["USD", "EUR", "GBP"], transaction_count),
+            "Timestamp": pd.date_range(
+                start="2015-01-01", periods=transaction_count, freq="min"
+            ),
+            "Status": np.random.choice(
+                ["Completed", "Pending", "Failed"],
+                transaction_count,
+                p=[0.9, 0.08, 0.02],
+            ),
+        }
+    )
 
     # Save CSV
     if file_name.endswith(".csv"):
@@ -68,7 +79,9 @@ def generate_transaction_data(file_name, transaction_count, issue_type=None):
                 subset.to_excel(writer, index=False, sheet_name=sheet_name)
                 sheet_count += 1
 
-        print(f"✅ File {file_name} generated successfully with {sheet_count - 1} sheets.")
+        print(
+            f"✅ File {file_name} generated successfully with {sheet_count - 1} sheets."
+        )
 
     # Save Parquet
     elif file_name.endswith(".parquet"):

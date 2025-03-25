@@ -7,7 +7,14 @@ SAVE_DIR = "test_data/generated_files"
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 # ✅ Standard column order (reference structure)
-STANDARD_COLUMNS = ["Transaction ID", "Account Number", "Amount", "Transaction Date", "Currency Code"]
+STANDARD_COLUMNS = [
+    "Transaction ID",
+    "Account Number",
+    "Amount",
+    "Transaction Date",
+    "Currency Code",
+]
+
 
 # ✅ Function to create a CSV file with reordered columns
 def create_reordered_csv(file_name, severity, reorder_columns=None):
@@ -16,7 +23,9 @@ def create_reordered_csv(file_name, severity, reorder_columns=None):
         "Transaction ID": np.arange(1001, 1011),
         "Account Number": [f"ACC{i}" for i in range(101, 111)],
         "Amount": np.random.uniform(10, 5000, 10),
-        "Transaction Date": pd.date_range(start="2024-01-01", periods=10, freq="D").strftime("%Y-%m-%d"),
+        "Transaction Date": pd.date_range(
+            start="2024-01-01", periods=10, freq="D"
+        ).strftime("%Y-%m-%d"),
         "Currency Code": ["USD"] * 10,
     }
 
@@ -31,6 +40,7 @@ def create_reordered_csv(file_name, severity, reorder_columns=None):
     df.to_csv(file_path, index=False)
     print(f"✅ File {file_name} generated successfully with {severity} severity.")
 
+
 # ✅ Function to create an Excel file with reordered columns
 def create_reordered_excel(file_name, severity, reorder_columns=None):
     """Generate an Excel file with specified column order."""
@@ -38,7 +48,9 @@ def create_reordered_excel(file_name, severity, reorder_columns=None):
         "Transaction ID": np.arange(1001, 1011),
         "Account Number": [f"ACC{i}" for i in range(101, 111)],
         "Amount": np.random.uniform(10, 5000, 10),
-        "Transaction Date": pd.date_range(start="2024-01-01", periods=10, freq="D").strftime("%Y-%m-%d"),
+        "Transaction Date": pd.date_range(
+            start="2024-01-01", periods=10, freq="D"
+        ).strftime("%Y-%m-%d"),
         "Currency Code": ["USD"] * 10,
     }
 
@@ -52,6 +64,7 @@ def create_reordered_excel(file_name, severity, reorder_columns=None):
     file_path = os.path.join(SAVE_DIR, file_name)
     df.to_excel(file_path, index=False, engine="openpyxl")
     print(f"✅ File {file_name} generated successfully with {severity} severity.")
+
 
 # ✅ Generate test files for reordered columns
 reordered_files = {
@@ -82,7 +95,11 @@ for file_name, severity in error_handling_files.items():
         create_reordered_excel(file_name, severity, reordered_columns)
 
 # ✅ Generate batch processing test cases
-batch_processing_files = ["batch_high_reorder.csv", "batch_medium_reorder.xlsx", "batch_low_reorder.csv"]
+batch_processing_files = [
+    "batch_high_reorder.csv",
+    "batch_medium_reorder.xlsx",
+    "batch_low_reorder.csv",
+]
 
 for file_name in batch_processing_files:
     reordered_columns = np.random.permutation(STANDARD_COLUMNS).tolist()
@@ -91,6 +108,7 @@ for file_name in batch_processing_files:
     else:
         create_reordered_excel(file_name, "Batch Processing", reordered_columns)
 
+
 # ✅ Generate performance testing files (simulate large dataset)
 def create_large_reordered_file(file_name, row_count, severity):
     """Generate a large dataset for performance testing."""
@@ -98,7 +116,9 @@ def create_large_reordered_file(file_name, row_count, severity):
         "Transaction ID": np.arange(1, row_count + 1),
         "Account Number": [f"ACC{i}" for i in range(1, row_count + 1)],
         "Amount": np.random.uniform(10, 5000, row_count),
-        "Transaction Date": pd.date_range(start="2024-01-01", periods=row_count, freq="D").strftime("%Y-%m-%d"),
+        "Transaction Date": pd.date_range(
+            start="2024-01-01", periods=row_count, freq="D"
+        ).strftime("%Y-%m-%d"),
         "Currency Code": ["USD"] * row_count,
     }
 
@@ -113,6 +133,7 @@ def create_large_reordered_file(file_name, row_count, severity):
         df.to_excel(file_path, index=False, engine="openpyxl")
 
     print(f"✅ Large file {file_name} generated successfully with {severity} severity.")
+
 
 # ✅ Create performance test files
 create_large_reordered_file("performance_2015_2020.csv", 100, "High")
@@ -154,7 +175,10 @@ for file_name, (row_count, severity) in memory_usage_files.items():
     create_large_reordered_file(file_name, row_count, severity)
 
 # ✅ Generate delimiter consistency test cases
-delimiter_files = ["transactions_reordered_delimiters.csv", "transactions_misaligned_delim.csv"]
+delimiter_files = [
+    "transactions_reordered_delimiters.csv",
+    "transactions_misaligned_delim.csv",
+]
 
 for file_name in delimiter_files:
     reordered_columns = np.random.permutation(STANDARD_COLUMNS).tolist()

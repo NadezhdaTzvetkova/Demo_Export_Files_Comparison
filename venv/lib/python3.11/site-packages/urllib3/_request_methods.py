@@ -120,7 +120,7 @@ class RequestMethods:
             if headers is None:
                 headers = self.headers
 
-            if not ("content-type" in map(str.lower, headers.keys())):
+            if "content-type" not in map(str.lower, headers.keys()):
                 headers = HTTPHeaderDict(headers)
                 headers["Content-Type"] = "application/json"
 
