@@ -1,0 +1,18 @@
+# ==================== DEVELOPMENT TOOLS ====================
+black                  # Python code formatter
+ruff                   # Fast linting tool
+pre-commit             # Git hook manager for linting and other checks
+pytest                 # Core test runner (as used in testing)
+pytest-bdd             # BDD support with Gherkin syntax
+pytest-xdist           # Parallel execution for pytest
+
+# ==================== SYSTEM MONITORING & PERFORMANCE ====================
+psutil                 # Monitor memory, CPU, and system performance
+
+# ==================== OPTIONAL TESTING TOOLS ====================
+pytest-cov             # Code coverage measurement for tests
+allure-pytest          # Allure reporting integration with pytest
+
+# ==================== DEV TOOLS FOR CI/CD ====================
+tox                    # Testing automation tool for multi-environment testing
+sphinx                 # Documentation generator for Python projects
