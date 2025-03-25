@@ -1,4 +1,28 @@
-behave
-allure-behave
-pytest
-ruff
+# ==================== CORE DEPENDENCIES ====================
+pandas            # Powerful data analysis and manipulation
+numpy             # Numerical operations and array management
+
+# ==================== FILE HANDLING ====================
+openpyxl          # Reading/writing Excel .xlsx files
+xlrd              # Support for older Excel .xls files (if needed)
+chardet           # File encoding detection for CSV/Excel
+pyyaml            # Optional: For config parsing in Behave if needed
+
+# ==================== TESTING & BDD ====================
+behave            # BDD test framework
+behave-parallel   # Parallel execution of Behave tests
+allure-behave     # Allure reporting support for Behave
+
+# ==================== SYSTEM MONITORING & PERFORMANCE ====================
+psutil            # Memory, CPU, and process monitoring
+rich              # Optional: Fancy logging and CLI output
+
+# ==================== UTILITIES & DEV TOOLS ====================
+pip-tools         # Used to manage locked dependencies via pip-compile
+
+# ==================== OPTIONAL (IF USED IN PROJECT) ====================
+matplotlib        # Optional: If plotting needed in reports
+pytest            # Optional: If mixed with pytest tests
+
+# ==================== UTILITIES ====================
+pip-tools

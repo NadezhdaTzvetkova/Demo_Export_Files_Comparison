@@ -2,12 +2,17 @@ import logging
 import os
 import random
 import pandas as pd
+df = pd.read_csv("file_name.csv")
+df = pd.read_excel("file_name.xlsx")
 from behave import given, when, then
 import time
 import contextlib
 import hashlib
 import re
-
+import psutil
+from datetime import datetime, timedelta
+import numpy as np
+import chardet
 """Processes delayed files concurrently."""
 import concurrent.futures
 
@@ -871,8 +876,16 @@ def step_then_check_old_negative_values(context):
     assert not old_negatives.empty, "No negative values found in the old system where expected."
 
     # Assert negative values match between the two exports
-    assert old_negatives.equals(new_negatives), "Negative values mismatch between old and new system exports."
+    assert old_negatives.equals(context.new_negatives), "Negative values mismatch between old and new system exports."
     logging.info("Negative values processed correctly and match between systems.")
+
+@when('I compare the "Amount" column')
+def step_when_compare_amount_column(context):
+    context.old_values = pd.read_csv(context.old_file_path)["Amount"]
+    context.new_values = pd.read_csv(context.new_file_path)["Amount"]
+
+    context.old_negatives = context.old_values[context.old_values < 0]
+    context.new_negatives = context.new_values[context.new_values < 0]
 
     # ================= End of Negative Values Validation =================
 
@@ -1972,7 +1985,7 @@ def step_then_generate_compliance_report(context):
 
 
 # ================= End of Zero-Value Transactions Step Definitions for Edge Case Handling =================
-ю  # ================= Beginning of Basel III Capital Validation Step Definitions for Financial Accuracy Testing =================
+# ================= Beginning of Basel III Capital Validation Step Definitions for Financial Accuracy Testing =================
 
 
 # This script contains step definitions for validating Basel III capital adequacy, liquidity, and risk-weighted asset calculations.
