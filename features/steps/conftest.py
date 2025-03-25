@@ -4,6 +4,7 @@ import logging
 import allure
 from _pytest.fixtures import FixtureRequest
 from datetime import datetime
+from filelock import FileLock
 
 # ===================== SESSION LEVEL HOOKS =====================
 
@@ -11,7 +12,6 @@ def pytest_sessionstart(session):
     """Runs once before any tests start."""
     print("🛠 Running Gherkin indentation fix before test execution...")
     script_path = os.path.join("scripts", "fix_gherkin_indentation.py")
-
     try:
         result = os.system(f"python {script_path}")
         if result == 0:
@@ -57,6 +57,11 @@ def pytest_bdd_before_scenario(request: FixtureRequest, feature, scenario):
     for tag in scenario.tags:
         allure.dynamic.tag(tag)
 
+    # File lock per scenario to avoid parallel I/O conflicts
+    context = request.node._request.getfixturevalue("context")
+    context.file_lock = FileLock(f"{scenario.name.replace(' ', '_')}.lock")
+    context.file_lock.acquire(timeout=10)
+
 @pytest.hookimpl(tryfirst=True)
 def pytest_bdd_after_scenario(request: FixtureRequest, feature, scenario):
     """Hook that runs after each scenario."""
@@ -70,6 +75,11 @@ def pytest_bdd_after_scenario(request: FixtureRequest, feature, scenario):
         with open(log_path, "r") as f:
             content = f.read()
         allure.attach(content, name="Scenario Log", attachment_type=allure.attachment_type.TEXT)
+
+    # Release lock after scenario
+    context = request.node._request.getfixturevalue("context")
+    if hasattr(context, "file_lock"):
+        context.file_lock.release()
 
 # ===================== CUSTOM FEATURE LOGGING =====================
 
