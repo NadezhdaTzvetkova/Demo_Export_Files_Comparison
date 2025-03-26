@@ -2,36 +2,20 @@ import logging
 import os
 import random
 import pandas as pd
-
-file_name = "file_name.csv"  # Example file name
-if file_name.endswith(".csv"):
-    df = pd.read_csv(file_name)
-elif file_name.endswith(".xlsx"):
-    df = pd.read_excel(file_name)
-else:
-    raise ValueError("Unsupported file type")
-import behave as behave
-from behave import given, when, then
-import time
-import hashlib
-import re
-import psutil
-from datetime import datetime, timedelta
-import numpy as np
 import chardet
+import hashlib
+from datetime import datetime
+import behave
+from behave import given, when, then
+from helpers.file_processing import FileProcessor
 
-"""Processes delayed files concurrently."""
-import concurrent.futures
 
-# Simulating a random import time between 60 and 300 seconds
-import_time = random.uniform(60, 300)
-import_time = random.uniform(60, 300)  # Simulating import duration
-
-# Setup a logger with a centralized logging configuration
+# =================== Logging Configuration ===================
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+# =================== File Handling ===================
 
 class FileProcessor:
     """Handles various file processing types (CSV, Excel)."""
@@ -80,10 +64,10 @@ class FileProcessor:
 
     def get_data_path(self, file_name):
         """Get the file path from the base directory."""
-        # Ensure this is dynamic to handle any directory structure changes
         base_dir = "test_data/csv_files"  # This is where the files are located
         return os.path.join(base_dir, file_name)
 
+# =================== System Resources Check ===================
 
 def check_system_resources(resource_limit=None):
     """
@@ -103,11 +87,7 @@ def check_system_resources(resource_limit=None):
         # If no limit is given, it's a check for CPU/memory usage within mocked limits
         logging.info("CPU and memory usage within limits (mock validation).")
 
-
-def compute_file_hash(file_name):
-    """Simulates computing a file hash for tracking modifications or data integrity."""
-    return hashlib.md5(file_name.encode()).hexdigest()
-
+# =================== Time Check ===================
 
 def assert_time_within_limit(
     context, time_field, expected_time, context_field_name, test_type
@@ -122,32 +102,27 @@ def assert_time_within_limit(
     ), f"{test_type} took too long! Expected <= {expected_time} seconds, but got {actual_time}."
     logging.info(f"{test_type} completed within {actual_time} seconds.")
 
+# =================== Dynamic Data Directory ===================
 
-# Dynamic Data Directory Selection Based on Feature File
+def get_test_data_path(feature_folder, file_name):
+    """Constructs the correct test data path based on the feature folder."""
+    base_dir = "test_data"
+    feature_data_folder = os.path.join(base_dir, feature_folder)
+    return os.path.join(feature_data_folder, file_name)
+
+def load_data(file_path):
+    """Loads test data from CSV or Excel based on file extension."""
+    if file_path.endswith(".csv"):
+        return pd.read_csv(file_path)
+    elif file_path.endswith(".xlsx"):
+        return pd.read_excel(file_path)
+    else:
+        raise ValueError(f"Unsupported file format: {file_path}")
+
+# =================== Feature to Data Directory Mapping ===================
+
 FEATURE_TO_DATA_DIR = {
     "date_format_validation": "test_data/date_validation_test_data",
-}
-
-ISO_DATE_FORMAT = "%Y-%m-%d"
-TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
-
-DELIMITER_MAPPING = {"comma": ",", "semicolon": ";", "TAB": "\t", "pipe": "|"}
-
-resolved_issues = {}  # Simulating a stored record of resolved issues
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
-logging.basicConfig(level=logging.INFO)
-
-processed_transactions = {}
-transaction_references = set()
-expected_columns = {"TransactionID", "AccountNumber", "Amount", "Date"}
-expected_formats = {
-    "Numeric": ["TransactionID", "Amount"],
-    "Date": ["TransactionDate"],
-    "String": ["AccountHolderName"],
 }
 
 # Dynamically set the DATA_DIR based on feature name
@@ -158,48 +133,35 @@ DATA_DIR = os.path.join("test_data", f"{FEATURE_NAME}_test_data")
 if not os.path.exists(DATA_DIR):
     logging.warning(f"Warning: Data directory {DATA_DIR} does not exist!")
 
-    def load_file(file_name):
-        """Load CSV or Excel files with support for all sheets in .xlsx files."""
-        if file_name.endswith(".csv"):
-            return pd.read_csv(file_name)
-        elif file_name.endswith(".xlsx"):
-            return pd.read_excel(file_name, sheet_name=None)  # Load all sheets
-        else:
-            raise ValueError("Unsupported file format: {}".format(file_name))
+# =================== File Hash Calculation ===================
+
+def compute_file_hash(file_name):
+    """Simulates computing a file hash for tracking modifications or data integrity."""
+    return hashlib.md5(file_name.encode()).hexdigest()
+
+# =================== Behave Step Definitions ===================
+
+@given("a system processing \"{file_name}\" bank export files per hour")
+def step_given_system_processing_files_per_hour(context, file_name):
+    """Simulates system performance testing with file validation."""
+    # Initialize FileProcessor and process the file
+    processor = FileProcessor(file_name, context)
+    processor.process()  # Process the file based on its type (CSV/Excel)
+    context.file_name = file_name
 
 
-"Then in any step definition call: context.data = load_file(context.file_path)"
-
-
-# Determine the appropriate data directory based on the feature file name
-def get_test_data_path(feature_folder, file_name):
-    """Constructs the correct test data path based on the feature folder."""
-    base_dir = "test_data"
-    feature_data_folder = os.path.join(base_dir, feature_folder)
-    return os.path.join(feature_data_folder, file_name)
-
-    """Dynamically selects the appropriate test data folder based on the feature file name."""
-    test_folder = f"test_data/{feature_name.replace(' ', '_').lower()}_test_data"
-    file_path = os.path.join(test_folder, file_name)
-    matching_files = glob.glob(file_path + "*")  # Supports both .csv and .xlsx
-    assert matching_files, f"Test file {file_name} not found in {test_folder}"
-    return matching_files[0]  # Return first matching file
-
-    """Constructs the correct test data path based on the feature folder."""
-    base_dir = "test_data"
-    feature_data_folder = os.path.join(base_dir, feature_folder)
-    return os.path.join(feature_data_folder, file_name)
-
-
-# Function to load the test data
-def load_data(file_path):
-    """Loads test data from CSV or Excel based on file extension."""
-    if file_path.endswith(".csv"):
-        return pd.read_csv(file_path)
-    elif file_path.endswith(".xlsx"):
-        return pd.read_excel(file_path)
-    else:
-        raise ValueError(f"Unsupported file format: {file_path}")
+# ================= AML Suspicious Activity Validation =================
+@given('a bank export file "{file_name}"')
+def step_given_bank_export_file(context, file_name):
+    """Ensure the bank export file exists and store it in context."""
+    context.file_name = file_name
+    try:
+        # Initialize FileProcessor and process the file
+        processor = FileProcessor(file_name, context)
+        processor.process()  # This handles the file processing and logging
+    except ValueError as e:
+        logging.error(f"Error processing file: {e}")
+        raise  # Raise the error once, it will stop further execution for this step
 
 
 # ================= AML Suspicious Activity Validation =================
