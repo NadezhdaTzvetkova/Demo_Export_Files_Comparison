@@ -330,6 +330,8 @@ def step_then_validate_account_currency(context: Any):
     mismatches = context.data[
         context.data["Currency"] != context.data["Account Currency"]
     ]
+
+
     assert mismatches.empty, f"Currency mismatches found:\n{mismatches}"
 
 
