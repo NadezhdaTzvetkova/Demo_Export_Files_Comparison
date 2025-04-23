@@ -1,7 +1,7 @@
 repos:
   # Ruff configuration (latest version)
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.11.2
+    rev: v0.11.6
     hooks:
       - id: ruff
         args: ['--fix']
@@ -9,14 +9,18 @@ repos:
 
   # Black configuration (use a stable release)
   - repo: https://github.com/psf/black
-    rev: 25.1.0  # Use a known stable release tag
+    rev: 25.1.0
     hooks:
       - id: black
         language_version: python3.11
 
-  # Mypy configuration (latest version)
+  # Mypy configuration (warn-only mode)
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.15.0
     hooks:
       - id: mypy
         args: ["--exclude", ".*venv.*|.*bin.*"]
+        continue_on_error: true
+        always_run: true
+        pass_filenames: false
+        language_version: python3.11

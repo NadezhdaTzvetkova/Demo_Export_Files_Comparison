@@ -83,9 +83,7 @@ for file_name, severity in trailing_spaces_files.items():
     space_type = (
         "trailing"
         if "trailing" in file_name
-        else "leading"
-        if "leading" in file_name
-        else "mixed"
+        else "leading" if "leading" in file_name else "mixed"
     )
     if file_name.endswith(".csv"):
         create_csv_with_spaces(file_name, severity, space_type)

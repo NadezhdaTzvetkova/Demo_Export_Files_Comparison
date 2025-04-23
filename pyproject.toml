@@ -9,40 +9,35 @@ requires-python = ">=3.11,<3.12"
 
 # ==================== DEVELOPMENT TOOLS ====================
 [tool.black]
-# Configuration for Black (code formatter)
-line-length = 88  # Black's default line length
-skip-string-normalization = true  # Optional: Disable string normalization
+line-length = 88
+skip-string-normalization = true
 
 [tool.ruff]
-# Configuration for Ruff (fast linting tool)
 line-length = 100
-target-version = "py311"  # Set to Python 3.11
-exclude = ["venv", ".venv", "tests/data"]  # Exclude venv and data directories
-select = ["E", "F", "W"]  # Enable error, fatal, and warning checks
-ignore = ["E501"]  # Ignore line too long errors (Ruff's default is 88, but we set 100 here)
-fix = true  # Automatically fix issues where possible
+target-version = "py311"
+exclude = ["venv", ".venv", "tests/data"]
+select = ["E", "F", "W"]
+ignore = ["E501"]
+fix = true
 
 [tool.mypy]
-# Configuration for Mypy (type checker)
-files = "src"  # Path to the directory to check
-disallow_untyped_calls = true  # Disallow calls to functions without type annotations
-disallow_untyped_defs = true  # Disallow function definitions without type annotations
-ignore_missing_imports = true  # Ignore missing imports during type checking
-
-# Exclude venv and .pyi files from type checking
+files = ["."]
+python_version = "3.11"
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
 exclude = [
-    '^venv/',        # Exclude the 'venv' directory
-    '\\.pyi$',       # Exclude all '.pyi' files
+    'venv/',
+    '\\.venv/',
+    '\\.pyi$',
 ]
 
 # ==================== TESTING ====================
 [tool.pytest.ini_options]
-# Configuration for Pytest (test runner)
 minversion = "6.0"
-addopts = "-ra -q"  # Default options: show extra summary info and be quiet on success
-testpaths = ["tests"]  # Folder for the tests
+addopts = "-ra -q"
+testpaths = ["tests"]
 
 [build-system]
-# Build system configuration
-requires = ["setuptools>=61.0"]
+requires = ["setuptools", "wheel", "numpy"]
 build-backend = "setuptools.build_meta"

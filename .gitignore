@@ -36,6 +36,8 @@ scripts/credentials.json
 # 🧪 Test data
 test_data/*
 !test_data/.gitkeep
+
+# Ignore exported data formats
 *.csv
 *.xlsx
 *.parquet
@@ -47,6 +49,7 @@ test_data/*
 # 🧪 Allure results and reports
 allure-results/
 allure-report/
+reports/**/*.xml
 
 # 🧪 Code coverage and test cache
 .coverage
@@ -54,28 +57,10 @@ coverage.xml
 htmlcov/
 .pytest_cache/
 
-# 🧊 Large files via Git LFS (optional)
-*.lfs
+# 🧪 Python version manager
+.python-version
+.venv/
 
-# 🧪 Ignore specific files in site-packages (e.g., pandas, numpy, openpyxl, oauthlib, behave, _pytest, pip)
-
-# Pandas test files
-venv/lib/python3.11/site-packages/pandas/tests/
-
-# Numpy test files
-venv/lib/python3.11/site-packages/numpy/tests/
-
-# Openpyxl test files
-venv/lib/python3.11/site-packages/openpyxl/tests/
-
-# OAuthlib test files
-venv/lib/python3.11/site-packages/oauthlib/tests/
-
-# Behave test files
-venv/lib/python3.11/site-packages/behave/tests/
-
-# _pytest test files
-venv/lib/python3.11/site-packages/_pytest/tests/
-
-# Pip test files
-venv/lib/python3.11/site-packages/pip/tests/
+# Virtual environments
+.venv/
+venv/
