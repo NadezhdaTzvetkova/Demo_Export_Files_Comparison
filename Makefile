@@ -4,7 +4,7 @@
 	test allure-report \
 	format lint check-style \
 	clean security-audit reinstall \
-	install-lfs
+	install-lfs bootstrap
 
 # =============================
 # 🔍 PLATFORM DETECTION
@@ -199,3 +199,24 @@ install-lfs:
 	fi
 	@git lfs install || { echo '💥 Failed to initialize Git LFS'; exit 1; }
 	@echo "🎉 Git LFS installed and ready to use!"
+
+# =============================
+# 🚀 FULL BOOTSTRAP
+# =============================
+
+bootstrap:
+	@echo "🚀 Bootstrapping project from scratch..."
+	@$(MAKE) reinstall
+	@echo "📦 Checking for pre-commit..."
+	@if . $(VENV_ACTIVATE) && command -v pre-commit >/dev/null 2>&1; then \
+		echo "✅ Installing pre-commit hooks..."; \
+		. $(VENV_ACTIVATE) && pre-commit install; \
+	else \
+		echo "⚠️ pre-commit not found. Skipping hook installation."; \
+	fi
+	@git add -A
+	@git commit -m "🤖 Auto-bootstrap update" || echo "⚠️ Nothing to commit."
+	@CURRENT_BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
+	echo "🔀 Pushing to branch: $$CURRENT_BRANCH"; \
+	git push origin $$CURRENT_BRANCH
+	@echo "✅ Bootstrap complete. Run: source $(VENV_ACTIVATE)"
