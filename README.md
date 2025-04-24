@@ -207,10 +207,10 @@ The pipeline collects test results for both Behave and Pytest and publishes them
 ---
 
 ## 🔗 Useful Links
-📖 [Behave Docs](https://behave.readthedocs.io/en/latest/)  
-📖 [Pytest Docs](https://docs.pytest.org/)  
-📊 [Allure Docs](https://docs.qameta.io/allure/)  
-📌 [Google Drive API Setup](https://console.cloud.google.com/apis/library/drive.googleapis.com)  
+📖 [Behave Docs](https://behave.readthedocs.io/en/latest/)
+📖 [Pytest Docs](https://docs.pytest.org/)
+📊 [Allure Docs](https://docs.qameta.io/allure/)
+📌 [Google Drive API Setup](https://console.cloud.google.com/apis/library/drive.googleapis.com)
 
 ---
 

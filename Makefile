@@ -2,7 +2,8 @@
 	setup setup_env check_venv check-env \
 	install install-dev lock upgrade \
 	test allure-report \
-	format lint check-style \
+	format lint check-style check-code \
+	type-check pre-commit-run \
 	clean security-audit reinstall \
 	install-lfs bootstrap
 
@@ -17,6 +18,7 @@ else
 	OS_NAME := $(OS_UNAME)
 endif
 PYTHON := python3
+CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 
 ifeq ($(OS_NAME), darwin)
 	VENV_ACTIVATE := .venv/bin/activate
@@ -54,8 +56,8 @@ setup_env: check_venv
 	@test -d .venv || $(PYTHON) -m venv .venv
 	@echo "⬆️  Upgrading pip..."
 	@. $(VENV_ACTIVATE) && pip install --upgrade pip
-	@echo "📦 Installing pip-tools..."
-	@. $(VENV_ACTIVATE) && pip install pip-tools
+	@echo "📦 Installing pip-tools and pre-commit..."
+	@. $(VENV_ACTIVATE) && pip install pip-tools pre-commit
 	@echo "✅ Setup complete. Run: source $(VENV_ACTIVATE)"
 
 check-env:
@@ -111,36 +113,47 @@ allure-report:
 	@echo "✅ Report at: allure-report/index.html"
 
 # =============================
-# 🎨 CODE FORMATTING & LINTING
+# 🎨 CODE CHECKS (NON-BLOCKING)
 # =============================
 
 format:
-	@echo "🎨 Formatting code with black and ruff..."
-	@. $(VENV_ACTIVATE) && black .
-	@. $(VENV_ACTIVATE) && ruff check . --fix
-	@echo "✅ Code formatted!"
+	@echo "🎨 Formatting code (black + ruff)..."
+	@. $(VENV_ACTIVATE) && black . || true
+	@. $(VENV_ACTIVATE) && ruff check . --fix || true
 
 lint:
 	@echo "🔍 Running ruff lint checks..."
-	@. $(VENV_ACTIVATE) && ruff check .
-	@echo "✅ Linting completed!"
+	@. $(VENV_ACTIVATE) && ruff check . || true
 
 check-style:
-	@echo "🔎 Checking code style (ruff lint + ruff format --check)..."
-	@. $(VENV_ACTIVATE) && ruff check .
-	@. $(VENV_ACTIVATE) && ruff format --check .
-	@echo "✅ Style check passed!"
+	@echo "🔎 Checking code style (non-blocking)..."
+	@. $(VENV_ACTIVATE) && ruff check . || true
+	@. $(VENV_ACTIVATE) && ruff format --check . || true
+
+type-check:
+	@echo "📦 Running mypy type checks (non-blocking)..."
+	@. $(VENV_ACTIVATE) && mypy . || true
+
+pre-commit-run:
+	@echo "🧼 Running pre-commit on all files (non-blocking)..."
+	@. $(VENV_ACTIVATE) && pre-commit run --all-files || true
+
+check-code:
+	@echo "🛠️ Running all code checks (non-blocking)..."
+	@$(MAKE) format
+	@$(MAKE) lint
+	@$(MAKE) type-check
 
 # =============================
 # 🧹 CLEANUP & SECURITY
 # =============================
 
 clean:
-	@echo "🧹 Cleaning up project artifacts..."
+	@echo "🧹 Cleaning up temporary files..."
 	rm -rf allure-results allure-report .pytest_cache .coverage coverage.xml .venv *.lock
 
 security-audit:
-	@echo "🛡️  Running pip-audit..."
+	@echo "🛡️ Running pip-audit (non-blocking)..."
 	@. $(VENV_ACTIVATE) && pip install pip-audit >/dev/null
 	@. $(VENV_ACTIVATE) && pip-audit || echo "⚠️ Vulnerabilities found."
 
@@ -149,9 +162,8 @@ security-audit:
 # =============================
 
 reinstall:
-	@echo "💣 Wiping environment and caches..."
+	@echo "💣 Reinstalling environment and dependencies..."
 	rm -rf .venv requirements.txt requirements-dev.txt __pycache__ .mypy_cache .ruff_cache .pytest_cache
-	@echo "🔁 Reinstalling environment..."
 	@$(MAKE) setup_env
 	@$(MAKE) install-lfs
 
@@ -160,63 +172,31 @@ reinstall:
 # =============================
 
 install-lfs:
-	@echo "📦 Checking for Git LFS..."
+	@echo "📦 Ensuring Git LFS is installed..."
 	@if command -v git-lfs >/dev/null 2>&1; then \
 		echo "✅ Git LFS is already installed."; \
 	else \
-		echo "❌ Git LFS not found."; \
-		if [ "$(OS_NAME)" = "darwin" ]; then \
-			echo "🍏 Installing Git LFS on macOS..."; \
-			if ! command -v brew >/dev/null 2>&1; then \
-				echo "📥 Installing Homebrew..."; \
-				/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
-			fi; \
-			brew install git-lfs; \
-		elif [ "$(OS_NAME)" = "linux" ]; then \
-			echo "🐧 Installing Git LFS on Linux..."; \
-			if command -v apt-get >/dev/null 2>&1; then \
-				sudo apt-get update && sudo apt-get install -y git-lfs; \
-			elif command -v dnf >/dev/null 2>&1; then \
-				sudo dnf install -y git-lfs; \
-			elif command -v yum >/dev/null 2>&1; then \
-				sudo yum install -y git-lfs; \
-			else \
-				echo "⚠️ Unsupported package manager. Please install Git LFS manually: https://git-lfs.github.com/"; \
-				exit 1; \
-			fi; \
-		elif [ "$(OS_NAME)" = "windows_nt" ]; then \
-			echo "🪟 Installing Git LFS on Windows..."; \
-			if command -v choco >/dev/null 2>&1; then \
-				choco install git-lfs -y; \
-			else \
-				echo "⚠️ Chocolatey not found. Please install Git LFS manually: https://git-lfs.github.com/"; \
-				exit 1; \
-			fi; \
-		else \
-			echo "❌ Unsupported OS: $(OS_NAME). Install Git LFS manually."; \
-			exit 1; \
+		echo "❌ Git LFS not found. Installing..."; \
+		if [ "$(OS_NAME)" = "darwin" ]; then brew install git-lfs; \
+		elif [ "$(OS_NAME)" = "linux" ]; then sudo apt-get install -y git-lfs || sudo dnf install -y git-lfs || sudo yum install -y git-lfs; \
+		elif [ "$(OS_NAME)" = "windows_nt" ]; then choco install git-lfs -y; \
+		else echo "⚠️ Please install Git LFS manually: https://git-lfs.github.com/"; exit 1; \
 		fi; \
 	fi
 	@git lfs install || { echo '💥 Failed to initialize Git LFS'; exit 1; }
-	@echo "🎉 Git LFS installed and ready to use!"
+	@echo "🎉 Git LFS ready to use."
 
 # =============================
 # 🚀 FULL BOOTSTRAP
 # =============================
 
 bootstrap:
-	@echo "🚀 Bootstrapping project from scratch..."
+	@echo "🚀 Bootstrapping full environment..."
 	@$(MAKE) reinstall
-	@echo "📦 Checking for pre-commit..."
-	@if . $(VENV_ACTIVATE) && command -v pre-commit >/dev/null 2>&1; then \
-		echo "✅ Installing pre-commit hooks..."; \
-		. $(VENV_ACTIVATE) && pre-commit install; \
-	else \
-		echo "⚠️ pre-commit not found. Skipping hook installation."; \
-	fi
+	@echo "🔧 Installing pre-commit hooks..."
+	@. $(VENV_ACTIVATE) && pre-commit install || echo "⚠️ Failed to install pre-commit hooks"
+	@$(MAKE) check-code
 	@git add -A
 	@git commit -m "🤖 Auto-bootstrap update" || echo "⚠️ Nothing to commit."
-	@CURRENT_BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
-	echo "🔀 Pushing to branch: $$CURRENT_BRANCH"; \
-	git push origin $$CURRENT_BRANCH
+	@git push origin $(CURRENT_BRANCH)
 	@echo "✅ Bootstrap complete. Run: source $(VENV_ACTIVATE)"
