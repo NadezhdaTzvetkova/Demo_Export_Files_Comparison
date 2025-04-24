@@ -1,55 +1,46 @@
 # =============================
-# 📦 Package Management Tools
+# 🛠️ Build and packaging tools
 # =============================
 pip~=25.0.1
-pip-tools~=7.4.1
 setuptools~=58.0.4
 wheel~=0.45.1
-virtualenv~=20.30.0
 build~=1.2.2.post1
 
 # =============================
-# 🔧 Pre-commit & Linting Tools
+# 📦 Dependency management
 # =============================
-pre-commit~=4.2.0
-cfgv~=3.4.0
-identify~=2.6.10
-click~=8.1.8
-
-# =============================
-# ⚙️ Internal Dependencies for Tools
-# =============================
+pip-tools~=7.4.1
+virtualenv~=20.30.0
 filelock~=3.18.0
-platformdirs~=4.3.7
 distlib~=0.3.9
+platformdirs~=4.3.7
 zipp~=3.21.0
 importlib-metadata~=8.6.1
 tomli~=2.2.1
-packaging~=25.0
+
+# =============================
+# 🔍 Linting, hooks, formatting
+# =============================
+pre-commit~=4.2.0
+identify~=2.6.10
+cfgv~=3.4.0
+click~=8.1.8
 PyYAML~=6.0.2
 
 # =============================
-# 🧮 Core Data Libraries
+# 📊 Data and CSV/Excel handling
 # =============================
 pandas==1.1.5
 numpy<1.24
 Cython==0.29.36
 python-dateutil==2.8.2
-
-# =============================
-# 📊 File Format Support
-# =============================
 openpyxl>=3.0.0,<4.0.0
 xlrd==1.2.0
 chardet>=4.0.0,<5.0.0
 
 # =============================
-# 🖥️ System Utilities
+# ⚙️ System utilities and extras
 # =============================
 psutil==5.7.3
 tqdm>=4.66.3
-
-# =============================
-# ♻️ Compatibility
-# =============================
 six==1.16.0

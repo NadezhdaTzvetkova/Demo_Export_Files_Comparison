@@ -1,7 +1,29 @@
-mypy==1.10.0
-types-six==0.1.6
-types-openpyxl  # or types-openpyxl>=3.0.0,<4.0.0
-types-pytz==2022.1.1
-tqdm>=4.66.3
-black==24.3.0
-ruff==0.3.5
+# =============================
+# 🔍 Linting, hooks, formatting
+# =============================
+pre-commit
+ruff==0.4.4
+black==25.1.0
+
+# =============================
+# 🧪 Testing and BDD framework
+# =============================
+pytest==8.1.1
+pytest-bdd==7.1.2
+pytest-xdist==3.5.0
+allure-pytest==2.13.2
+
+# =============================
+# 📐 Typing and type stubs
+# =============================
+mypy==1.8.0
+types-six
+types-openpyxl
+types-pytz
+types-python-dateutil
+types-requests
+
+# =============================
+# 🛠️ Optional developer tools
+# =============================
+ipython
