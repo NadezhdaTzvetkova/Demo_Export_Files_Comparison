@@ -1,5 +1,12 @@
+# === CSV and Excel files (tracked via Git LFS) ===
 *.csv filter=lfs diff=lfs merge=lfs -text
-*.parquet filter=lfs diff=lfs merge=lfs -text
 *.xlsx filter=lfs diff=lfs merge=lfs -text
-test_data/performance_test_data/large_data_performance_test_data/*.csv filter=lfs diff=lfs merge=lfs -text
-test_data/regression_test_data/transaction_reference_uniqueness_test_data/*.csv filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+
+# === Specific directories (for fine-grained control) ===
+test_data/performance_test_data/**/*.csv filter=lfs diff=lfs merge=lfs -text
+test_data/regression_test_data/**/*.csv filter=lfs diff=lfs merge=lfs -text
+
+# === Optional: catch all test data files ===
+test_data/**/*.xlsx filter=lfs diff=lfs merge=lfs -text
+test_data/**/*.csv filter=lfs diff=lfs merge=lfs -text

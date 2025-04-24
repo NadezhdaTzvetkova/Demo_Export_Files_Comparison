@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
+# Exit on error and on undefined variables
+set -euo pipefail
 
 echo "🛠️ Setting up the Python 3.11 environment..."
 
@@ -15,7 +16,7 @@ esac
 echo "📦 Detected OS: ${PLATFORM}"
 
 # 2. Prevent active virtual environments
-if [[ -n "$VIRTUAL_ENV" ]]; then
+if [[ -n "${VIRTUAL_ENV:-}" ]]; then
     echo "⚠️  An active virtual environment is already running: $VIRTUAL_ENV"
     echo "❌ Please deactivate it first."
     exit 1
@@ -51,7 +52,7 @@ fi
 echo "⬆️  Upgrading pip..."
 . .venv/bin/activate && pip install --upgrade pip
 
-# 6. Install pip-tools
+# 6. Install pip-tools (if not already installed)
 echo "🔧 Installing pip-tools..."
 . .venv/bin/activate && pip install --upgrade pip-tools
 
@@ -76,14 +77,24 @@ if [ -f ".pre-commit-config.yaml" ]; then
     echo "🔗 Setting up pre-commit hooks..."
     .venv/bin/pip install pre-commit
     .venv/bin/pre-commit install
+    .venv/bin/pre-commit autoupdate
 fi
 
 # 10. Lock & recompile
 echo "🔒 Recompiling requirements..."
 make lock
 
+# 11. Finalize dev install
 echo "📦 Finalizing dev install..."
 make install-dev
+
+# 12. Git LFS (optional)
+if git lfs version >/dev/null 2>&1; then
+    echo "🧷 Git LFS detected. Initializing..."
+    git lfs install || echo "⚠️ Git LFS install failed"
+else
+    echo "❗ Git LFS not found. Skipping..."
+fi
 
 echo ""
 echo "✅ Setup complete."
