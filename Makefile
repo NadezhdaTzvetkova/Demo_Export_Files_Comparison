@@ -2,8 +2,8 @@
 	setup setup_env check_venv check-env \
 	install install-dev lock upgrade \
 	test allure-report \
-	format lint check-style check-code \
-	type-check pre-commit-run \
+	format lint check-style check-code type-check \
+	pre-commit-run pre-commit-update \
 	clean security-audit reinstall \
 	install-lfs bootstrap
 
@@ -117,26 +117,31 @@ allure-report:
 # =============================
 
 format:
-	@echo "🎨 Formatting code (black + ruff)..."
+	@echo "🎨 Formatting code..."
 	@. $(VENV_ACTIVATE) && black . || true
 	@. $(VENV_ACTIVATE) && ruff check . --fix || true
 
 lint:
-	@echo "🔍 Running ruff lint checks..."
+	@echo "🔍 Running ruff lint..."
 	@. $(VENV_ACTIVATE) && ruff check . || true
 
 check-style:
-	@echo "🔎 Checking code style (non-blocking)..."
+	@echo "🔎 Checking code style..."
 	@. $(VENV_ACTIVATE) && ruff check . || true
 	@. $(VENV_ACTIVATE) && ruff format --check . || true
 
 type-check:
-	@echo "📦 Running mypy type checks (non-blocking)..."
+	@echo "📦 Running mypy (non-blocking)..."
 	@. $(VENV_ACTIVATE) && mypy . || true
 
 pre-commit-run:
-	@echo "🧼 Running pre-commit on all files (non-blocking)..."
+	@echo "🧼 Running pre-commit on all files..."
 	@. $(VENV_ACTIVATE) && pre-commit run --all-files || true
+
+pre-commit-update:
+	@echo "📦 Updating pre-commit hook versions..."
+	@. $(VENV_ACTIVATE) && pre-commit autoupdate
+	@echo "✅ Hooks updated!"
 
 check-code:
 	@echo "🛠️ Running all code checks (non-blocking)..."
@@ -149,11 +154,11 @@ check-code:
 # =============================
 
 clean:
-	@echo "🧹 Cleaning up temporary files..."
+	@echo "🧹 Cleaning up..."
 	rm -rf allure-results allure-report .pytest_cache .coverage coverage.xml .venv *.lock
 
 security-audit:
-	@echo "🛡️ Running pip-audit (non-blocking)..."
+	@echo "🛡️ Running pip-audit..."
 	@. $(VENV_ACTIVATE) && pip install pip-audit >/dev/null
 	@. $(VENV_ACTIVATE) && pip-audit || echo "⚠️ Vulnerabilities found."
 
@@ -162,7 +167,7 @@ security-audit:
 # =============================
 
 reinstall:
-	@echo "💣 Reinstalling environment and dependencies..."
+	@echo "💣 Reinstalling everything..."
 	rm -rf .venv requirements.txt requirements-dev.txt __pycache__ .mypy_cache .ruff_cache .pytest_cache
 	@$(MAKE) setup_env
 	@$(MAKE) install-lfs
@@ -172,7 +177,7 @@ reinstall:
 # =============================
 
 install-lfs:
-	@echo "📦 Ensuring Git LFS is installed..."
+	@echo "📦 Checking for Git LFS..."
 	@if command -v git-lfs >/dev/null 2>&1; then \
 		echo "✅ Git LFS is already installed."; \
 	else \
@@ -184,14 +189,14 @@ install-lfs:
 		fi; \
 	fi
 	@git lfs install || { echo '💥 Failed to initialize Git LFS'; exit 1; }
-	@echo "🎉 Git LFS ready to use."
+	@echo "🎉 Git LFS installed!"
 
 # =============================
 # 🚀 FULL BOOTSTRAP
 # =============================
 
 bootstrap:
-	@echo "🚀 Bootstrapping full environment..."
+	@echo "🚀 Bootstrapping project from scratch..."
 	@$(MAKE) reinstall
 	@echo "🔧 Installing pre-commit hooks..."
 	@. $(VENV_ACTIVATE) && pre-commit install || echo "⚠️ Failed to install pre-commit hooks"
