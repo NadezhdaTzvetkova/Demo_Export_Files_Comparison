@@ -7,19 +7,33 @@ authors = [
 ]
 requires-python = ">=3.11,<3.12"
 
-# ==================== DEVELOPMENT TOOLS ====================
+# =============================
+# 🖤 Black Configuration
+# =============================
 [tool.black]
 line-length = 88
 skip-string-normalization = true
+target-version = ["py311"]
 
+# =============================
+# 🐶 Ruff Configuration
+# =============================
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-exclude = ["venv", ".venv", "tests/data"]
+exclude = [
+    "venv",
+    ".venv",
+    "tests/data",
+    "__pycache__",
+]
 select = ["E", "F", "W"]
-ignore = ["E501"]
+ignore = ["E501"]  # Ignore line length (Black handles it)
 fix = true
 
+# =============================
+# 🧠 MyPy Configuration
+# =============================
 [tool.mypy]
 files = ["."]
 python_version = "3.11"
@@ -30,14 +44,23 @@ exclude = [
     'venv/',
     '\\.venv/',
     '\\.pyi$',
+    '__pycache__/',
 ]
 
-# ==================== TESTING ====================
+# =============================
+# 🧪 Pytest Configuration
+# =============================
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
-testpaths = ["tests"]
+testpaths = [
+    "tests",
+    "features"
+]
 
+# =============================
+# 🛠️ Build System
+# =============================
 [build-system]
-requires = ["setuptools", "wheel", "numpy"]
+requires = ["setuptools>=58.0.4", "wheel", "numpy<1.24"]
 build-backend = "setuptools.build_meta"
