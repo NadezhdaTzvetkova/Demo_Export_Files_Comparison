@@ -1,11 +1,17 @@
 .PHONY: \
+	# Environment Setup
 	setup setup_env check_venv check-env \
+	# Dependencies
 	install install-dev lock upgrade \
+	# Testing
 	test allure-report \
+	# Code Quality
 	format lint check-style check-code type-check \
-	pre-commit-run pre-commit-update \
+	pre-commit-run pre-commit-update ci-check help \
+	# Maintenance
 	clean security-audit reinstall \
-	install-lfs bootstrap
+	# Git / Bootstrap
+	install-lfs bootstrap init
 
 # =============================
 # 🔍 PLATFORM DETECTION
@@ -41,7 +47,7 @@ endif
 # 🌱 ENVIRONMENT MANAGEMENT
 # =============================
 
-check_venv:
+check_venv:  ## Check if a virtualenv is active
 	@echo "🔍 Checking if a virtual environment is already active..."
 	@if [ -n "$$VIRTUAL_ENV" ]; then \
 		echo "⚠️  Active virtualenv detected: $$VIRTUAL_ENV"; \
@@ -51,7 +57,7 @@ check_venv:
 		echo "✅ No active virtualenv detected."; \
 	fi
 
-setup_env: check_venv
+setup_env: check_venv  ## Set up Python virtual environment
 	@echo "🚀 Creating virtual environment in .venv..."
 	@test -d .venv || $(PYTHON) -m venv .venv
 	@echo "⬆️  Upgrading pip..."
@@ -60,7 +66,7 @@ setup_env: check_venv
 	@. $(VENV_ACTIVATE) && pip install pip-tools pre-commit
 	@echo "✅ Setup complete. Run: source $(VENV_ACTIVATE)"
 
-check-env:
+check-env:  ## Check Python version and venv presence
 	@echo "🔍 Checking .venv and Python version..."
 	@if [ ! -d ".venv" ]; then \
 		echo "❌ .venv not found. Please run: make setup_env"; \
@@ -71,7 +77,7 @@ check-env:
 	@. $(VENV_ACTIVATE) && $(VENV_PYTHON) --version | grep '3.11' >/dev/null || \
 		(echo '❌ Python is not 3.11.x' && exit 1)
 
-setup:
+setup:  ## Full setup via .setup_env.sh (optional)
 	@echo "⚙️ Running environment setup..."
 	@./.setup_env.sh || echo "⚠️ .setup_env.sh missing or failed"
 	@$(MAKE) install-lfs
@@ -80,20 +86,20 @@ setup:
 # 📦 DEPENDENCY MANAGEMENT
 # =============================
 
-install:
+install:  ## Install runtime dependencies
 	@echo "📦 Installing runtime dependencies..."
 	@. $(VENV_ACTIVATE) && pip install -r requirements.txt
 
-install-dev:
+install-dev:  ## Install development dependencies
 	@echo "🔧 Installing dev dependencies..."
 	@. $(VENV_ACTIVATE) && pip install -r requirements-dev.txt
 
-lock:
+lock:  ## Lock and generate requirements.txt / requirements-dev.txt
 	@echo "🔒 Locking runtime and dev dependencies..."
 	@. $(VENV_ACTIVATE) && pip-compile --output-file=requirements.txt requirements.in
 	@. $(VENV_ACTIVATE) && pip-compile --output-file=requirements-dev.txt requirements-dev.in
 
-upgrade:
+upgrade:  ## Upgrade and relock dependencies
 	@echo "⬆️  Upgrading requirements and locking them..."
 	@. $(VENV_ACTIVATE) && pip-compile --upgrade --output-file=requirements.txt requirements.in
 	@. $(VENV_ACTIVATE) && pip-compile --upgrade --output-file=requirements-dev.txt requirements-dev.in
@@ -103,61 +109,83 @@ upgrade:
 # 🧪 TESTING & REPORTING
 # =============================
 
-test:
+test:  ## Run tests with behave-parallel and Allure output
 	@echo "🧪 Running BDD tests with behave-parallel..."
 	@. $(VENV_ACTIVATE) && behave-parallel -n 4 -f allure_behave.formatter:AllureFormatter -o allure-results/behave $(TAGS)
 
-allure-report:
+allure-report:  ## Generate Allure test report
 	@echo "📊 Generating Allure report..."
 	@. $(VENV_ACTIVATE) && allure generate allure-results/behave --clean -o allure-report
 	@echo "✅ Report at: allure-report/index.html"
 
 # =============================
-# 🎨 CODE CHECKS (NON-BLOCKING)
+# 🎨 CODE QUALITY & FORMATTERS
 # =============================
 
-format:
+format:  ## Auto-format code with black and ruff
 	@echo "🎨 Formatting code..."
 	@. $(VENV_ACTIVATE) && black . || true
 	@. $(VENV_ACTIVATE) && ruff check . --fix || true
 
-lint:
+lint:  ## Run ruff lint checks
 	@echo "🔍 Running ruff lint..."
 	@. $(VENV_ACTIVATE) && ruff check . || true
 
-check-style:
+check-style:  ## Check format with ruff (no fix)
 	@echo "🔎 Checking code style..."
 	@. $(VENV_ACTIVATE) && ruff check . || true
 	@. $(VENV_ACTIVATE) && ruff format --check . || true
 
-type-check:
+type-check:  ## Run mypy (non-blocking)
 	@echo "📦 Running mypy (non-blocking)..."
 	@. $(VENV_ACTIVATE) && mypy . || true
 
-pre-commit-run:
-	@echo "🧼 Running pre-commit on all files..."
-	@. $(VENV_ACTIVATE) && pre-commit run --all-files || true
-
-pre-commit-update:
-	@echo "📦 Updating pre-commit hook versions..."
-	@. $(VENV_ACTIVATE) && pre-commit autoupdate
-	@echo "✅ Hooks updated!"
-
-check-code:
+check-code:  ## Run all non-blocking code checks
 	@echo "🛠️ Running all code checks (non-blocking)..."
 	@$(MAKE) format
 	@$(MAKE) lint
 	@$(MAKE) type-check
 
+ci-check:  ## Run all checks strictly for CI (blocking)
+	@echo "🚨 Running CI checks (blocking)..."
+	@. $(VENV_ACTIVATE) && ruff check .
+	@. $(VENV_ACTIVATE) && ruff format --check .
+	@. $(VENV_ACTIVATE) && mypy .
+
+pre-commit-run:  ## Run pre-commit checks on all files
+	@echo "🧼 Running pre-commit on all files..."
+	@. $(VENV_ACTIVATE) && pre-commit run --all-files || true
+
+pre-commit-update:  ## Update all pre-commit hook versions
+	@echo "📦 Updating pre-commit hook versions..."
+	@. $(VENV_ACTIVATE) && pre-commit autoupdate
+	@echo "✅ Hooks updated!"
+
+# =============================
+# 🚀 PROJECT INIT: ONE-STEP SETUP
+# =============================
+
+init:  ## One-step: setup, install, hooks, LFS
+	@echo "🚀 Initializing project..."
+	@$(MAKE) setup_env
+	@$(MAKE) lock
+	@$(MAKE) install
+	@$(MAKE) install-dev
+	@$(MAKE) install-lfs
+	@echo "🔧 Installing pre-commit hooks..."
+	@. $(VENV_ACTIVATE) && pre-commit install
+	@. $(VENV_ACTIVATE) && pre-commit autoupdate
+	@echo "✅ Project initialized. Run: source $(VENV_ACTIVATE)"
+
 # =============================
 # 🧹 CLEANUP & SECURITY
 # =============================
 
-clean:
+clean:  ## Clean up project artifacts and venv
 	@echo "🧹 Cleaning up..."
 	rm -rf allure-results allure-report .pytest_cache .coverage coverage.xml .venv *.lock
 
-security-audit:
+security-audit:  ## Run pip-audit for security
 	@echo "🛡️ Running pip-audit..."
 	@. $(VENV_ACTIVATE) && pip install pip-audit >/dev/null
 	@. $(VENV_ACTIVATE) && pip-audit || echo "⚠️ Vulnerabilities found."
@@ -166,17 +194,17 @@ security-audit:
 # ♻️ FULL REINSTALL
 # =============================
 
-reinstall:
+reinstall:  ## Reinstall project from scratch
 	@echo "💣 Reinstalling everything..."
 	rm -rf .venv requirements.txt requirements-dev.txt __pycache__ .mypy_cache .ruff_cache .pytest_cache
 	@$(MAKE) setup_env
 	@$(MAKE) install-lfs
 
 # =============================
-# 🧷 GIT LFS (Cross-OS Logic)
+# 🧷 GIT LFS (CROSS-OS LOGIC)
 # =============================
 
-install-lfs:
+install-lfs:  ## Install Git LFS cross-platform
 	@echo "📦 Checking for Git LFS..."
 	@if command -v git-lfs >/dev/null 2>&1; then \
 		echo "✅ Git LFS is already installed."; \
@@ -192,10 +220,20 @@ install-lfs:
 	@echo "🎉 Git LFS installed!"
 
 # =============================
+# 🧾 HELP
+# =============================
+
+help:  ## Show this help message
+	@echo ""
+	@echo "🛠️  Available Make targets:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@echo ""
+
+# =============================
 # 🚀 FULL BOOTSTRAP
 # =============================
 
-bootstrap:
+bootstrap:  ## Bootstrap + commit + push current branch
 	@echo "🚀 Bootstrapping project from scratch..."
 	@$(MAKE) reinstall
 	@echo "🔧 Installing pre-commit hooks..."
