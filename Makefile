@@ -3,13 +3,19 @@
 	install install-dev lock upgrade \
 	test allure-report \
 	format lint check-style \
-	clean security-audit reinstall
+	clean security-audit reinstall \
+	install-lfs
 
 # =============================
 # 🔍 PLATFORM DETECTION
 # =============================
 
-OS_NAME := $(shell uname | tr '[:upper:]' '[:lower:]')
+OS_UNAME := $(shell uname | tr '[:upper:]' '[:lower:]')
+ifeq ($(OS),Windows_NT)
+	OS_NAME := windows_nt
+else
+	OS_NAME := $(OS_UNAME)
+endif
 PYTHON := python3
 
 ifeq ($(OS_NAME), darwin)
@@ -64,7 +70,9 @@ check-env:
 		(echo '❌ Python is not 3.11.x' && exit 1)
 
 setup:
-	@./.setup_env.sh
+	@echo "⚙️ Running environment setup..."
+	@./.setup_env.sh || echo "⚠️ .setup_env.sh missing or failed"
+	@$(MAKE) install-lfs
 
 # =============================
 # 📦 DEPENDENCY MANAGEMENT
@@ -113,7 +121,7 @@ format:
 	@echo "✅ Code formatted!"
 
 lint:
-	@echo "🔍 Running ruff lint checks (non-fixing)..."
+	@echo "🔍 Running ruff lint checks..."
 	@. $(VENV_ACTIVATE) && ruff check .
 	@echo "✅ Linting completed!"
 
@@ -121,7 +129,7 @@ check-style:
 	@echo "🔎 Checking code style (ruff lint + ruff format --check)..."
 	@. $(VENV_ACTIVATE) && ruff check .
 	@. $(VENV_ACTIVATE) && ruff format --check .
-	@echo "✅ Style check passed (no issues found)!"
+	@echo "✅ Style check passed!"
 
 # =============================
 # 🧹 CLEANUP & SECURITY
@@ -132,16 +140,62 @@ clean:
 	rm -rf allure-results allure-report .pytest_cache .coverage coverage.xml .venv *.lock
 
 security-audit:
-	@echo "🛡️  Running pip-audit for security vulnerabilities..."
+	@echo "🛡️  Running pip-audit..."
 	@. $(VENV_ACTIVATE) && pip install pip-audit >/dev/null
-	@. $(VENV_ACTIVATE) && pip-audit || echo "⚠️  Vulnerabilities detected. Review above."
+	@. $(VENV_ACTIVATE) && pip-audit || echo "⚠️ Vulnerabilities found."
 
 # =============================
 # ♻️ FULL REINSTALL
 # =============================
 
 reinstall:
-	@echo "💣 Removing .venv, lock files and caches..."
+	@echo "💣 Wiping environment and caches..."
 	rm -rf .venv requirements.txt requirements-dev.txt __pycache__ .mypy_cache .ruff_cache .pytest_cache
-	@echo "🔁 Re-running setup..."
-	./.setup_env.sh
+	@echo "🔁 Reinstalling environment..."
+	@$(MAKE) setup_env
+	@$(MAKE) install-lfs
+
+# =============================
+# 🧷 GIT LFS (Cross-OS Logic)
+# =============================
+
+install-lfs:
+	@echo "📦 Checking for Git LFS..."
+	@if command -v git-lfs >/dev/null 2>&1; then \
+		echo "✅ Git LFS is already installed."; \
+	else \
+		echo "❌ Git LFS not found."; \
+		if [ "$(OS_NAME)" = "darwin" ]; then \
+			echo "🍏 Installing Git LFS on macOS..."; \
+			if ! command -v brew >/dev/null 2>&1; then \
+				echo "📥 Installing Homebrew..."; \
+				/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+			fi; \
+			brew install git-lfs; \
+		elif [ "$(OS_NAME)" = "linux" ]; then \
+			echo "🐧 Installing Git LFS on Linux..."; \
+			if command -v apt-get >/dev/null 2>&1; then \
+				sudo apt-get update && sudo apt-get install -y git-lfs; \
+			elif command -v dnf >/dev/null 2>&1; then \
+				sudo dnf install -y git-lfs; \
+			elif command -v yum >/dev/null 2>&1; then \
+				sudo yum install -y git-lfs; \
+			else \
+				echo "⚠️ Unsupported package manager. Please install Git LFS manually: https://git-lfs.github.com/"; \
+				exit 1; \
+			fi; \
+		elif [ "$(OS_NAME)" = "windows_nt" ]; then \
+			echo "🪟 Installing Git LFS on Windows..."; \
+			if command -v choco >/dev/null 2>&1; then \
+				choco install git-lfs -y; \
+			else \
+				echo "⚠️ Chocolatey not found. Please install Git LFS manually: https://git-lfs.github.com/"; \
+				exit 1; \
+			fi; \
+		else \
+			echo "❌ Unsupported OS: $(OS_NAME). Install Git LFS manually."; \
+			exit 1; \
+		fi; \
+	fi
+	@git lfs install || { echo '💥 Failed to initialize Git LFS'; exit 1; }
+	@echo "🎉 Git LFS installed and ready to use!"
