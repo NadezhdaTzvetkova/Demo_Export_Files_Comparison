@@ -1,41 +1,68 @@
+# ===============================================
+# ✅ Pre-commit Configuration for Code Quality
+# ===============================================
+# This file ensures consistent formatting, typing, and file hygiene
+# across all commits. It also includes safeguards for critical files.
+
 repos:
-  # Ruff configuration (latest version)
+  # -------------------------
+  # 🧹 Ruff: Fast Python linter and formatter
+  # -------------------------
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.11.6
     hooks:
       - id: ruff
-        args: ['--fix']
+        args: ['--fix']  # Automatically fix lint violations
         language_version: python3.11
 
-  # Black configuration (use a stable release)
+  # -------------------------
+  # 🎨 Black: Code formatter for Python
+  # -------------------------
   - repo: https://github.com/psf/black
     rev: 25.1.0
     hooks:
       - id: black
         language_version: python3.11
 
-  # Mypy configuration (warn-only mode)
+  # -------------------------
+  # 🔍 Mypy: Static type checker (non-blocking)
+  # -------------------------
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.15.0
     hooks:
       - id: mypy
         args: ["--exclude", ".*venv.*|.*bin.*"]
-        continue_on_error: true
-        always_run: true
-        pass_filenames: false
+        continue_on_error: true       # Don't block commit on errors
+        always_run: true              # Run every time regardless of staged files
+        pass_filenames: false         # Check entire project, not just staged files
         language_version: python3.11
 
-  # Useful generic checks (recommended for all repos)
+  # -------------------------
+  # 🧪 Core safety checks (recommended)
+  # -------------------------
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
-      - id: check-added-large-files
-      - id: check-merge-conflict
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
+      - id: check-added-large-files      # Prevent committing large files
+      - id: check-merge-conflict         # Prevent committing unresolved merge conflicts
+      - id: end-of-file-fixer            # Ensure newline at end of file
+      - id: trailing-whitespace          # Strip trailing whitespace
 
-  # YAML linter (optional, but helps for configs)
+  # -------------------------
+  # ⚙️ YAML Linting (for CI configs, etc.)
+  # -------------------------
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.32.0
     hooks:
-      - id: yamllint
+      - id: yamllint                     # Check YAML formatting
+
+  # -------------------------
+  # 🛡️ Local safeguard: prevent critical file deletion
+  # -------------------------
+  - repo: local
+    hooks:
+      - id: prevent-deleting-critical-files
+        name: Prevent Deletion of Critical Files
+        entry: bash scripts/prevent_delete.sh  # Checks for accidental `git rm`
+        language: system
+        stages: [pre-commit]
