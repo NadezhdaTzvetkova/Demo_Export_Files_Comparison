@@ -1,4 +1,6 @@
 .PHONY: \
+	# Default interpreter
+	SHELL := /bin/bash
 	# Environment Setup
 	setup setup_env check_venv check-env \
 	# Dependencies
